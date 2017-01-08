@@ -21,7 +21,7 @@
 			</view>
 
 		</navigator>
-		<view class="condition">
+		<view class="condition" wx:if="{{currentUser}}">
 			<button type="default" class="close" bindtap="close" data-index="{{index}}" id="{{item.id}}">关闭</button>
 			<button class="edit" data-id="{{item.id}}" bindtap="edit">修改</button>
 			<button class="share" bindtap="share">转发</button>

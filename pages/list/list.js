@@ -6,28 +6,32 @@ Page({
 	  	list:[],
 		loading:false,
 		shareHidden:true,
-		sharesContent:{
-			title:'小宝物流',
-			desc:'十万信息部都在用，发货更方便，找车更简单！',
-			path:'/page/list'
-		}
+		sharesContent:{},
+		currentUser:true,
+		gusetid:''
 	},
 	listRender:function(...options){		// 列表渲染
-		let me = this;
+		let me = this,
+			uid = options[0];
 		wx.request({
 			url:app.ajaxurl,
 			data:{
 				c:'cargood',
 				m:'getlist',
 				category:0,
-				userid:options[0],
+				userid:uid,
 				page:1,
 				ts:+new Date()
 			},
 			success:function(res){
 				me.setData({
 					list:res.data.data['list'],
-					loading:true
+					loading:true,
+					sharesContent:{
+						title:'小宝物流十万信息部都在用，发货更方便，找车更简单！',
+						desc:'',
+						path:'/pages/list/list?uid=' + uid
+					}
 				});
 			}
 		})
@@ -78,12 +82,20 @@ Page({
 			shareHidden:this.data['shareHidden'] ? false : true
 		});
 	},
-	onLoad:function(e){
+	onLoad:function(options){
+		let uid = options['uid'];
 		app.uid = wx.getStorageSync('userid');
-		!app.uid ? util.getUserInfo(this.listRender,this) : this.listRender(app.uid,this);
+		if(uid){					// 分享给他人的页面
+			this.setData({
+				currentUser:false
+			})
+			this.listRender(uid,this);
+		}else{
+			!app.uid ? util.getUserInfo(this.listRender,this) : this.listRender(app.uid,this);
+		}
 	},
 	onShow:function(){
-		this.listRender(app.uid,this);
+		//this.listRender(app.uid,this);
 	},
 	onPullDownRefresh:function(){
 		let that = this;
