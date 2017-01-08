@@ -19,15 +19,7 @@
 	                <text class="province">{{item.ToProName}}</text>
 				</view>
 			</view>
+            <view class="details">{{item.msInfo}}</view>
 		</navigator>
-		<view class="condition">
-			<button type="default" class="close" bindtap="close" data-index="{{index}}" id="{{item.id}}">关闭</button>
-			<button class="edit" data-id="{{item.id}}" bindtap="edit">修改</button>
-			<button class="share" bindtap="share">转发</button>
-		</view>
 	</view>
-</view>
-<view class="empty-list" wx:else="{{!list.length}}">
-	<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
-	<button class="empty-btn" bindtap="jumpToAdd">发布</button>
 </view>

@@ -7,8 +7,6 @@ Page({
 		loading:false,
 		shareHidden:true,
 		sharesContent:{},
-		currentUser:true,
-		gusetid:''
 	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
@@ -24,13 +22,17 @@ Page({
 				ts:+new Date()
 			},
 			success:function(res){
+				let nickName = '';
+				app.getUserInfo(function(userInfo){
+					nickName = userInfo.nickName
+		        });
 				me.setData({
 					list:res.data.data['list'],
 					loading:true,
 					sharesContent:{
-						title:'小宝物流十万信息部都在用，发货更方便，找车更简单！',
-						desc:'',
-						path:'/pages/list/list?uid=' + uid
+						title:'关注-' + nickName + '-，快速收到一手货源信息！',
+						desc:'小宝物流十万信息部都在用，发货更方便，找车更简单！',
+						path:'/pages/share/share?uid=' + uid
 					}
 				});
 			}
@@ -83,16 +85,8 @@ Page({
 		});
 	},
 	onLoad:function(options){
-		let uid = options['uid'];
 		app.uid = wx.getStorageSync('userid');
-		if(uid){					// 分享给他人的页面
-			this.setData({
-				currentUser:false
-			})
-			this.listRender(uid,this);
-		}else{
-			!app.uid ? util.getUserInfo(this.listRender,this) : this.listRender(app.uid,this);
-		}
+		!app.uid ? util.getUserInfo(this.listRender,this) : this.listRender(app.uid,this);
 	},
 	onShow:function(){
 		//this.listRender(app.uid,this);
