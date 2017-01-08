@@ -15,6 +15,7 @@ Page({
                 ts:+new Date()
             },
             success:function(res){
+                res = res.data;
                 that.setData(res.data);
             }
         });

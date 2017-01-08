@@ -3,7 +3,8 @@ let app = getApp(),
 
 Page({
 	data: {
-	  	list:[]
+	  	list:[],
+		loading:false,
 	},
 	onLoad:function(){
 		app.uid = wx.getStorageSync('userid');
@@ -26,8 +27,10 @@ Page({
 				ts:+new Date()
 			},
 			success:function(res){
+				res = res.data;
 				options[1].setData({
-					list:res.data['list']
+					list:res.data['list'],
+					loading:true
 				})
 			}
 		})

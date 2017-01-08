@@ -1,8 +1,8 @@
-<view class="empty-list" wx:if="{{list == ''}}">
-	<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
-	<button class="empty-btn" bindtap="jumpToAdd">发布</button>
-</view>
-<view class="goods">
+<import src="../../components/loading/loading.wxml"/>
+<import src="../../components/share/share.wxml"/>
+<template is="loading" data="{{loading}}"/>
+<template is="share" data="{{shareHidden}}"/>
+<view class="goods" wx:if="{{list.length}}">
 	<view class="item" wx:for="{{list}}">
 		<navigator class="link" url="../detail/detail?id={{item.id}}"  open-type="navigate">
 			<view class="place">
@@ -12,20 +12,23 @@
 				</view>
 				<view class="distance">
 					<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
-					<text>约{{item.glnum}}公里</text>
+					<text>{{item.ProductId}}</text>
 				</view>
 				<view class="end">
 					<text class="city">{{item.ToCityName}}</text>
 	                <text class="province">{{item.ToProName}}</text>
 				</view>
 			</view>
-			<view class="details">{{item.msInfo}}</view>
+
 		</navigator>
 		<view class="condition">
 			<button type="default" class="close" bindtap="close" data-index="{{index}}" id="{{item.id}}">关闭</button>
-
 			<button class="edit" data-id="{{item.id}}" bindtap="edit">修改</button>
-			<navigator class="share" url="../detail/detail?id={{item.id}}" open-type="navigate">转发</navigator>
+			<button class="share" bindtap="share">转发</button>
 		</view>
 	</view>
+</view>
+<view class="empty-list" wx:else="{{!list.length}}">
+	<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
+	<button class="empty-btn" bindtap="jumpToAdd">发布</button>
 </view>

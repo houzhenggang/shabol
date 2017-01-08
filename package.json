@@ -1,5 +1,5 @@
 {
-  "name": "gtmatching",
+  "name": "shabol",
   "version": "1.0.0",
   "description": "- 解决车主经常空车 - 货源无车派送问题 - 利用大数据平台获取用户行为路径 - 判断用户信用价值。",
   "main": "app.js",
@@ -8,23 +8,20 @@
   },
   "keywords":[
       "wechat",
-      "wx",
       "微信",
       "cgi-bin",
       "TruckHome",
       "卡车之家",
-      "小程序",
-      "有可能学院",
-      "蜥蜴马拉松"
+      "小程序"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pumpe/wxapp.git"
+    "url": "git+https://github.com/Pumpe/shabol.git"
   },
   "author": "TruckHome Frontend",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Pumpe/wxapp/issues"
+    "url": "https://github.com/Pumpe/shabol/issues"
   },
-  "homepage": "https://github.com/Pumpe/wxapp"
+  "homepage": "https://github.com/Pumpe/shabol"
 }

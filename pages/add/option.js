@@ -211,7 +211,6 @@ Page({
     },
     type:'',
     onLoad:function(o){
-      console.log(o)
         this.type = o.name
     },
     toSectionPosition:function(e){
@@ -249,6 +248,7 @@ Page({
                 ts:+new Date()
             },
             success:function(res){
+                res = res.data;
                 that.setData({
                     cities:res.data,
                     selectedProvince:{
@@ -272,9 +272,6 @@ Page({
             cityVisible:'',
             cityX:'100%'
         });
-    },
-    transitionCity:function(e){
-
     },
     goBack:function(e){
         let target = e.target;
