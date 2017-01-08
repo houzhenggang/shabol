@@ -1,0 +1,55 @@
+.section{
+    margin-top:20rpx;
+    padding-left:30rpx;
+    background:#fff;
+}
+.section .item{
+    position:relative;
+    padding-left:154rpx;
+    min-height:88rpx;
+    border-bottom:1px solid #eee;
+}
+.section .item:last-of-type{
+    border:0 none
+}
+.section textarea{
+    padding:50rpx 10rpx 10rpx 0;
+    min-height:200rpx;
+    width:95%;
+    word-break: break-all;
+}
+.section .caption{
+    position:absolute;
+    left:0;
+    top:0;
+    height:34rpx;
+    line-height:34rpx;
+    color:#000;
+    padding:27rpx 0;
+}
+.select{
+    position: relative;
+    line-height:88rpx;
+}
+.select:after{
+    position: absolute;
+	content: "";
+    top: 50%;
+    right: 30rpx;
+    width: 12rpx;
+    height: 12rpx;
+    border-top: 1rpx solid #999;
+    border-right: 1rpx solid #999;
+    transform:translate(0,-50%) rotate(45deg);
+}
+input{
+    height:88rpx;
+    line-height:88rpx;
+    min-height:0;
+    font-size:34rpx;
+}
+.submit{
+    margin:20rpx 30rpx 30rpx;
+    font-size:32rpx;
+    letter-spacing: 10rpx;
+}

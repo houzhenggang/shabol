@@ -1,0 +1,25 @@
+<scroll-view class="provice" scroll-y="true" scroll-into-view="{{toCaption}}" bindscroll="hiddenCity">
+	<view class="section" wx:for="{{province}}">
+		<view class="caption" id="{{item.code}}">{{item.code}}</view>
+		<view class="list">
+			<block wx:for="{{item.list}}">
+				<view id="{{item.id}}" data-name="{{item.name}}" bindtap="getCities">{{item.name}}</view>
+			</block>
+		</view>
+	</view>
+</scroll-view>
+
+<view class="side-nav-bar">
+	<block wx:for="{{province}}">
+		<view bindtap="toSectionPosition" id="{{item.code}}">{{item.code}}</view>
+	</block>
+</view>
+<view class="city"  style="transform:translate({{cityX}},0)">
+	<scroll-view scroll-y="true"  >
+		<view class="list">
+			<block wx:for="{{cities}}">
+				<view id="{{item.id}}" data-name="{{item.name}}" bindtap="goBack">{{item.name}}</view>
+			</block>
+		</view>
+	</scroll-view>
+</view>

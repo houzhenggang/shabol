@@ -1,0 +1,161 @@
+.header{
+    height:224rpx;
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+}
+.distance{
+    position: relative;
+    margin-top:41rpx;
+    min-height: 96rpx;
+}
+.distance .start,.distance .end{
+    position: absolute;
+    top:0;
+    width: 280rpx;
+}
+.distance .start{
+    left:10rpx;
+}
+.distance .end{
+    right:10rpx;
+}
+
+.distance .city{
+    display:block;
+    font-size: 48rpx;
+    line-height: 48rpx;
+}
+.distance .province{
+    margin-top: 21rpx;
+    font-size: 32rpx;
+    line-height: 32rpx;
+    color:rgba(0,0,0,.8);
+    display: block;
+}
+
+/*.mileage{
+    position: absolute;
+    left:50%;
+    font-size: 28rpx;
+    line-height: 56rpx;
+    transform: translate(-50%,0);
+    border-bottom: 2rpx solid #000;
+}*/
+.mileage{display:block;width:176rpx;margin: 0 auto; text-align:center;}
+.mileage image,.mileage .image{width:176rpx;height:30rpx;margin-bottom:12rpx;overflow:hidden;}
+.mileage text{color:#8FAACC;line-height: 24rpx;font-size: 24rpx;}
+
+
+.receipt{
+    font-size: 36rpx;
+    line-height: 36rpx;
+    display: block;
+}
+
+.module{
+    margin-top: 20rpx;
+    background: #fff
+}
+
+.address-info{
+    padding-left: 30rpx;
+}
+.address-info .grid{
+    position: relative;
+    padding:30rpx 80rpx 30rpx 0;
+    min-height:70rpx;
+    border-top:1rpx solid #e5e5e5
+}
+.address-info .grid:first-of-type{
+    border:0 none;
+}
+.address-info caption{
+    font-size: 24rpx;
+    line-height: 24rpx;
+    color:#999;
+    display: block;
+}
+.address-info .content{
+    margin-top:10rpx;
+    font-size: 32rpx;
+    line-height: 32rpx;
+    display: block
+}
+.address-info .region{
+    position: absolute;
+    right:30rpx;
+    top:32rpx;
+    color:#09BB07;
+    text-align: center;
+}
+.address-info .region:before{
+    margin:0 auto;
+    width:28rpx;
+    height:28rpx;
+    content:"";
+    display: block;
+    background: url("https://s.kcimg.cn/app/images/matching/locate.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+.source-info{
+    display: flex;
+    height:126rpx;
+}
+.source-info .cell{
+    position: relative;
+    padding:30rpx;
+    flex:1;
+    box-sizing: border-box
+}
+.source-info .cell:after{
+    position: absolute;
+    top:39rpx;
+    right:0;
+    content:"";
+    width:0;
+    height:48rpx;
+    border-right:1rpx solid #dbdbdb;
+}
+.source-info caption,.other caption{
+    font-size: 24rpx;
+    line-height: 24rpx;
+    color:#999;
+}
+.source-info text{
+    margin-top: 10rpx;
+    font-size: 32rpx;
+    line-height: 32rpx;
+    display: block;
+}
+.other,.footer{
+    padding: 30rpx;
+}
+.other{
+    position: relative;
+}
+.other .content{
+    margin-top: 10rpx;
+    font-size: 32rpx;
+    line-height: 48rpx;
+    word-break: break-all;
+}
+.other .phone{
+    position:absolute;
+    right:20px;
+    top:50%;
+    width:80rpx;
+    height:80rpx;
+    border-radius: 50%;
+    transform: translate(0,-50%);
+    background:#09bb07 url("https://s.kcimg.cn/app/images/matching/phone_new.png") no-repeat 50% 50%;
+    background-size: 34rpx 32rpx;
+}
+
+.footer button{
+    font-size: 32rpx;
+}
+.favorite{
+    margin-top: 30rpx;
+}

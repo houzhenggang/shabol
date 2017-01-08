@@ -1,0 +1,41 @@
+<form bindsubmit="formSubmit" bindreset="formReset">
+	<view class="section">
+		<view class="item">
+			<view class="caption">出发地</view>
+			<view class="select" data-option="{{startOptions}}" data-name="fromid" bindtap="selectRegion">{{start}}</view>
+		</view>
+		<view class="item">
+			<view class="caption">目的地</view>
+			<view class="select" data-option="{{endOptions}}" data-name="toid" bindtap="selectRegion">{{end}}</view>
+		</view>
+		<view class="item">
+			<view class="caption">车辆类型</view>
+			<picker bindchange="productChangeHandle" name="productid" value="{{ProductId}}" class="select" range="{{products}}">
+				<view class="picker">
+					{{products[selecedIndex]}}
+				</view>
+			</picker>
+		</view>
+	</view>
+	<view class="section">
+		<view class="item">
+			<view class="caption">详细描述</view>
+			<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="如货物名称，类型，重量，体积，需求车长，车型，其他需要说明的情况" value="{{addMsg}}{{msg}}" bindfocus="bindTextAreaFocus" auto-height />
+		</view>
+	</view>
+	<view class="section">
+		<view class="item">
+			<view class="caption">联系人</view>
+			<input type="text" bindblur="setStorageName" name="username" placeholder="请输入联系人" value="{{Uname}}" maxlength="8" />
+		</view>
+		<view class="item">
+			<view class="caption">联系电话</view>
+			<input type="digit" bindblur="setStorageTel" name="tel" placeholder="请输入联系电话" value="{{Tel}}" maxlength="11" />
+		</view>
+		<view class="item">
+			<view class="caption">备用电话</view>
+			<input type="digit" bindblur="setStorageBtel" name="btel" placeholder="请输入备用电话" value="{{Btel}}" maxlength="11" />
+		</view>
+	</view>
+	<button type="primary" size="default" class="submit" form-type="submit">{{formit == 0 ? '发布' : '再次发布'}}</button>
+</form>

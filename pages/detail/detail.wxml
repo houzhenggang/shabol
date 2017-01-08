@@ -1,0 +1,43 @@
+<page>
+    <view class="header">
+        <view class="distance">
+            <view class="start">
+                <text class="city">{{FromCityName}}</text>
+                <text class="province">{{FromProName}}</text>
+            </view>
+            <view class="mileage">
+                <view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
+                <text>约{{glnum}}公里</text>
+            </view>
+            <view class="end">
+                <text class="city">{{ToCityName}}</text>
+                <text class="province">{{ToProName}}</text>
+            </view>
+        </view>
+        <!--<text class="receipt">{{ProductId}}</text>-->
+    </view>
+
+    <!-- 其他说明 -->
+    <view class="module other">
+        <caption>货源详情</caption>
+        <view class="content">
+            <text>{{msInfo}}</text>
+        </view>
+    </view>
+
+    <!-- 联系人 -->
+    <view class="module other">
+        <caption>联系人</caption>
+        <view class="content">
+            <text>{{Uname}}：{{Tel}}</text>
+        </view>
+        <view bindtap="makePhoneCall" class="phone"></view>
+    </view>
+
+
+    <view class="footer">
+        <button class="tel" type="primary" class="tel">转发</button>
+        <button class="favorite" type="default" bindtap="close">关闭</button>
+    </view>
+
+</page>

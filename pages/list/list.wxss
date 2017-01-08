@@ -1,0 +1,55 @@
+.empty-list{width: 100%;height: 100%;background: #fff;}
+.empty-text{position: relative;display: block;text-align: center;font-size: 40rpx;padding-top: 400rpx;color: #A2B4CC;}
+.empty-btn{letter-spacing: 10rpx;background: #09BB07;margin-top: 60rpx;height: 80rpx;width: 250rpx;color: #fff;font-size: 36rpx;line-height: 80rpx;text-align: center;}
+.goods{background:#EFEFF4;padding:20rpx 20rpx 0 20rpx;}
+.goods .item{margin-bottom:30rpx;min-height:250rpx;box-shadow: 0 1rpx 2rpx 0 rgba(0,0,0,0.20);border-radius: 6rpx;background:#fff;}
+.goods .link{padding:0 60rpx;}
+.place{position: relative;height:140rpx;border-bottom:1rpx solid #F0F5FA;}
+.place view{text-algin:center;}
+.place text,.place view{display:block;}
+.place .start,.place .end{position: absolute;width:180rpx;padding-top:30rpx; text-align: center}
+.place .start{left:0;top:0}
+.place .end{top:0;right:0;}
+.place .city{font-size: 36rpx;color: #333;height:36rpx;line-height:36rpx;overflow: hidden;margin-bottom:20rpx; white-space:nowrap; text-overflow: ellipsis;}
+.place .province{font-size: 28rpx;color: #666;}
+.place .distance{display:block;width:176rpx;padding-top:42rpx;margin: 0 auto; text-align:center;}
+.place .distance image,.place .distance .image{width:176rpx;height:30rpx;margin-bottom:12rpx;overflow:hidden;}
+.place .distance text{color:#8FAACC;line-height: 24rpx;font-size: 24rpx;}
+
+.details{
+  font-size: 32rpx;
+  color: #000;
+  line-height: 48rpx;
+  min-height: 48rpx;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+
+.condition{
+    position: relative;
+    width:100%;
+    display: block;
+    height:110rpx;
+    padding:30rpx 60rpx;
+    text-align: center;
+    white-space: nowrap;
+    display: flex;
+    box-sizing: border-box
+}
+.condition button,.condition navigator{
+    font-size:26rpx;
+    height:60rpx;
+    line-height:60rpx;
+    display:block;
+    flex:1;
+    color:#fff;
+}
+.condition .share{padding:0 14px;letter-spacing: 10rpx;border-radius:5px;background:#09BB07;border-color:#09BB07;}
+.condition .edit{letter-spacing: 10rpx;margin: 0 20rpx;padding:0 14px;border-radius:5px;background:#10AEFF;border-color:#10AEFF;}
+.condition .close{letter-spacing: 10rpx;background:#F76260;border-color:#F76260;}
