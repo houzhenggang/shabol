@@ -22,19 +22,21 @@ Page({
 				ts:+new Date()
 			},
 			success:function(res){
-				let nickName = '';
-				app.getUserInfo(function(userInfo){
-					nickName = userInfo.nickName
-		        });
 				me.setData({
 					list:res.data.data['list'],
-					loading:true,
-					sharesContent:{
-						title:'关注-' + nickName + '-，快速收到一手货源信息！',
-						desc:'小宝物流十万信息部都在用，发货更方便，找车更简单！',
-						path:'/pages/share/share?uid=' + uid
-					}
+					loading:true
 				});
+		        app.getUserInfo(function(userInfo){
+		          let nickname = userInfo.nickName;
+		          me.setData({
+					nickname:nickname,
+				  	sharesContent:{
+  						title:nickname + '的货源信息',
+  						desc:'十万信息部都在用，发货更方便，找车更简单！',
+  						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname
+  					}
+		          })
+		        })
 			}
 		})
 	},
@@ -80,16 +82,34 @@ Page({
 		},1e3)
 	},
 	share:function(){
+		let that = this;
 		this.setData({
 			shareHidden:this.data['shareHidden'] ? false : true
 		});
+		setTimeout(function(){
+			that.setData({
+				shareHidden:true
+			});
+		},500);
 	},
 	onLoad:function(options){
+		app.listFinished = true;
 		app.uid = wx.getStorageSync('userid');
 		!app.uid ? util.getUserInfo(this.listRender,this) : this.listRender(app.uid,this);
+		setTimeout(function(){
+			app.listFinished = false;
+		},1e3);
 	},
 	onShow:function(){
-		//this.listRender(app.uid,this);
+		if(app.listFinished) return;
+		if(app.submited || app.republished){
+			this.setData({
+				loading:false
+			});
+			this.listRender(app.uid,this);
+			app.submited = false;
+			app.republished = false;
+		}
 	},
 	onPullDownRefresh:function(){
 		let that = this;

@@ -2,9 +2,9 @@
 <import src="../../components/share/share.wxml"/>
 <template is="loading" data="{{loading}}"/>
 <template is="share" data="{{shareHidden}}"/>
-<view class="goods" wx:if="{{list.length}}">
+<scroll-view class="goods" wx:if="{{list.length}}" scroll-y="true" bindscrolltolower="loadMore">
 	<view class="item" wx:for="{{list}}">
-		<navigator class="link" url="../detail/detail?id={{item.id}}"  open-type="navigate">
+		<navigator class="link" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
 			<view class="place">
 				<view class="start">
 					<text class="city">{{item.FromCityName}}</text>
@@ -19,7 +19,6 @@
 	                <text class="province">{{item.ToProName}}</text>
 				</view>
 			</view>
-            <view class="details">{{item.msInfo}}</view>
 		</navigator>
 	</view>
-</view>
+</scroll-view>

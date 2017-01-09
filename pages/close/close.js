@@ -98,7 +98,9 @@ Page({
 				});
 				setTimeout(function(){
 					wx.hideToast();
-				},1e3)
+				},1e3);
+				if(!app.republished)
+				app.republished = true;
 			}
 		})
 	}

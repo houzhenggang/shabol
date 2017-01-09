@@ -1,12 +1,6 @@
 <page>
-    <view class="user-info">
-        <image src="{{userInfo.avatarUrl}}" class="avatar" />
-        <text class="nickname">{{userInfo.nickName}}</text>
-        <view class="total">
-            <text>{{total.view}}</text>个车主查看
-            <text>{{total.favorite}}</text>个车主收藏
-        </view>
-    </view>
+    <import src="../../components/userinfo/userinfo.wxml" />
+    <template is="userinfo" data="{{userInfo,total}}" />
     <navigator class="publish" url="../close/close" open-type="navigate">
         <text>已关闭的货源</text>
     </navigator>

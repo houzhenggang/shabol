@@ -1,3 +1,5 @@
+<import src="../../components/loading/loading.wxml"/>
+<template is="loading" data="{{loading}}"/>
 <form bindsubmit="formSubmit" bindreset="formReset">
 	<view class="section">
 		<view class="item">
@@ -31,7 +33,8 @@
 			<input type="digit" bindblur="setStorageBtel" name="btel" placeholder="请输入备用电话" value="{{Btel}}" maxlength="11" />
 		</view>
 	</view>
-	<view class="caption">详细描述</view>
-	<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="如货物名称，类型，重量，体积，需求车长，车型，其他需要说明的情况" value="{{addMsg}}{{msg}}" bindfocus="bindTextAreaFocus" auto-height />
+	<view class="section">
+		<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="详细描述，如货物名称，类型，重量，体积，需求车长，车型，其他需要说明的情况" value="{{addMsg}}{{msg}}" bindfocus="bindTextAreaFocus" auto-height />
+	</view>
 	<button type="primary" size="default" class="submit" form-type="submit">{{formit == 0 ? '发布' : '再次发布'}}</button>
 </form>

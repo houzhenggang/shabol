@@ -1,6 +1,7 @@
 let app = getApp();
 Page({
 	data:{
+		loading:false,
 		products:["平板车","栏板车","高栏车","厢式车","冷藏车","槽罐车","骨架车","大件运输","自卸车","不限车型"],
 		selecedIndex:2,
 		start:"请选择出发地",
@@ -23,7 +24,9 @@ Page({
 				});
 				this.reEdit();
 			}else{
+				this.getContact();
 				this.setData({
+					loading:true,
 					selecedIndex:2,
 					ProductId:2,
 					msg:'',
@@ -31,24 +34,25 @@ Page({
 					end:"请选择目的地",
 					formit:0,
 					id:''
-				})
+				});
 			};
 		}
 		app.regionStatus = false;
 		this.regionSelectCallback('fromid','start','startOptions');
 		this.regionSelectCallback('toid','end','endOptions');
 	},
-	setContact(o){
+	setContact:function(o){					// 设置联系方式
 		wx.setStorage({
 			key:'contact',
 			data:o
 		})
 	},
-	getContact(){
+	getContact:function(){					// 获取联系方式
 		let that = this;
 		wx.getStorage({
 			key:'contact',
 			success:function(res){
+				console.log(res);
 				let data = res.data;
 				that.setData({
 					Uname:data.Uname,
@@ -63,26 +67,34 @@ Page({
 		wx.request({
 				url:app.ajaxurl,
 				data:{
-						c:'cargood',
-						m:'GetDetailsInfo',
-						id:app._itemId,
-						ts:+new Date()
+					c:'cargood',
+					m:'GetDetailsInfo',
+					id:app._itemId,
+					ts:+new Date()
 				},
 				success:function(res){
 					let o = res.data;
-					let selectedId = that.data['products'].indexOf(o.ProductId);
+					if(o.info == 'ok'){
+						let data = o.data;
+						let selectedId = that.data['products'].indexOf(data.ProductId);
 						that.setData({
-							start:o.FromProName + ',' + o.FromCityName,
-							end:o.ToProName + ',' + o.ToCityName,
+							start:data.FromProName + ',' + data.FromCityName,
+							end:data.ToProName + ',' + data.ToCityName,
 							ProductId:selectedId,
 							selecedIndex:selectedId,
-							msg:o.msInfo,
-							Uname:o.Uname,
-							Tel:o.Tel,
-							Btel:o.Btel,
-							formit:1,
+							msg:data.msInfo,
+							Uname:data.Uname,
+							Tel:data.Tel,
+							Btel:data.Btel,
+							formit:1
 						});
 						app._itemId = null;
+					}
+					setTimeout(function(){
+						that.setData({
+							loading:true
+						})
+					},1e3)
 				}
 		})
 	},
@@ -109,7 +121,6 @@ Page({
 		}else{
 			this.loaded = true;
 		}
-
 	},
 	productChangeHandle:function(o){
 		this.setData({
@@ -146,18 +157,20 @@ Page({
 			url:app.ajaxurl,
 			data:o,
 			success:function(res){
-				if(res.data.status){
+				res = res.data;
+				if(res.info == 'ok'){
 					wx.showToast({
 						title:title,
 						icon:'success',
 						duration:1e3
 					});
 					that.setContact({
-						Uname:o['username'],
+						Uname:o['uname'],
 						Tel:o['tel'],
 						Btel:o['btel']
 					});
 					setTimeout(function(){
+						app.submited = true;
 						wx.hideToast();
 						wx.switchTab({
 							url:'../list/list'
@@ -179,8 +192,6 @@ Page({
 			this.errorInfo('请输入联系人')
 		}else if(!formData['tel'] || !pattern.test(formData['tel'])){
 			this.errorInfo('请输入正确的联系电话')
-		}else if(!pageData['msinfo']){
-			this.errorInfo('请输入详细描述')
 		}else if(formData['btel'] && formData['btel'] == formData['tel']){
 			this.errorInfo('备用电话不能与联系电话相同')
 		}else{
@@ -200,10 +211,10 @@ Page({
 				ts:+new Date()
 			};
 			if(!pageData['id']){		// 发布
-					this._submit(submitData,'提交成功')
+				this._submit(submitData,'提交成功')
 			}else{									// 修改
-				  submitData['id'] = pageData['id'];
-					this._submit(submitData,'修改成功')
+				submitData['id'] = pageData['id'];
+				this._submit(submitData,'修改成功')
 			}
 		}
 	}

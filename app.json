@@ -5,7 +5,8 @@
 		"pages/add/option",
 		"pages/user/user",
 		"pages/close/close",
-		"pages/detail/detail"
+		"pages/detail/detail",
+		"pages/share/share"
 	 ],
 	"window": {
 	    "navigationBarTitleText": "小宝物流",
@@ -46,6 +47,5 @@
 		"request": 10000,
 		"downloadFile": 10000
 	},
-	"debug": true
-
+	"debug": false
 }

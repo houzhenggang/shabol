@@ -1,0 +1,32 @@
+.user-info{
+    position: relative;
+    padding:20rpx 30rpx 30rpx 180rpx;
+    min-height:120rpx;
+    box-sizing: border-box;
+    background: #fff;
+}
+.avatar{
+    position: absolute;
+    left:30rpx;
+    top:20rpx;
+    width: 120rpx;
+    height:120rpx;
+    border-radius: 50%
+}
+.nickname{
+    font-size: 36rpx;
+    line-height: 56rpx;
+    height:72rpx;
+    display:block;
+}
+.total{
+    font-size: 30rpx;
+    line-height: 30rpx;
+    color:#888;
+}
+.total text{
+    color:#333
+}
+.total text:nth-of-type(n+2){
+    margin-left: 20rpx;
+}

@@ -1,3 +1,5 @@
+@import "../../components/loading/loading.wxss";
+@import "../../components/share/share.wxss";
 .header{
     height:224rpx;
     overflow: hidden;

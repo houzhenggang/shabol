@@ -1,3 +1,4 @@
+@import "../../components/loading/loading.wxss";
 .section{
     margin-top:20rpx;
     padding-left:30rpx;
@@ -14,7 +15,7 @@
 }
 .section textarea{
     padding:16rpx 10rpx 10rpx 0;
-    min-height:200rpx;
+    min-height:150rpx;
     width:95%;
     word-break: break-all;
 }

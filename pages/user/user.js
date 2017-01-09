@@ -3,8 +3,8 @@ Page({
     data:{
         userInfo:{},
         total:{
-            view:56,
-            favorite:5
+            view:0,
+            favorite:0
         }
     },
     onLoad:function(){
@@ -15,6 +15,5 @@ Page({
           userInfo:userInfo,
         })
       })
-        
     }
 })

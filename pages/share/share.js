@@ -3,13 +3,20 @@ let app = getApp(),
 Page({
 	data: {
 	  	list:[],
+        uid:'',
 		loading:false,
 		shareHidden:true,
 		sharesContent:{},
+        nickname:'',
+        total:{
+            view:0,
+            favorite:0
+        }
 	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
-            uid = this.uid;
+            uid = this.uid,
+            nickname = this.data.nickname;
 		wx.request({
 			url:app.ajaxurl,
 			data:{
@@ -25,22 +32,22 @@ Page({
 					list:res.data.data['list'],
 					loading:true,
 					sharesContent:{
-						title:'关注-0pid-，快速收到一手货源信息！',
-						desc:'小宝物流十万信息部都在用，发货更方便，找车更简单！',
-						path:'/pages/share/share?uid=' + uid
+						title:nickname + '的货源信息',
+						desc:'十万信息部都在用，发货更方便，找车更简单！',
+						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname
 					}
 				});
 			}
 		})
 	},
-	jumpToAdd:function(){				// 去发布
-		wx.switchTab({
-			url:'../add/add'
-		})
-	},
 	onLoad:function(options){
-		this.uid = options['uid'];
-        this.listRender(this.uid,this)
+        var that = this;
+        this.uid = options['uid'],
+        this.setData({
+            uid:this.uid,
+            nickname:options['nickname']
+        });
+        this.listRender(this.uid,this);
 	},
 	onPullDownRefresh:function(){
 		this.listRender(this.uid,this);

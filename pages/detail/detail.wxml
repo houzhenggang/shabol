@@ -1,3 +1,7 @@
+<import src="../../components/loading/loading.wxml"/>
+<import src="../../components/share/share.wxml"/>
+<template is="loading" data="{{loading}}"/>
+<template is="share" data="{{shareHidden}}"/>
 <page>
     <view class="header">
         <view class="distance">
@@ -16,7 +20,6 @@
         </view>
         <!--<text class="receipt">{{ProductId}}</text>-->
     </view>
-
     <!-- 其他说明 -->
     <view class="module other">
         <caption>货源详情</caption>
@@ -24,7 +27,6 @@
             <text>{{msInfo}}</text>
         </view>
     </view>
-
     <!-- 联系人 -->
     <view class="module other">
         <caption>联系人</caption>
@@ -33,11 +35,8 @@
         </view>
         <view bindtap="makePhoneCall" class="phone"></view>
     </view>
-
-
     <view class="footer">
-        <button class="tel" type="primary" class="tel">转发</button>
-        <button class="favorite" type="default" bindtap="close">关闭</button>
+        <button class="tel" type="primary" class="tel" bindtap="share">转发</button>
+        <button class="favorite" type="default" bindtap="close" wx:if="{{!uid}}">关闭</button>
     </view>
-
 </page>

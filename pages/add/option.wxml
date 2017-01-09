@@ -14,12 +14,8 @@
 		<view bindtap="toSectionPosition" id="{{item.code}}">{{item.code}}</view>
 	</block>
 </view>
-<view class="city"  style="transform:translate({{cityX}},0)">
-	<scroll-view scroll-y="true"  >
-		<view class="list">
-			<block wx:for="{{cities}}">
-				<view id="{{item.id}}" data-name="{{item.name}}" bindtap="goBack">{{item.name}}</view>
-			</block>
-		</view>
-	</scroll-view>
-</view>
+<scroll-view scroll-y="true" class="city list" style="transform:translate({{cityX}},0)">
+	<block wx:for="{{cities}}">
+		<view id="{{item.id}}" data-name="{{item.name}}" bindtap="goBack">{{item.name}}</view>
+	</block>
+</scroll-view>
