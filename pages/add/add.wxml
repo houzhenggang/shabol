@@ -18,6 +18,14 @@
 				</view>
 			</picker>
 		</view>
+		<view class="item">
+			<view class="caption">选择车长</view>
+			<picker bindchange="truckLengChangeHandle" name="truckLength" value="{{currentIndex}}" class="select" range="{{truckLength}}">
+				<view class="picker">
+					{{truckLength[currentIndex]}}
+				</view>
+			</picker>
+		</view>
 	</view>
 	<view class="section">
 		<view class="item">

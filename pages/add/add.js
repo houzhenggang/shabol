@@ -4,6 +4,8 @@ Page({
 		loading:false,
 		products:["平板车","栏板车","高栏车","厢式车","冷藏车","槽罐车","骨架车","大件运输","自卸车","不限车型"],
 		selecedIndex:2,
+		truckLength:["不限车长","4.2米","6.8米","9.6米","13米","15米","17.5米"],
+		currentIndex:4,
 		start:"请选择出发地",
 		end:"请选择目的地",
 		msinfo:'',
@@ -77,11 +79,13 @@ Page({
 					if(o.info == 'ok'){
 						let data = o.data;
 						let selectedId = that.data['products'].indexOf(data.ProductId);
+						let currentIndex = that.data['truckLength'].indexOf(data.truckLength);
 						that.setData({
 							start:data.FromProName + ',' + data.FromCityName,
 							end:data.ToProName + ',' + data.ToCityName,
 							ProductId:selectedId,
 							selecedIndex:selectedId,
+							currentIndex:currentIndex,
 							msg:data.msInfo,
 							Uname:data.Uname,
 							Tel:data.Tel,
@@ -125,6 +129,11 @@ Page({
 	productChangeHandle:function(o){
 		this.setData({
 			selecedIndex:o['detail'].value
+		});
+	},
+	truckLengChangeHandle:function(o){
+		this.setData({
+			currentIndex:o['detail'].value
 		});
 	},
 	selectRegion:function(e){
@@ -208,6 +217,7 @@ Page({
 				msinfo:pageData['msinfo'],
 				fromplace:pageData['start'],
 				toplace:pageData['end'],
+				truckLength:formData['truckLength'],
 				ts:+new Date()
 			};
 			if(!pageData['id']){		// 发布

@@ -23,7 +23,7 @@ Page({
             that.setData({
 				shareHidden:true
 			});
-		},500);
+		},1e3);
     },
     close:function(){
         let that = this;

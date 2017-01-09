@@ -90,7 +90,7 @@ Page({
 			that.setData({
 				shareHidden:true
 			});
-		},500);
+		},1e3);
 	},
 	onLoad:function(options){
 		app.listFinished = true;
