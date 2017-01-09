@@ -44,8 +44,12 @@ Page({
             			icon:'success',
             			duration:1e3
             		});
+                    app.republished = true;
                     setTimeout(function(){
             			wx.hideToast();
+                        wx.switchTab({
+                			url:'../list/list'
+                		});
             		},1e3)
                 }else{
                     wx.showModal({
