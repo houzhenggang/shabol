@@ -47,9 +47,9 @@ Page({
                     app.republished = true;
                     setTimeout(function(){
             			wx.hideToast();
-                        wx.switchTab({
-                			url:'../list/list'
-                		});
+                        wx.navigateBack({
+                          delta:1
+                        });
             		},1e3)
                 }else{
                     wx.showModal({
@@ -61,23 +61,97 @@ Page({
 			}
 		});
     },
+    delete:function(e){
+		wx.request({
+		  url: app.ajaxurl,
+		  data: {
+				c:'cargood',
+				m:'UpdateStatus',
+				category:2,
+				id:this.data['id'],
+				userid:app.uid,
+				ts:+new Date()
+			},
+		  success: function(res) {
+                if(res.data['info'] == 'ok'){
+    				wx.showToast({
+    					title:'已删除',
+    					icon:'success',
+    					duration:1e3
+    				});
+    				setTimeout(function(){
+    					wx.hideToast();
+                        wx.navigateBack({
+                          delta: 1
+                        });
+    				},1e3)
+                }else{
+                    wx.showModal({
+            			title: '错误提示',
+            			content:'删除失败，请稍后重试',
+            			showCancel: false
+            		})
+                }
+			},
+		})
+	},
+	republish:function(e){
+        let that = this;
+		wx.request({
+			url:app.ajaxurl,
+			data:{
+				c:'cargood',
+				m:'UpdateStatus',
+				category:0,
+				id:this.data['id'],
+				userid:app.uid,
+				ts:+new Date()
+			},
+			success:function(res){
+				wx.showToast({
+					title:'已发布',
+					icon:'success',
+					duration:1e3
+				});
+				setTimeout(function(){
+					wx.hideToast();
+                    that.setData({
+                        close:false
+                    })
+				},1e3);
+				if(!app.republished)
+				app.republished = true;
+			}
+		})
+	},
     onLoad:function(options){
-        let that    = this,
-            id      = options['id'],
-            uid     = options['uid'],
-            nickname = options['nickname'];
+        let that        = this,
+            id          = options['id'],
+            uid         = options['uid'],
+            nickname    = options['nickname'],
+            close       = options['close'];
+
+        this.setData({
+            id:id
+        });
         if(uid && uid !== app.uid){                 // 非发布者查看详情
             this.setData({
                 uid:uid
             })
         }
-        this.setData({
-            sharesContent:{
-                title:nickname + '的货源详情',
-                desc:'十万信息部都在用，发货更方便，找车更简单！',
-                path:'/pages/detail/detail?id=' + id + '&uid=' + (uid ? uid : app.id) + '&nickname='+ nickname
-            }
-        })
+        if(close){
+            this.setData({
+                close:close
+            })
+        }else{
+            this.setData({
+                sharesContent:{
+                    title:nickname + '的货源详情',
+                    desc:'十万信息部都在用，发货更方便，找车更简单！',
+                    path:'/pages/detail/detail?id=' + id + '&uid=' + (uid ? uid : app.id) + '&nickname='+ nickname
+                }
+            });
+        }
         wx.request({
             url:app.ajaxurl,
             data:{
@@ -89,14 +163,14 @@ Page({
             success:function(res){
                 res = res.data;
                 that.setData({
-                    loading:true,
-                    id:options['id']
+                    loading:true
                 });
                 that.setData(res.data);
             }
         });
     },
     onShareAppMessage:function(){
+        if(!this.data['close'])
 		return this.data['sharesContent']
 	}
 })

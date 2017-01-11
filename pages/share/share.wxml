@@ -2,7 +2,7 @@
 <import src="../../components/share/share.wxml"/>
 <template is="loading" data="{{loading}}"/>
 <template is="share" data="{{shareHidden}}"/>
-<scroll-view class="goods" wx:if="{{list.length}}" scroll-y="true" bindscrolltolower="loadMore">
+<view class="goods" wx:if="{{list.length}}" scroll-y="true" bindscrolltolower="loadMore">
 	<view class="item" wx:for="{{list}}">
 		<navigator class="link" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
 			<view class="place">
@@ -21,4 +21,5 @@
 			</view>
 		</navigator>
 	</view>
-</scroll-view>
+</view>
+<view class="loading-more" wx:if="{{list.length && list.length > 9}}">{{loadingText}}</view>

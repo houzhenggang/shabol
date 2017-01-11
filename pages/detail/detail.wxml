@@ -36,7 +36,13 @@
         <view bindtap="makePhoneCall" class="phone"></view>
     </view>
     <view class="footer">
-        <button class="tel" type="primary" class="tel" bindtap="share">转发</button>
-        <button class="favorite" type="default" bindtap="close" wx:if="{{!uid}}">关闭</button>
+        <block wx:if="{{!close}}">
+            <button class="tel" type="primary" class="tel" bindtap="share">转发</button>
+            <button class="favorite" type="warn" bindtap="close" wx:if="{{!uid}}">关闭</button>
+        </block>
+        <block wx:else>
+            <button class="republish" type="primary" class="tel" bindtap="republish">再次发布</button>
+            <button class="delete" type="warn" bindtap="close" bindtap="delete">删除</button>
+        </block>
     </view>
 </page>

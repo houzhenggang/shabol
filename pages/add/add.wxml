@@ -42,7 +42,7 @@
 		</view>
 	</view>
 	<view class="section">
-		<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="详细描述，如货物名称，类型，重量，体积，需求车长，车型，其他需要说明的情况" value="{{addMsg}}{{msg}}" bindfocus="bindTextAreaFocus" auto-height />
+		<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦！" value="{{addMsg}}{{msg}}" bindfocus="bindTextAreaFocus" auto-height />
 	</view>
 	<button type="primary" size="default" class="submit" form-type="submit">{{formit == 0 ? '发布' : '再次发布'}}</button>
 </form>

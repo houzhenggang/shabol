@@ -4,9 +4,11 @@ Page({
 	data: {
 		id:'',
 	  	list:[],
+		page:1,
 		loading:false,
 		shareHidden:true,
 		sharesContent:{},
+		loadingText:"加载中..."
 	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
@@ -22,21 +24,32 @@ Page({
 				ts:+new Date()
 			},
 			success:function(res){
+				res = res.data['data'];
+				if(res.status){
+					me.setData({
+						list:res.list
+					});
+					if(res.list.length < 10){			// 如当前数据<10条，不再进行加载
+						me.setData({
+							isEnd:true,
+							loadingText:"没有更多了.."
+						})
+					}
+			        app.getUserInfo(function(userInfo){
+			          let nickname = userInfo.nickName;
+			          me.setData({
+						nickname:nickname,
+					  	sharesContent:{
+	  						title:nickname + '的货源信息',
+	  						desc:'十万信息部都在用，发货更方便，找车更简单！',
+	  						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname
+	  					}
+			          })
+			        })
+				}
 				me.setData({
-					list:res.data.data['list'],
-					loading:true
-				});
-		        app.getUserInfo(function(userInfo){
-		          let nickname = userInfo.nickName;
-		          me.setData({
-					nickname:nickname,
-				  	sharesContent:{
-  						title:nickname + '的货源信息',
-  						desc:'十万信息部都在用，发货更方便，找车更简单！',
-  						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname
-  					}
-		          })
-		        })
+                    loading:true
+                });
 			}
 		})
 	},
@@ -92,6 +105,43 @@ Page({
 			});
 		},1e3);
 	},
+	loadMore:function(){
+		let that = this,
+			oldList = this.data['list'];
+		this.setData({
+			page:this.data['page'] + 1
+		});
+		wx.request({
+			url:app.ajaxurl,
+			data:{
+				c:'cargood',
+				m:'getlist',
+				category:0,
+				userid:app.uid,
+				page:this.data['page'],
+				ts:+new Date()
+			},
+			success:function(res){
+				res = res.data['data'];
+				if(res.status){
+					that.setData({
+						list:oldList.concat(res.list)
+					});
+					if(res.list.length < 10){
+						that.setData({
+							isEnd:true,
+							loadingText:"没有更多了.."
+						})
+					}
+				}else{
+					that.setData({
+						isEnd:true,
+						loadingText:"没有更多了.."
+					})
+				}
+			}
+		})
+	},
 	onLoad:function(options){
 		app.listFinished = true;
 		app.uid = wx.getStorageSync('userid');
@@ -120,5 +170,9 @@ Page({
 	},
 	onShareAppMessage:function(){
 		return this.data['sharesContent']
+	},
+	onReachBottom:function(){
+		if(this.data['isEnd']) return;
+		this.loadMore();
 	}
 })

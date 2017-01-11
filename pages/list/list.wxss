@@ -1,4 +1,4 @@
-@import "../../components/loading/loading.wxss";
+ @import "../../components/loading/loading.wxss";
 @import "../../components/share/share.wxss";
 .empty-list{
     width: 100%;
@@ -145,4 +145,11 @@
 .condition .close,.condition .remove{
     background:#F76260;
     border-color:#F76260;
+}
+.loading-more{
+    padding-bottom: 50rpx;
+    height:60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    color:#999
 }

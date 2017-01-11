@@ -2,7 +2,7 @@
 <import src="../../components/share/share.wxml"/>
 <template is="loading" data="{{loading}}"/>
 <template is="share" data="{{shareHidden}}"/>
-<scroll-view class="goods" wx:if="{{list.length}}" scroll-y="true" bindscrolltolower="loadMore">
+<view class="goods" wx:if="{{list.length}}" scroll-y="true" bindscrolltolower="loadMore">
 	<view class="item" wx:for="{{list}}">
 		<navigator class="link" url="../detail/detail?id={{item.id}}&nickname={{nickname}}"  open-type="navigate">
 			<view class="place">
@@ -26,8 +26,9 @@
 			<button class="share" bindtap="share">转发</button>
 		</view>
 	</view>
-</scroll-view>
-<view class="empty-list" wx:else="{{!list.length}}">
+</view>
+<view class="empty-list" wx:else>
 	<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
 	<button class="empty-btn" bindtap="jumpToAdd">发布</button>
 </view>
+<view class="loading-more" wx:if="{{list.length && list.length > 4}}">{{loadingText}}</view>
