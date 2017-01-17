@@ -381,7 +381,7 @@ c=cargood&m=ajaxGetNewCity&cityid=620000&ts=1484623703469
 GET /follow HTTP/2.0
 Host:https://56-api.kcimg.cn
 
-*获取区/县*
+*添加关注*
 
 ```
 
