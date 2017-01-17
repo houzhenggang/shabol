@@ -360,7 +360,7 @@ c=cargood&m=ajaxGetNewCity&cityid=620000&ts=1484623703469
 
 ```
     {
-        info:"ok",                                    // 接口状态，非异常为ok，异常为error
+        info:"ok",                               // 接口状态，非异常为ok，异常为error
         {
             id:'620100',                          // 区/县id
             name:'海淀区'                          // 区/县名
@@ -378,7 +378,7 @@ c=cargood&m=ajaxGetNewCity&cityid=620000&ts=1484623703469
 请求说明
 
 ```
-GET /updateStatus HTTP/2.0
+GET /follow HTTP/2.0
 Host:https://56-api.kcimg.cn
 
 *获取区/县*
@@ -410,10 +410,9 @@ c=cargood&m=addfollow&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ71i
     {
         info:"ok",              // 接口状态，非异常为ok，异常为error
         data:{
-              status:1,                               // 操作状态，1为成功，0为失败
-              msg:'关注成功'                          // 反馈信息
-            ]
-        },
+            status:1,                               // 操作状态，1为成功，0为失败
+            msg:'关注成功'                          // 反馈信息
+        }
     }
 ```
 
@@ -422,10 +421,10 @@ c=cargood&m=addfollow&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ71i
 请求说明
 
 ```
-GET /updateStatus HTTP/2.0
+GET /followStatus HTTP/2.0
 Host:https://56-api.kcimg.cn
 
-*获取区/县*
+*获取关注状态*
 
 ```
 
@@ -434,17 +433,17 @@ Host:https://56-api.kcimg.cn
 参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
 ---|---|---|---|---
 c | string | 1 | cargood | 默认参数
-m | string | 1 | UpdateStatus | 默认参数
-id | string | 1 | 货源id | 货源id
-category | string | 1 | 0:发布 1:关闭 2:删除 | 状态
-userid | string | 1 | openid | 当前用户openid
+m | string | 1 | followStatus | 默认参数
+fuid | string | 1 | 用户openid | 当前用户openid
+tuid | string | 1 | 用户openid | 货主openid
 ts | string | 1 | int | 时间戳
 
 
 请求实例
 
 ```
-c=cargood&m=UpdateStatus&category=1&id=768&userid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&ts=1484623703469
+c=cargood&m=addfollow&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&ts=1484623703469
+
 
 ```
 
@@ -454,9 +453,7 @@ c=cargood&m=UpdateStatus&category=1&id=768&userid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&t
     {
         info:"ok",              // 接口状态，非异常为ok，异常为error
         data:{
-              status:1,                               // 数据状态，还有数据为1，无数据为0
-              msg:'修改成功'                          // 错误信息
-            ]
-        },
+            status:1          //  关注状态，0:未关注 1:已关注
+        }
     }
 ```
