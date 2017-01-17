@@ -34,8 +34,8 @@ Host:https://56-api.kcimg.cn
 
 参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
 ---|---|---|---|---
-c | string | 1 | cargood | 当前用户id
-m | string | 1 | getlist | 当前用户id
+c | string | 1 | cargood | 默认参数
+m | string | 1 | getlist | 默认参数
 category | string | 1 | 1是关闭 0是发布 | 货源类型
 userid | string | 1 | openid | 当前用户openid
 page | string | 1 | int | 分页
