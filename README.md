@@ -1,4 +1,4 @@
-# 极速配 wxapp 数据接口
+# shabol-wxapp 数据接口
 
 ## 目录
 #### &sect; [概述](#overview)
