@@ -10,7 +10,6 @@
 * [修改货源信息](#edit)
 * [更新货源状态](#updateStatus)
 * [获取城市](#getCity)
-* [获取城市](#getCity)
 * [获取区/县](#getDistrict)
 * [添加关注](#follow)
 * [获取关注状态](#followStatus)
