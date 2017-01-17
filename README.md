@@ -442,7 +442,7 @@ ts | string | 1 | int | 时间戳
 请求实例
 
 ```
-c=cargood&m=addfollow&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&ts=1484623703469
+c=cargood&m=followStatus&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&ts=1484623703469
 
 
 ```
