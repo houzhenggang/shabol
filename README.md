@@ -14,11 +14,9 @@
 * [添加关注](#follow)
 * [获取关注状态](#followStatus)
 
-****
 ## <a name="overview"> &sect; 概述</a>
 接口主要是针对wx.request发起的 HTTPS 请求，请求的content-type 默认为 'application/json';微信客户端的TLS版本为1.2，我们之前也遇到过一部分锤子等Android 机型还未支持 TLS 1.2，所以数据接口的开发人员要确保服务器的TLS版本能够向下兼容，请求的默认最大时长为60s，最大并发数为5个。
 
-****
 ## <a name="list"> &sect; 货源列表</a>
 
 请求说明
