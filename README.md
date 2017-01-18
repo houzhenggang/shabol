@@ -176,7 +176,8 @@ c=cargood&m=addSource&openid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&uname=%E8%80%81%E5%BC%
         info:"ok",              // 接口状态，非异常为ok，异常为error
         data:{
             status:1,                               // 数据状态，还有数据为1，无数据为0
-            msg:'提交成功'                          // 反馈信息
+            msg:'提交成功',                          // 反馈信息
+            id:666                                  // 添加信息id
         }
     }
 ```
