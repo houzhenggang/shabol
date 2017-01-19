@@ -1,4 +1,5 @@
-let app = getApp();
+let app = getApp(),
+	util = require('../../util/util.js');
 Page({
 	data:{
 		loading:false,
@@ -148,11 +149,6 @@ Page({
 			msinfo:e.detail.value
 		})
 	},
-	bindTextAreaFocus:function(){
-		this.setData({
-			addMsg:'求' + this.data.products[this.data.selecedIndex] + '，'
-		})
-	},
 	errorInfo:function(v){
 		wx.showModal({
 			title: '错误提示',
@@ -185,6 +181,12 @@ Page({
 							url:'../list/list'
 						})
 					},1e3);
+					util.analytics({
+						t:'event',
+						ec:'发布货源成功',
+						ea:that.data['id'] ? that.data['id'] : res.data['id'],
+						el:o['fromplace'] + '|' + o['toplace']
+					});
 				}
 			}
 		})

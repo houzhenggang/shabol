@@ -1,4 +1,44 @@
-@import "../list/list.wxss";
+@import "../../components/loading/loading.wxss";
+.item{
+    padding:0 30rpx;
+    height:100rpx;
+    line-height: 100rpx;
+    border-bottom: 1rpx solid #E5E5E5;
+    display: flex;
+    font-size: 28rpx;
+    background: #fff;
+}
+.region{
+    flex:1
+}
+.city{
+    font-size: 36rpx;
+}
+.province{
+    margin-left: 10rpx;
+    color:#999
+}
+.end{
+    text-align: right;
+}
+.category{
+    color:#8FAACC
+}
+.category:before,.category:after{
+    width:20rpx;
+    height:20rpx;
+    font-size: 0;
+    content:"";
+    display: inline-block;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 21 21' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M.294 20.337a.997.997 0 0 0 1.41.005l8.614-8.615c.78-.78.78-2.042 0-2.822L1.703.291a.994.994 0 0 0-1.41.004.998.998 0 0 0 .001 1.415l7.899 7.898a.999.999 0 0 1 0 1.416L.294 18.922a.998.998 0 0 0 0 1.415zm10 0a.997.997 0 0 0 1.41.005l8.614-8.615c.78-.78.78-2.042 0-2.822L11.703.291a.994.994 0 0 0-1.41.004.998.998 0 0 0 .001 1.415l7.899 7.898a.999.999 0 0 1 0 1.416l-7.899 7.898a.998.998 0 0 0 0 1.415z' fill='#E2E9F0' /%3E%3C/svg%3E")
+}
+.category:before{
+    margin-right: 10rpx;
+}
+.category:after{
+    margin-left:10rpx;
+}
+
 .phone{
     position: fixed;
     left:0;
@@ -22,4 +62,81 @@
     transform: translate(0,-50%);
     background:url("https://s.kcimg.cn/app/images/matching/phone_new.png") no-repeat 50% 50%;
     background-size: 34rpx 32rpx;
+}
+.to-add{
+    position: fixed;
+    bottom:160rpx;
+    right:30rpx;
+    width: 100rpx;
+    height:100rpx;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24rpx;
+    line-height: 24rpx;
+    color:#fff;
+    background-color: #508BFF;
+    box-shadow: 0 2rpx 4rpx 0 rgba(80,139,255,.4);
+}
+.to-add:before{
+    margin:18rpx auto 9rpx;
+    width:32rpx;
+    height:32rpx;
+    content:"";
+    display: block;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M24.998 30A.999.999 0 0 1 26 31c0 .552-.456 1-1.002 1h-9.996A.999.999 0 0 1 14 31c0-.553.456-1 1.002-1h9.996zm4.294-21.636l-2.121 2.122-5.657-5.657 2.122-2.121a.998.998 0 0 1 1.414-.001l4.242 4.243a.997.997 0 0 1 0 1.414zm-25.913 14.6L20.272 6.072l5.657 5.658L9.035 28.62l-5.656-5.656zM2 30.003v-5.588L7.586 30 2 30.002zM25.757.586a2 2 0 0 0-2.828 0L.301 23.214C0 23.516 0 24 0 24v7a1 1 0 0 0 1 1h7s.447.039.786-.301L31.414 9.07a2 2 0 0 0 0-2.828L25.757.586z' fill='#FFF' /%3E%3C/svg%3E")
+}
+
+.tab-bar{
+    position: fixed;
+    bottom:0;
+    left:0;
+    padding:0 200rpx 0 150rpx;
+    width:100%;
+    height:98rpx;
+    box-sizing: border-box;
+    border-top:1rpx solid #b2b2b2;
+    background: #F8F8FA
+}
+.avatar{
+    position: absolute;
+    left:30rpx;
+    top:-15rpx;
+    width:100rpx;
+    height:100rpx;
+    border-radius: 50%;
+    border:1rpx solid #fff;
+    box-shadow: 0 1rpx 4rpx 0 rgba(0,0,0,.2);
+}
+.nickname{
+    margin:32rpx 0 16rpx;
+    font-size: 32rpx;
+    line-height: 32rpx;
+}
+.call{
+    position: absolute;
+    right:0;
+    top:-1rpx;
+    width:200rpx;
+    height:99rpx;
+    font-size: 24rpx;
+    line-height: 24rpx;
+    color:#fff;
+    text-align: center;
+    background: #09BB07;
+}
+.call:before{
+    margin:14rpx auto 10rpx;
+    content:"";
+    width:32rpx;
+    height:32rpx;
+    font-size: 0;
+    display:block;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.856 13.285c.073.15 1.644 2.815 2.606 3.905 1.636 1.854 4.92 3.635 4.92 3.635l1.905-1.908a1.841 1.841 0 0 1 1.725-.491l7.376 1.738c.416.114.907.352 1.386.79.784.718 1.244 1.751 1.225 3.013 0 0-.314 3.118-1.656 4.773-.943 1.162-4.1 2.9-4.168 2.92C15.895 34.654-2.015 17.215.185 5.849c.022-.113.91-2.018 1.734-3.007C3.556.878 5.709-.254 8.33.05c0 0 1.073-.028 1.831.53.616.453 1.065 1.131 1.342 1.999l2.1 6.58a1.84 1.84 0 0 1-.451 1.86s-2.408 2.038-2.296 2.267z' fill='#FFF' /%3E%3C/svg%3E")
+}
+.loading-more{
+    padding-bottom: 50rpx;
+    height:60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    color:#999
 }

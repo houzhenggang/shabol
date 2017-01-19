@@ -3,7 +3,9 @@
         <image src="{{userInfo.avatarUrl}}" class="avatar" />
         <text class="nickname">{{userInfo.nickName}}</text>
         <view class="total">
-            <text>{{total.view}}</text>个车主查看
+            十万信息部都在用，发货更方便
+            <view>找车更简单！</view>
+            <!-- <text>{{total.view}}</text>个车主查看 -->
             <!-- <text>{{total.favorite}}</text>个车主收藏 -->
         </view>
     </view>

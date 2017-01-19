@@ -3,4 +3,6 @@ page {
   height: 100%;
   font:32rpx/1.5 "Microsoft YaHei";
 }
-caption,list-item{display:block}
+caption,list-item{
+    display:block
+}

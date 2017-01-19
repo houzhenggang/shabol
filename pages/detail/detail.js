@@ -1,4 +1,5 @@
-let app = getApp();
+let app = getApp(),
+    util = require('../../util/util.js');
 Page({
     data:{
         id:'',
@@ -10,6 +11,13 @@ Page({
         uid:''
     },
     makePhoneCall:function(){           // 拨打电话
+        util.analytics({
+			t:'event',
+			ec:'点击拨打电话',
+			ea:this.data['id'],
+			el:'',
+			dp:'/detail/detail'
+		});
         wx.makePhoneCall({
             phoneNumber:this.data.Tel
         })
@@ -26,6 +34,7 @@ Page({
 		},1e3);
     },
     close:function(){
+
         let that = this;
 		wx.request({
 			url:app.ajaxurl,
@@ -170,7 +179,15 @@ Page({
         });
     },
     onShareAppMessage:function(){
-        if(!this.data['close'])
-		return this.data['sharesContent']
+        if(!this.data['close']){
+            util.analytics({
+    			t:'event',
+    			ec:'分享成功',
+    			ea:'货源详情页',
+    			el:this.data['id'],
+    			dp:'/detail/detail'
+    		});
+            return this.data['sharesContent']
+        }
 	}
 })

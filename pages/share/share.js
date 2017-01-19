@@ -9,16 +9,18 @@ Page({
 		shareHidden:true,
 		sharesContent:{},
         nickname:'',
-        total:{
-            view:0,
-            favorite:0
-        },
+        avatar:'',
+        total:2255,
+        tel:'17052552768',
+        followText:'已关注',
+        followStatus:'follow',
         loadingText:"加载中..."
 	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
             uid = this.uid,
-            nickname = this.data.nickname;
+            nickname = this.data.nickname,
+            avatar = this.data.avatar;
 		wx.request({
 			url:app.ajaxurl,
 			data:{
@@ -32,12 +34,14 @@ Page({
 			success:function(res){
                 res = res.data['data'];
 				if(res.status){
+                    let listData = res.list
 					me.setData({
-                        list:res.list,
+                        list:listData,
+                        tel:listData[0].Tel,
     					sharesContent:{
     						title:nickname + '的货源信息',
     						desc:'十万信息部都在用，发货更方便，找车更简单！',
-    						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname
+    						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar=' + avatar
     					}
 					});
 					if(res.list.length < 10){			// 如当前数据<10条，不再进行加载
@@ -90,12 +94,25 @@ Page({
 			}
 		})
 	},
+    makePhoneCall:function(){
+        wx.makePhoneCall({
+            phoneNumber:this.data.tel
+        })
+    },
 	onLoad:function(options){
         var that = this;
-        this.uid = options['uid'],
+        this.uid = options['uid'];
+        util.analyticsDefaultData['cid'] = app.uid;
+        app.uid = wx.getStorageSync('userid');
+        if(!app.uid){
+			util.getUserInfo();
+		}else{
+			util.analyticsDefaultData['cid'] = app.uid;
+		}
         this.setData({
             uid:this.uid,
-            nickname:options['nickname']
+            nickname:options['nickname'],
+            avatar:options['avatar']
         });
         this.listRender(this.uid,this);
 	},

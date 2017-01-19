@@ -42,7 +42,7 @@ Page({
 					  	sharesContent:{
 	  						title:nickname + '的货源信息',
 	  						desc:'十万信息部都在用，发货更方便，找车更简单！',
-	  						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname
+	  						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar='+ userInfo.avatarUrl
 	  					}
 			          })
 			        })
@@ -60,20 +60,28 @@ Page({
 	},
 	edit:function(e){					// 修改
 		app._itemId = e.target.dataset.id;
+		util.analytics({
+			t:'event',
+			ec:'点击修改按钮',
+			ea:app._itemId,
+			el:'',
+			dp:'/list/list'
+		});
 		wx.switchTab({
 			url:'../add/add'
-		})
+		});
 	},
 	close:function(e){					// 关闭
-		let index = e.target.dataset['index'],
-			that = this;
+		let index 	= e.target.dataset['index'],
+			that 	= this,
+			id 		= e.target.id;
 		wx.request({
 			url:app.ajaxurl,
 			data:{
 				c:'cargood',
 				m:'UpdateStatus',
 				category:1,
-				id:e.target.id,
+				id:id,
 				userid:app.uid,
 				ts:+new Date()
 			},
@@ -82,6 +90,13 @@ Page({
 				newListData.splice(index,1)
 				that.setData({
 					list:newListData
+				});
+				util.analytics({
+					t:'event',
+					ec:'点击关闭按钮',
+					ea:id,
+					el:'',
+					dp:'/list/list'
 				})
 			}
 		});
@@ -94,7 +109,7 @@ Page({
 			wx.hideToast();
 		},1e3)
 	},
-	share:function(){
+	share:function(e){
 		let that = this;
 		this.setData({
 			shareHidden:this.data['shareHidden'] ? false : true
@@ -104,6 +119,13 @@ Page({
 				shareHidden:true
 			});
 		},1e3);
+		util.analytics({
+			t:'event',
+			ec:'点击转发按钮',
+			ea:e.target.dataset.id,
+			el:'',
+			dp:'/list/list'
+		})
 	},
 	loadMore:function(){
 		let that = this,
@@ -145,7 +167,12 @@ Page({
 	onLoad:function(options){
 		app.listFinished = true;
 		app.uid = wx.getStorageSync('userid');
-		!app.uid ? util.getUserInfo(this.listRender,this) : this.listRender(app.uid,this);
+		if(!app.uid){
+			util.getUserInfo(this.listRender,this)
+		}else{
+			this.listRender(app.uid,this);
+			util.analyticsDefaultData['cid'] = app.uid;
+		}
 		setTimeout(function(){
 			app.listFinished = false;
 		},1e3);
@@ -169,6 +196,13 @@ Page({
         },1e3);
 	},
 	onShareAppMessage:function(){
+		util.analytics({
+			t:'event',
+			ec:'分享成功',
+			ea:'货源列表页',
+			el:'',
+			dp:'/list/list'
+		});
 		return this.data['sharesContent']
 	},
 	onReachBottom:function(){

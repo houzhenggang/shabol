@@ -2,24 +2,27 @@
 <import src="../../components/share/share.wxml"/>
 <template is="loading" data="{{loading}}"/>
 <template is="share" data="{{shareHidden}}"/>
-<view class="goods" wx:if="{{list.length}}" scroll-y="true" bindscrolltolower="loadMore">
-	<view class="item" wx:for="{{list}}">
-		<navigator class="link" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
-			<view class="place">
-				<view class="start">
-					<text class="city">{{item.FromCityName}}</text>
-					<text class="province">{{item.FromProName}}</text>
-				</view>
-				<view class="distance">
-					<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
-					<text>{{item.truckLength}} {{item.ProductId}}</text>
-				</view>
-				<view class="end">
-					<text class="city">{{item.ToCityName}}</text>
-	                <text class="province">{{item.ToProName}}</text>
-				</view>
-			</view>
-		</navigator>
-	</view>
+<view class="share-list" wx:if="{{list.length}}">
+	<navigator wx:for="{{list}}" class="item" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
+		<view class="region start">
+			<text class="city">{{item.FromCityName}}</text>
+			<text class="province">{{item.FromProName}}</text>
+		</view>
+		<view class="category">{{item.truckLength}} {{item.ProductId}}</view>
+		<view class="region end">
+			<text class="city">{{item.ToCityName}}</text>
+            <text class="province">{{item.ToProName}}</text>
+		</view>
+	</navigator>
 </view>
 <view class="loading-more" wx:if="{{list.length && list.length > 9}}">{{loadingText}}</view>
+
+<navigator class="to-add" url="../add/add" open-type="switchTab">发布</navigator>
+
+<view class="tab-bar">
+	<image class="avatar" src="{{avatar}}" />
+	<view class="nickname">{{nickname}}</view>
+	<!-- <view class="total">已有{{total}}人关注</view> -->
+	<!-- <view class="{{followStatus}}" bindtap="follow">{{followText}}</view> -->
+	<view class="call" bindtap="makePhoneCall">拨打电话</view>
+</view>

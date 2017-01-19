@@ -63,7 +63,15 @@ Page({
 	},
 	remove:function(e){
 		let index = e.target.dataset['index'],
-			that = this;
+			that = this,
+			id = e.target.id;
+		util.analytics({
+			t:'event',
+			ec:'点击删除按钮',
+			ea:id,
+			el:'',
+			dp:'/close/close'
+		});
 		wx.request({
 		  url: app.ajaxurl,
 		  data: {
@@ -87,13 +95,21 @@ Page({
 				});
 				setTimeout(function(){
 					wx.hideToast();
-				},1e3)
+				},1e3);
 			},
 		})
 	},
 	republish:function(e){
 		let index = e.target.dataset['index'],
-			that = this;
+			that = this,
+			id = e.target.id;
+		util.analytics({
+			t:'event',
+			ec:'点击再次发布按钮',
+			ea:id,
+			el:'',
+			dp:'/close/close'
+		});
 		wx.request({
 			url:app.ajaxurl,
 			data:{

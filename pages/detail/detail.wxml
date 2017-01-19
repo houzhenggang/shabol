@@ -21,7 +21,7 @@
         <!--<text class="receipt">{{ProductId}}</text>-->
     </view>
     <!-- 其他说明 -->
-    <view class="module other">
+    <view class="module other" wx:if="{{msInfo}}">
         <caption>货源详情</caption>
         <view class="content">
             <text>{{msInfo}}</text>
