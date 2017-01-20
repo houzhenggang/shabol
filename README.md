@@ -13,6 +13,8 @@
 * [获取区/县](#getDistrict)
 * [添加关注](#follow)
 * [获取关注状态](#followStatus)
+* [获取验证码](#getCode)
+* [更改手机号](#changePhoneNumber)
 
 ## <a name="overview"> &sect; 概述</a>
 接口主要是针对wx.request发起的 HTTPS 请求，请求的content-type 默认为 'application/json';微信客户端的TLS版本为1.2，我们之前也遇到过一部分锤子等Android 机型还未支持 TLS 1.2，所以数据接口的开发人员要确保服务器的TLS版本能够向下兼容，请求的默认最大时长为60s，最大并发数为5个。
@@ -452,6 +454,88 @@ c=cargood&m=followStatus&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ
         info:"ok",              // 接口状态，非异常为ok，异常为error
         data:{
             status:1          //  关注状态，0:未关注 1:已关注
+        }
+    }
+```
+
+## <a name="getCode"> &sect; 获取验证码</a>
+
+请求说明
+
+```
+GET /changePhone HTTP/2.0
+Host:https://56-api.kcimg.cn
+
+*获取关注状态*
+
+```
+
+参数说明
+
+参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
+---|---|---|---|---
+c | string | 1 | cargood | 默认参数
+m | string | 1 | updateuserphonenum | 默认参数
+uid | string | 1 | 用户openid | 当前用户openid
+status | string | 1 | 1,2 | 电话号码状态
+num | int | 1 | 11位手机号码 | 电话号码
+
+请求实例
+
+```
+c=cargood&m=updateuserphonenum&m=&uid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&status=1&num=18511069931"
+
+```
+
+返回结果
+
+```
+    {
+        info:"ok",              // 接口状态，非异常为ok，异常为error
+        data:{
+            status:1,          //  关注状态，0:未关注 1:已关注
+            codeInfo:0          // 验证码状态，0:获取验证码成功
+        }
+    }
+```
+
+## <a name="changePhoneNumber"> &sect; 更改手机号</a>
+
+请求说明
+
+```
+GET /changePhone HTTP/2.0
+Host:https://56-api.kcimg.cn
+
+*获取关注状态*
+
+```
+
+参数说明
+
+参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
+---|---|---|---|---
+c | string | 1 | cargood | 默认参数
+m | string | 1 | updateuserphonenum | 默认参数
+uid | string | 1 | 用户openid | 当前用户openid
+status | string | 1 | 1,2 | 电话号码状态
+num | int | 1 | 11位手机号码 | 电话号码
+code | int | 1 | 4位数字验证码 | 验证码
+
+请求实例
+
+```
+c=cargood&m=updateuserphonenum&m=&uid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&status=1&num=18511069931&code=1211"
+
+```
+
+返回结果
+
+```
+    {
+        info:"ok",              // 接口状态，非异常为ok，异常为error
+        data:{
+            status:1,          //  验证结果，1:验证成功 0:验证失败
         }
     }
 ```
