@@ -30,8 +30,8 @@ Page({
 				this.getContact();
 				this.setData({
 					loading:true,
-					selecedIndex:2,
-					ProductId:2,
+					// selecedIndex:2,
+					// ProductId:2,
 					msg:'',
 					start:"请选择出发地",
 					end:"请选择目的地",
@@ -55,7 +55,6 @@ Page({
 		wx.getStorage({
 			key:'contact',
 			success:function(res){
-				console.log(res);
 				let data = res.data;
 				that.setData({
 					Uname:data.Uname,

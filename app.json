@@ -6,7 +6,9 @@
 		"pages/user/user",
 		"pages/close/close",
 		"pages/detail/detail",
-		"pages/share/share"
+		"pages/share/share",
+		"pages/editInfo/index",
+		"pages/editMine/index"
 	 ],
 	"window": {
 	    "navigationBarTitleText": "小宝物流",

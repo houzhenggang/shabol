@@ -1,6 +1,6 @@
 <page>
     <import src="../../components/userinfo/userinfo.wxml" />
-    <template is="userinfo" data="{{userInfo,total}}" />
+    <template is="userinfo" data="{{EditName,EditInfo,userInfo,total}}" />
     <navigator class="publish" url="../close/close" open-type="navigate">
         <text>已关闭的货源</text>
     </navigator>

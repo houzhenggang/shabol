@@ -85,6 +85,9 @@ Page({
 		  success: function(res) {
 				var newListData = that.data['list'];
 				newListData.splice(index,1)
+				if(newListData.length < 6){
+					that.listRender(app.uid,that)
+				}
 				that.setData({
 					list:newListData
 				});
@@ -123,6 +126,9 @@ Page({
 			success:function(res){
 				var newListData = that.data['list'];
 				newListData.splice(index,1)
+				if(newListData.length < 5){
+					that.listRender(app.uid,that)
+				}
 				that.setData({
 					list:newListData
 				});

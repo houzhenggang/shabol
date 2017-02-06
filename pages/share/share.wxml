@@ -21,7 +21,7 @@
 
 <view class="tab-bar">
 	<image class="avatar" src="{{avatar}}" />
-	<view class="nickname">{{nickname}}</view>
+	<view class="nickname">{{editName !== '' ? editName : nickname}}</view>
 	<!-- <view class="total">已有{{total}}人关注</view> -->
 	<!-- <view class="{{followStatus}}" bindtap="follow">{{followText}}</view> -->
 	<view class="call" bindtap="makePhoneCall">拨打电话</view>
