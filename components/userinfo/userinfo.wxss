@@ -5,6 +5,17 @@
     box-sizing: border-box;
     background: #fff;
 }
+.user-info:after{
+    position:absolute;
+    content:"";
+    top:50%;
+    right:30rpx;
+    width:12rpx;
+    height:12rpx;
+    border-top:2rpx solid #999;
+    border-right:2rpx solid #999;
+    transform:translate(0,-50%) rotate(45deg);
+}
 .avatar{
     position: absolute;
     left:30rpx;
@@ -23,6 +34,8 @@
     font-size: 30rpx;
     line-height: 40rpx;
     color:#888;
+    height: 80rpx;
+    overflow: hidden;
 }
 .total text{
     color:#333

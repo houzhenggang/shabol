@@ -11,8 +11,15 @@
 .region{
     flex:1
 }
+.city,.province{
+  display: inline-block;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .city{
     font-size: 36rpx;
+    width:136rpx;
 }
 .province{
     margin-left: 10rpx;

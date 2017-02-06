@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="user">
+    <view class="user-img">
+      <text class="label">头像</text>
+      <image mode="scaleToFill" src="{{userInfo.avatarUrl}}" />
+    </view>
+    <block wx:for="{{us}}">
+      <view class="us" data-index="{{item.index}}" bindtap="jump">
+        <text class="label">{{item.label}}</text>
+        <text class="us-content">{{item.content === '' ? item.placeHolder : item.content}}</text>
+      </view>
+    </block>
+  </view>
+</view>

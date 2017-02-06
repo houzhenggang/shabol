@@ -1,5 +1,4 @@
 let app = getApp();
-
 const _exports = {
     analyticsDefaultData:{
         v:1,
