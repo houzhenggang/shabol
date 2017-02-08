@@ -45,4 +45,8 @@
             <button class="delete" type="warn" bindtap="close" bindtap="delete">删除</button>
         </block>
     </view>
+    <view class="toAddList" bindtap="toAdd" wx:if="{{uid}}"><image class="toAddIcon" src="../../images/add.png" />我也要使用微信小程序发货</view>
+    <!-- <view class="footer-btn">
+  		<button size="default" bindtap="toAdd" wx:if="{{uid}}">我也要使用微信小程序发货</button>
+  	</view> -->
 </page>

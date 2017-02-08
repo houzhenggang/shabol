@@ -1,7 +1,7 @@
 @import "../../components/loading/loading.wxss";
 @import "../../components/share/share.wxss";
 .header{
-    height:224rpx;
+    height:250rpx;
     overflow: hidden;
     text-align: center;
     background: #fff;
@@ -160,4 +160,32 @@
 }
 .favorite,.delete{
     margin-top: 30rpx;
+}
+.toAddList{
+  position: fixed;
+  bottom: 60rpx;
+  left: 50%;
+  width: 400rpx;
+  margin-left: -200rpx;
+  text-align: center;
+  font-size: 32rpx;
+  height: 100rpx;
+  line-height: 120rpx;
+  color: #999;
+}
+.toAddIcon{
+  position: absolute;
+  width: 60rpx;
+  height: 60rpx;
+  color: #000;
+  left: 50%;
+  top: -15rpx;
+  margin-left: -30rpx;
+}
+.footer-btn{
+  padding: 30rpx;
+}
+.footer-btn button{
+  background-color: #10AEFF;
+  color: #fff;
 }

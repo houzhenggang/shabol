@@ -9,6 +9,7 @@ Page({
     content:'',//填写名字
     info:'',   //详细介绍
     tel:'',   //电话
+    oldTel:'',//第一次电话号码
     btel:'',  // 备用电话
     codeNum:'',  //输入的验证码
     getCode:'',  //获取到的验证码
@@ -91,6 +92,9 @@ Page({
   telInput:function(e){   //电话输入
     var that = this;
     that.setDisab(e.detail.value.length)
+    if(that.data.tel === ''){
+      that.data.oldTel = e.detail.value
+    }
     that.data.tel = e.detail.value
   },
   btelInput:function(e){  //备用电话输入
@@ -114,14 +118,19 @@ Page({
       num:this.data.tel
     }
     if((/^1[3|4|5|7|8]\d{9}$/.test(this.data.tel))){
-      that.getRequest(CodeData,(res)=>{
-        that.setTime()  //倒计时
-      },(res)=>{
-        that.showTip(true,'获取验证码失败')
-      })
-    }else{
-      that.showTip(true,'手机号输入有误')
-    }
+      console.log(that.data.oldTel)
+      if(this.data.tel !== this.data.oldTel && this.data.oldTel !== ''){
+        that.getRequest(CodeData,(res)=>{
+          that.setTime()  //倒计时
+        },(res)=>{
+          that.showTip(true,'获取验证码失败')
+          })
+        }else{
+          that.showTip(true,'新旧手机号不能相同')
+        }
+      }else{
+        that.showTip(true,'手机号输入有误')
+      }
     setTimeout(() => {
       that.setData({
         showTopTips:false
@@ -204,7 +213,11 @@ Page({
       if(that.data.codeNum !== '' && that.data.codeNum.length === 4){
         that.getRequest(getCode,(res)=>{
           if(res.data.status === 1){
-            data['Tel']=that.data.tel
+            data['Tel']= that.data.tel
+            that.setData({
+              oldTel:that.data.tel
+            })
+            console.log(that.data.oldTel)
             that.setStorage(data)
             wx.navigateBack()
           }else{

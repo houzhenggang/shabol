@@ -1,6 +1,6 @@
 .user-info{
     position: relative;
-    padding:20rpx 30rpx 30rpx 180rpx;
+    padding:20rpx 40rpx 30rpx 180rpx;
     min-height:120rpx;
     box-sizing: border-box;
     background: #fff;

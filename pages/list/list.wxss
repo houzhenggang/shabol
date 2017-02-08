@@ -133,6 +133,9 @@
     color:#fff;
     border-radius:5px;
 }
+.condition .share{
+  letter-spacing: 0rpx;
+}
 .condition .share,.condition .republish{
     background:#09BB07;
     border-color:#09BB07;
@@ -152,4 +155,44 @@
     line-height: 60rpx;
     text-align: center;
     color:#999
+}
+@font-face {
+  font-family: 'iconfont';
+  src:url('//at.alicdn.com/t/font_coozwrvpkcnpcik9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_coozwrvpkcnpcik9.ttf') format('truetype');
+}
+.suggest::before{
+  content: '';
+  position: absolute;
+  left: 20rpx;
+  top: 52rpx;
+  width: 20rpx;
+  height: 20rpx;
+  background-color: currentColor;
+  border-bottom: solid 1px currentColor;
+  border-right: solid 1px currentColor;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.suggest{
+  position: fixed;
+  bottom:160rpx;
+  right:30rpx;
+  width: 80rpx;
+  height:60rpx;
+  color: #10AEFF;
+  margin-left: 2px;
+  margin-top: 4px;
+  border: solid 1px currentColor;
+  background-color: currentColor;
+  border-radius: 2px;
+}
+.suggest-text{
+  position: absolute;
+  text-align: center;
+  margin-left:10rpx;
+  width: 60rpx;
+  font-size: 24rpx;
+  line-height: 28rpx;
+  color: #fff
 }
