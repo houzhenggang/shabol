@@ -1,23 +1,32 @@
 <import src="../../components/loading/loading.wxml"/>
 <import src="../../components/share/share.wxml"/>
 <template is="loading" data="{{loading}}"/>
-<template is="share" data="{{shareHidden}}"/>
-<view class="share-list" wx:if="{{list.length}}">
-	<navigator wx:for="{{list}}" class="item" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
-		<view class="region start">
-			<text class="city">{{item.FromCityName}}</text>
-			<text class="province">{{item.FromProName}}</text>
-		</view>
-		<view class="category">{{item.truckLength}} {{item.ProductId}}</view>
-		<view class="region end">
-			<text class="city">{{item.ToCityName}}</text>
-            <text class="province">{{item.ToProName}}</text>
-		</view>
-	</navigator>
+<template is="share" data="{{shareHidden}}" wx:if="{{uid === mineUID}}"/>
+<view class="wrapper">
+	<view class="share-list" wx:if="{{list.length}}">
+		<navigator wx:for="{{list}}" class="item" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
+			<view class="region start">
+				<text class="city">{{item.FromCityName}}</text>
+				<text class="province">{{item.FromProName}}</text>
+			</view>
+			<view class="category">{{item.truckLength === '不限车长' ? '不限' : item.truckLength}} {{item.ProductId === '不限车型' ? '不限' : item.ProductId}}</view>
+			<view class="region end">
+				<text class="city">{{item.ToCityName}}</text>
+	            <text class="province">{{item.ToProName}}</text>
+			</view>
+		</navigator>
+	</view>
+	<view class="loading-more" wx:if="{{list.length && list.length > 19}}">{{loadingText}}</view>
+	<!-- <view class="footer">
+		<button size="default" bindtap="toAdd">我也要使用微信小程序发货</button>
+	</view> -->
+	<view class="toAddList" bindtap="toAdd" wx:if="{{uid !== mineUID}}"><image class="toAddIcon" src="../../images/add-selected.png" />我也要使用微信小程序发货</view>
 </view>
-<view class="loading-more" wx:if="{{list.length && list.length > 9}}">{{loadingText}}</view>
 
-<navigator class="to-add" url="../add/add" open-type="switchTab">发布</navigator>
+
+
+
+<!-- <navigator class="to-add" url="../add/add" open-type="switchTab"><text class="to-add-text">我也要发货</text></navigator> -->
 
 <view class="tab-bar">
 	<image class="avatar" src="{{avatar}}" />

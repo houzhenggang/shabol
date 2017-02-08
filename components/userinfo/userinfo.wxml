@@ -3,7 +3,7 @@
         <image src="{{userInfo.avatarUrl}}" class="avatar" />
         <text class="nickname">{{EditName !== '' ? EditName : userInfo.nickName}}</text>
         <view class="total">
-            {{EditInfo !== '' ? EditInfo : '十万信息部都在用，发货更方便，找车更简单!'}}
+            {{EditInfo !== '' ? EditInfo : '点击设置个人名片'}}
             <!--<view>找车更简单！</view>-->
             <!-- <text>{{total.view}}</text>个车主查看 -->
             <!-- <text>{{total.favorite}}</text>个车主收藏 -->

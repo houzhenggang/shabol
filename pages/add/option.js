@@ -208,6 +208,9 @@ Page({
         cityX:'100%',
         selectedProvince:{},
         selectedCity:'',
+        district:[],
+        selectDistrict:'',
+        selectCities:{}
     },
     type:'',
     onLoad:function(o){
@@ -266,6 +269,37 @@ Page({
               console.log(err);
             }
         })
+    },
+    getDistrict:function(e){
+      let target = e.target,
+          that = this;
+      wx.request({
+        url:app.ajaxurl,
+        data:{
+            c:'cargood',
+            m:'ajaxGetNewCity',
+            cityid:target.id,
+            ts:+new Date()
+        },
+        success:function(res){
+            res = res.data;
+            that.setData({
+                district:res.data,
+                selectCities:{
+                    id:target.id,
+                    name:target.dataset['name']
+                },
+                selectDistrict:''
+            });
+            that.data['cityVisible'] || that.setData({
+                cityVisible:'visible',
+                cityX:0
+            });
+        },
+        fail:function(err){
+          console.log(err);
+        }
+      })
     },
     hiddenCity:function(e){
         this.data['cityVisible'] && this.setData({

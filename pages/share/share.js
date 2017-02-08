@@ -4,6 +4,7 @@ Page({
 	data: {
   	list:[],
     uid:'',
+    mineUID:'',
     page:1,
 		loading:false,
 		shareHidden:true,
@@ -21,9 +22,9 @@ Page({
 	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
-            uid = this.uid,
-            nickname = this.data.nickname,
-            avatar = this.data.avatar;
+        uid = this.uid,
+        nickname = this.data.nickname,
+        avatar = this.data.avatar;
 		wx.request({
 			url:app.ajaxurl,
 			data:{
@@ -60,7 +61,7 @@ Page({
 			}
 		})
 	},
-    loadMore:function(){
+  loadMore:function(){
 		let that = this,
 			oldList = this.data['list'];
 		this.setData({
@@ -82,7 +83,7 @@ Page({
 					that.setData({
 						list:oldList.concat(res.list)
 					});
-                    if(res.list.length < 10){
+          if(res.list.length < 10){
 						that.setData({
 							isEnd:true,
 							loadingText:"没有更多了.."
@@ -98,31 +99,53 @@ Page({
 		})
 	},
   makePhoneCall:function(){
+    if(this.data.editPhoneNum !== ''){
+      wx.makePhoneCall({
+          phoneNumber:this.data.editPhoneNum
+      })
+    }else{
       wx.makePhoneCall({
           phoneNumber:this.data.tel
       })
+    }
   },
-  getEditInfo:function(){
+  getEditInfo:function(uid){//获取分享人的信息
     var that = this;
     wx.request({
       url:app.ajaxurl,
       data:{
         c:'cargood',
         m:'getuserdetailsinfo',
-        uid:app.uid,
+        uid:uid,
         nickName:this.data.nickname
       },
       success:function(res){
         that.setData({
-          editName:res.data.data.nickName,
           editInfo:res.data.data.info,
+          editName:res.data.data.nickName,
           editPhoneNum:res.data.data.tel
         })
       }
     })
   },
-	onLoad:function(options){
-    console.log(options)
+  onReady:function(){
+    this.setData({
+      mineUID:app.uid
+    })
+    if(!app.isShowShare && app.uid){
+      var that = this;
+      this.setData({
+        shareHidden:this.data['shareHidden'] ? false : true
+      });
+      setTimeout(function(){
+        that.setData({
+          shareHidden:true
+        });
+      },1500);
+    }
+    app.isShowShare = true
+  },
+	onLoad:function(options){//options为list界面跳转带来的参数
     var that = this;
     this.uid = options['uid'];
     util.analyticsDefaultData['cid'] = app.uid;
@@ -138,13 +161,19 @@ Page({
       avatar:options['avatar']
     });
     this.listRender(this.uid,this);
-    this.getEditInfo()
+    this.getEditInfo(this.uid)
+    this.onPullDownRefresh()
 	},
 	onPullDownRefresh:function(){
 		this.listRender(this.uid,this);
-        setTimeout(function(){
-            wx.stopPullDownRefresh();
-        },1e3);
+    this.setData({///刷新需要重置page为1
+			page:1,
+			isEnd:false,
+			loadingText:'加载中...'
+		})
+    setTimeout(function(){
+        wx.stopPullDownRefresh();
+    },1e3);
 	},
 	onShareAppMessage:function(){
 		return this.data['sharesContent']
@@ -152,5 +181,17 @@ Page({
 	onReachBottom:function(){
 		if(this.data['isEnd']) return;
 		this.loadMore();
-	}
+	},
+  toAdd:function(){
+    wx.switchTab({
+      url:'../add/add'
+    })
+    util.analytics({
+			t:'event',
+			ec:'我也要使用小程序发货',
+			ea:'分享出去页面',
+			el:'',
+			dp:'/share/share'
+		});
+  }
 })

@@ -4,7 +4,7 @@ Page({
     userInfo:'',
     us:[
         {label:'名字',content:'',index:0,placeHolder:''},
-        {label:'介绍',content:'',placeHolder:'点击设置介绍名片',index:1},
+        {label:'介绍',content:'',placeHolder:'十万信息部都在用，发货更方便，找车更简单！',index:1},
         {label:'手机号',content:'',placeHolder:'请绑定手机号',index:2},
         {label:'备用手机号',content:'',placeHolder:'请绑定备用手机号',index:3}
       ],

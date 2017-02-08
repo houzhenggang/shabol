@@ -23,12 +23,13 @@
 		<view class="condition">
 			<button type="default" class="close" bindtap="close" data-index="{{index}}" id="{{item.id}}">关闭</button>
 			<button class="edit" data-id="{{item.id}}" bindtap="edit">修改</button>
-			<button class="share" data-id="{{item.id}}" bindtap="share">转发</button>
+			<button class="share" data-id="{{item.id}}" bindtap="share">转发微信群</button>
 		</view>
 	</view>
 </view>
 <view class="empty-list" wx:else>
 	<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
-	<button class="empty-btn" bindtap="jumpToAdd">发布</button>
+	<button class="empty-btn" bindtap="jumpToAdd">发布货源</button>
 </view>
+<!-- <navigator class="suggest" url="../suggest/suggest" open-type="navigate"><text class="suggest-text">意见反馈</text></navigator> -->
 <view class="loading-more" wx:if="{{list.length && list.length > 4}}">{{loadingText}}</view>

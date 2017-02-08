@@ -198,5 +198,17 @@ Page({
     		});
             return this.data['sharesContent']
         }
-	}
+	},
+  toAdd:function(){
+    wx.switchTab({
+      url:'../add/add'
+    })
+    util.analytics({
+			t:'event',
+			ec:'我也要使用小程序发货',
+			ea:'分享出去页面',
+			el:'',
+			dp:'/share/share'
+		});
+  }
 })
