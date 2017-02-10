@@ -11,6 +11,13 @@ Page({
 	onLoad:function(){
 		let that = this;
 		app.uid = wx.getStorageSync('userid');
+		util.analytics({
+			t:'pageview',
+			dh:'wuliu.360che.com',
+			cd1:app.uid,
+			dt:'关闭页面',
+			dp:'/close/close'
+		});
 		if(!app.uid){
 			util.getUserInfo(this.listRender,this);
 		}else{

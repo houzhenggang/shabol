@@ -25,6 +25,13 @@ Page({
 				this.setData({
 					id:app._itemId
 				});
+				util.analytics({
+					t:'pageview',
+					dh:'wuliu.360che.com',
+					cd1:app.uid,
+					dt:'修改货源',
+					dp:'/add/add'
+				});
 				this.reEdit();
 			}else{
 				this.getContact();
@@ -37,6 +44,13 @@ Page({
 					end:"请选择目的地",
 					formit:0,
 					id:''
+				});
+				util.analytics({
+					t:'pageview',
+					dh:'wuliu.360che.com',
+					cd1:app.uid,
+					dt:'添加货源',
+					dp:'/add/add'
 				});
 			};
 		}
@@ -81,8 +95,8 @@ Page({
 						let selectedId = that.data['products'].indexOf(data.ProductId);
 						let currentIndex = that.data['truckLength'].indexOf(data.truckLength);
 						that.setData({
-							start:data.FromProName + ',' + data.FromCityName,
-							end:data.ToProName + ',' + data.ToCityName,
+							start:data.FromProName + ',' + data.FromCityName + ',' + data.FromAeraName,
+							end:data.ToProName + ',' + data.ToCityName + ',' + data.ToAeraName,
 							ProductId:selectedId,
 							selecedIndex:selectedId,
 							currentIndex:currentIndex,
@@ -102,22 +116,51 @@ Page({
 				}
 		})
 	},
-	regionSelectCallback:function(key,name,options){
+	regionSelectCallback:function(key,name,options){//获取选择地区
 		let that = this;
 		wx.getStorage({
 			key:key,
 			success:function(res){
 				let data = res.data;
 				that.setData({
-					[name]:data.province['name'] + ',' + data.city['name'],
-					[options]:data.province['id'] + ',' + data.city['id']
+					[name]:data.province['name'] + ',' + data.city['name'] + ',' + data.district['name'],
+					[options]:data.province['id'] + ',' + data.city['id'] + ',' + data.district['id']
 				});
 			}
 		})
 	},
+	getEditInfo:function(){//通过分享第一次进入的用户。
+    var that = this;
+		app.getUserInfo(function(userInfo){//获取用户信息
+			let nickname = userInfo.nickName;
+			wx.request({
+	      url:app.ajaxurl,
+	      data:{
+	        c:'cargood',
+	        m:'getuserdetailsinfo',
+	        uid:app.uid,
+	        nickName:nickname
+	      },
+	      success:function(res){
+					if(res.data.data.nickName === 'undefined'){//如果是返回undefined，那就更改名字为微信名字
+						wx.request({
+							url:app.ajaxurl,
+							data:{
+								c:'cargood',
+				        m:'updateusernickname',
+								uid:app.uid,
+								nickName:nickname
+							}
+						})
+					}
+	      }
+	    })
+		})
+  },
 	onLoad:function(){
 		if(this.loaded) return;
 		this.init();
+		this.getEditInfo()
 	},
 	onShow:function(){
 		if(this.loaded){
@@ -226,6 +269,13 @@ Page({
 			}else{									// 修改
 				submitData['id'] = pageData['id'];
 				this._submit(submitData,'修改成功')
+				util.analytics({
+					t:'event',
+					ec:'发布货源成功',
+					ea:pageData['id'],
+					el:pageData['start'] + '|' + pageData['end'],
+					dp:'/add/add'
+				});
 			}
 		}
 	}

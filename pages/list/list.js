@@ -170,7 +170,7 @@ Page({
 	},
 	getEditInfo:function(){
     var that = this;
-		app.getUserInfo(function(userInfo){//跳转到分享页面需要的参数
+		app.getUserInfo(function(userInfo){//获取用户信息
 			let nickname = userInfo.nickName;
 			wx.request({
 	      url:app.ajaxurl,
@@ -197,23 +197,33 @@ Page({
 		          editInfo:res.data.data.info,
 		          editPhoneNum:res.data.data.tel
 		        })
+
 						wx.setStorage({   //从服务器缓存
-							key:'editInfomation',
-							data:{
-								Name:res.data.data.nickName,
-								Info:res.data.data.info,
-								Tel:res.data.data.tel == 0 ? '' :res.data.data.tel,
-								Btel:res.data.data.viceTel == 0 ? '' : res.data.data.viceTel
-							}
-						})
+              key:'editInfomation',
+              data:{
+                Name:res.data.data.nickName,
+                Info:res.data.data.info,
+                Tel:res.data.data.tel == 0 ? '' :res.data.data.tel,
+                Btel:res.data.data.viceTel == 0 ? '' : res.data.data.viceTel
+              }
+            })
+						that.onPullDownRefresh()
 					}
 	      }
 	    })
 		})
   },
 	onLoad:function(options){
+		var that = this;
 		app.listFinished = true;
 		app.uid = wx.getStorageSync('userid');
+		util.analytics({
+			t:'pageview',
+			dh:'wuliu.360che.com',
+			cd1:app.uid,
+			dt:'货源列表',
+			dp:'/list/list'
+		});
 		if(!app.uid){
 			util.getUserInfo(this.listRender,this)
 		}else{
@@ -222,11 +232,19 @@ Page({
 		}
 		setTimeout(function(){
 			app.listFinished = false;
+			that.getEditInfo()
 		},1e3);
-		this.getEditInfo()
+
 	},
 	onShow:function(){
 		if(app.listFinished) return;
+		util.analytics({
+			t:'pageview',
+			dh:'wuliu.360che.com',
+			cd1:app.uid,
+			dt:'货源列表',
+			dp:'/list/list'
+		});
 		if(app.submited || app.republished){
 			this.setData({
 				loading:false
@@ -259,8 +277,8 @@ Page({
 		util.analytics({
 			t:'event',
 			ec:'分享成功',
-			ea:'货源列表页',
-			el:'',
+			ea:'分享货源列表页',
+			el:app.uid,
 			dp:'/list/list'
 		});
 		return this.data['sharesContent']

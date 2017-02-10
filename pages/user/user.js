@@ -1,4 +1,5 @@
-var app = getApp();
+var app = getApp(),
+    util = require('../../util/util.js');
 Page({
     data:{
         userInfo:{},
@@ -7,7 +8,8 @@ Page({
             favorite:0
         },
         EditName:'',
-        EditInfo:''
+        EditInfo:'',
+        UnNewName:''
     },
     onLoad:function(){
       var that = this;
@@ -17,6 +19,13 @@ Page({
             userInfo:userInfo,
           })
         })
+        util.analytics({
+    			t:'pageview',
+    			dh:'wuliu.360che.com',
+    			cd1:app.uid,
+    			dt:'我的页面',
+    			dp:'/user/user'
+    		});
         wx.request({  //请求服务器上得info
           url:app.ajaxurl,
           data:{
@@ -26,10 +35,27 @@ Page({
             nickName:this.data.userInfo.nickName
           },
           success:function(res){
-            that.setData({
-              EditName:res.data.data.nickName,
-              EditInfo:res.data.data.info,
-          })
+            if(res.data.data.nickName === 'undefined'){//如果是返回undefined，那就更改名字为微信名字
+  						wx.request({
+  							url:app.ajaxurl,
+  							data:{
+  								c:'cargood',
+  				        m:'updateusernickname',
+  								uid:app.uid,
+  								nickName:that.data.userInfo.nickName
+  							},
+                success:function(){
+                  that.setData({
+                    UnNewName:res.data.data.nickName
+                  })
+                }
+  						})
+  					}
+						that.setData({
+		          EditName:res.data.data.nickName === 'undefined' ? that.data.UnNewName : res.data.data.nickName,
+		          EditInfo:res.data.data.info
+		        })
+
             wx.setStorage({   //从服务器缓存
               key:'editInfomation',
               data:{
@@ -56,5 +82,12 @@ Page({
       wx.navigateTo({
         url:'../editMine/index'
       })
+      util.analytics({
+  			t:'event',
+  			ec:'进入个人信息页',
+  			ea:'我的页面',
+  			el:'',
+  			dp:'/user/user'
+  		});
     }
 })

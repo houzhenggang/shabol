@@ -5,22 +5,34 @@
 <view class="wrapper">
 	<view class="share-list" wx:if="{{list.length}}">
 		<navigator wx:for="{{list}}" class="item" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
-			<view class="region start">
+			<view class="region" wx:if="{{item.FromCityName.length < 4}}">
 				<text class="city">{{item.FromCityName}}</text>
-				<text class="province">{{item.FromProName}}</text>
+	      <text class="province">{{item.FromAeraName}}</text>
+			</view>
+			<view class="region start" wx:else>
+				{{item.FromCityName}}.{{item.FromAeraName}}
 			</view>
 			<view class="category">{{item.truckLength === '不限车长' ? '不限' : item.truckLength}} {{item.ProductId === '不限车型' ? '不限' : item.ProductId}}</view>
-			<view class="region end">
+
+			<view class="region" wx:if="{{item.FromCityName.length < 4}}">
 				<text class="city">{{item.ToCityName}}</text>
-	            <text class="province">{{item.ToProName}}</text>
+	      <text class="province">{{item.ToAeraName}}</text>
 			</view>
+			<view class="region end" wx:else>
+				{{item.ToCityName}}.{{item.ToAeraName}}
+			</view>
+			<!-- <view class="region end">
+				<text class="city">{{item.ToCityName}}</text>
+	      <text class="province">{{item.ToProName}}</text>
+			</view> -->
 		</navigator>
 	</view>
 	<view class="loading-more" wx:if="{{list.length && list.length > 19}}">{{loadingText}}</view>
 	<!-- <view class="footer">
 		<button size="default" bindtap="toAdd">我也要使用微信小程序发货</button>
 	</view> -->
-	<view class="toAddList" bindtap="toAdd" wx:if="{{uid !== mineUID}}"><image class="toAddIcon" src="../../images/add-selected.png" />我也要使用微信小程序发货</view>
+	<view class="toAddList" bindtap="toAdd" wx:if="{{uid !== mineUID && list.length > 6}}"><image class="toAddIcon" src="../../images/add-selected.png" />我也要使用微信小程序发货</view>
+	<view class="toAddListLast" bindtap="toAdd" wx:if="{{uid !== mineUID && list.length <= 6}}"><image class="toAddIcon" src="../../images/add-selected.png" />我也要使用微信小程序发货</view>
 </view>
 
 

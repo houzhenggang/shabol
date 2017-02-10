@@ -1,4 +1,5 @@
-let app = getApp()
+let app = getApp(),
+    util = require('../../util/util.js');
 Page({
   data: {
     userInfo:'',
@@ -20,6 +21,13 @@ Page({
           'us[0].placeHolder':userInfo.nickName,
         })
       })
+      util.analytics({
+  			t:'pageview',
+  			dh:'wuliu.360che.com',
+  			cd1:app.uid,
+  			dt:'个人信息',
+  			dp:'/editMine/index'
+  		});
       wx.request({  //请求服务器上得info
         url:app.ajaxurl,
         data:{

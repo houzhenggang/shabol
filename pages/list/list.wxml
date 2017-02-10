@@ -8,7 +8,7 @@
 			<view class="place">
 				<view class="start">
 					<text class="city">{{item.FromCityName}}</text>
-					<text class="province">{{item.FromProName}}</text>
+					<text class="province">{{item.FromAeraName}}</text>
 				</view>
 				<view class="distance">
 					<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
@@ -16,7 +16,7 @@
 				</view>
 				<view class="end">
 					<text class="city">{{item.ToCityName}}</text>
-	                <text class="province">{{item.ToProName}}</text>
+	                <text class="province">{{item.ToAeraName}}</text>
 				</view>
 			</view>
 		</navigator>

@@ -2,3 +2,7 @@
 .condition .republish{
     margin-left:30rpx;
 }
+.condition .remove-C{
+  background: #F76260;
+  color: #fff
+}

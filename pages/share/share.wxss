@@ -10,7 +10,13 @@
     background: #fff;
 }
 .region{
-    flex:1
+    flex:1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+.start,.end{
+  font-size: 36rpx;
 }
 .city,.province{
   display: inline-block;
@@ -20,7 +26,7 @@
 }
 .city{
     font-size: 36rpx;
-    width:136rpx;
+    width:110rpx;
 }
 .province{
     margin-left: 10rpx;
@@ -167,6 +173,18 @@
   line-height: 120rpx;
   color: #09BB07;
   /*padding-bottom: 90rpx;*/
+}
+.toAddListLast{
+  position: absolute;
+  width: 400rpx;
+  top: 50%;
+  left: 50%;
+  margin-left: -200rpx;
+  text-align: center;
+  font-size: 32rpx;
+  height: 100rpx;
+  line-height: 120rpx;
+  color: #09BB07;
 }
 .toAddIcon{
   position: absolute;

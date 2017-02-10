@@ -1,4 +1,5 @@
-var app = getApp();
+var app = getApp(),
+    util = require('../../util/util.js');
 Page({
     data:{
         toCaption:'A',
@@ -205,7 +206,9 @@ Page({
         ],
         cities:[],
         cityVisible:'',
+        districtVis:'',
         cityX:'100%',
+        districtX:'100%',
         selectedProvince:{},
         selectedCity:'',
         district:[],
@@ -215,6 +218,13 @@ Page({
     type:'',
     onLoad:function(o){
         this.type = o.name
+        util.analytics({
+          t:'pageview',
+          dh:'wuliu.360che.com',
+          cd1:app.uid,
+          dt:'选择地区页面',
+          dp:'/option/option'
+        });
     },
     toSectionPosition:function(e){
         let target = e.target;
@@ -270,7 +280,7 @@ Page({
             }
         })
     },
-    getDistrict:function(e){
+    getDistrict:function(e){//获取地区
       let target = e.target,
           that = this;
       wx.request({
@@ -291,9 +301,9 @@ Page({
                 },
                 selectDistrict:''
             });
-            that.data['cityVisible'] || that.setData({
-                cityVisible:'visible',
-                cityX:0
+            that.data['districtVis'] || that.setData({
+                districtVis:'visible',
+                districtX:0
             });
         },
         fail:function(err){
@@ -304,8 +314,16 @@ Page({
     hiddenCity:function(e){
         this.data['cityVisible'] && this.setData({
             cityVisible:'',
-            cityX:'100%'
+            districtVis:'',
+            cityX:'100%',
+            districtX:'100%'
         });
+    },
+    hiddenDistrict:function(){
+      this.data['cityVisible'] && this.setData({
+          districtVis:'',
+          districtX:'100%'
+      });
     },
     goBack:function(e){
         let target = e.target;
@@ -319,7 +337,8 @@ Page({
             key:this.type,
             data:{
                 province:this.data['selectedProvince'],
-                city:this.data['selectedCity']
+                city:this.data['selectCities'],
+                district:this.data['selectedCity']
             }
         });
         wx.navigateBack();

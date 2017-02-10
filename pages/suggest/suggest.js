@@ -1,8 +1,18 @@
-var app = getApp();
+var app = getApp(),
+    util = require('../../util/util.js');
 Page({
   data:{
     info:'',
 
+  },
+  onLoad:function(){
+    util.analytics({
+      t:'pageview',
+      dh:'wuliu.360che.com',
+      cd1:app.uid,
+      dt:'反馈建议',
+      dp:'/suggest/suggest'
+    });
   },
   InputInfo:function(e){
     this.setData({

@@ -99,7 +99,7 @@ Page({
 		})
 	},
   makePhoneCall:function(){
-    if(this.data.editPhoneNum !== ''){
+    if(this.data.editPhoneNum !== '' && this.data.editPhoneNum !== '0'){
       wx.makePhoneCall({
           phoneNumber:this.data.editPhoneNum
       })
@@ -125,6 +125,7 @@ Page({
           editName:res.data.data.nickName,
           editPhoneNum:res.data.data.tel
         })
+        that.onPullDownRefresh()
       }
     })
   },
@@ -150,6 +151,13 @@ Page({
     this.uid = options['uid'];
     util.analyticsDefaultData['cid'] = app.uid;
     app.uid = wx.getStorageSync('userid');
+    util.analytics({
+      t:'pageview',
+      dh:'wuliu.360che.com',
+      cd1:app.uid,
+      dt:'分享页面',
+      dp:'/share/share'
+    });
     if(!app.uid){
 	    util.getUserInfo();
 		}else{
@@ -177,6 +185,13 @@ Page({
 	},
 	onShareAppMessage:function(){
 		return this.data['sharesContent']
+    util.analytics({
+			t:'event',
+			ec:'分享成功',
+			ea:'分享货源列表转发页',
+			el:app.uid,
+			dp:'/share/share'
+		});
 	},
 	onReachBottom:function(){
 		if(this.data['isEnd']) return;

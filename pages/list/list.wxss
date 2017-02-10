@@ -77,6 +77,9 @@
 .place .province{
     font-size: 28rpx;
     color: #666;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
 }
 .place .distance{
     display:block;
@@ -133,6 +136,12 @@
     color:#fff;
     border-radius:5px;
 }
+.condition .edit:after{
+  border: 2rpx solid #10AEFF
+}
+.condition .close:after{
+  border: 2rpx solid #F76260
+}
 .condition .share{
   letter-spacing: 0rpx;
 }
@@ -142,11 +151,13 @@
 }
 .condition .edit{
     margin: 0 20rpx;
-    background:#10AEFF;
+    background: #fff;
+    color:#10AEFF;
     border-color:#10AEFF;
 }
 .condition .close,.condition .remove{
-    background:#F76260;
+    background: #fff;
+    color:#F76260;
     border-color:#F76260;
 }
 .loading-more{

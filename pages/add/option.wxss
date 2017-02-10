@@ -63,3 +63,15 @@
     border-left:1rpx solid #eee;
     box-sizing: border-box;
 }
+.district{
+  position:fixed;
+  left:50%;
+  top: 0;
+  width:75%;
+  height:100%;
+  background: #fff;
+  transition: transform .2s ease-out;
+  z-index: 2;
+  border-left:1rpx solid #eee;
+  box-sizing: border-box;
+}

@@ -4,11 +4,11 @@
 	<view class="section">
 		<view class="item">
 			<view class="caption">出发地</view>
-			<view class="select" data-option="{{startOptions}}" data-name="fromid" bindtap="selectRegion">{{start}}</view>
+			<view class="select"><view class="startText" data-option="{{startOptions}}" data-name="fromid" bindtap="selectRegion">{{start}}</view></view>
 		</view>
 		<view class="item">
 			<view class="caption">目的地</view>
-			<view class="select" data-option="{{endOptions}}" data-name="toid" bindtap="selectRegion">{{end}}</view>
+			<view class="select"><view class="endText" data-option="{{endOptions}}" data-name="toid" bindtap="selectRegion">{{end}}</view></view>
 		</view>
 		<view class="item">
 			<view class="caption">车辆类型</view>

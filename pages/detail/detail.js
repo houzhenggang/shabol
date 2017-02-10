@@ -158,10 +158,24 @@ Page({
           },
           success:function(res){
               res = res.data;
+              var FromCityName = res.data.FromCityName,
+              FromProName = res.data.FromProName,
+              ProductId = res.data.ProductId,
+              truckLength = res.data.truckLength,
+              ToCityName = res.data.ToCityName,
+              ToProName = res.data.ToProName,
+              ToAeraName = res.data.ToAeraName;
               that.setData({
                   loading:true
               });
               that.setData(res.data);
+              util.analytics({
+          			t:'pageview',
+          			dh:'wuliu.360che.com',
+          			cd1:app.uid,
+          			dt:'货源详情' + '|' + FromProName + '|' + FromCityName + '|' + ProductId + '|' + truckLength + '到' + '|' + ToProName + '|' + ToCityName + '|' + ToAeraName,
+          			dp:'/detail/detail'
+          		});
           }
       });
       this.setData({
@@ -192,7 +206,7 @@ Page({
             util.analytics({
     			t:'event',
     			ec:'分享成功',
-    			ea:'货源详情页',
+    			ea:'分享货源详情页',
     			el:this.data['id'],
     			dp:'/detail/detail'
     		});
