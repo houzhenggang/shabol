@@ -136,6 +136,13 @@ Page({
 			}
 		})
 	},
+  replaceType:function(list){//更改类型
+    if(list.truckLength.indexOf('不限') >= 0 && list.ProductId.indexOf('不限') >= 0){
+      list.truckLength = '';
+      list.ProductId = '不限'
+    }
+    return list
+  },
     onLoad:function(options){
       var value = wx.getStorageSync('editInfomation')//获取缓存
       this.setData({
@@ -168,7 +175,7 @@ Page({
               that.setData({
                   loading:true
               });
-              that.setData(res.data);
+              that.setData(that.replaceType(res.data));
               util.analytics({
           			t:'pageview',
           			dh:'wuliu.360che.com',

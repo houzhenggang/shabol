@@ -127,7 +127,6 @@
 }
 .condition button{
     padding:0 14px;
-    letter-spacing: 10rpx;
     font-size:26rpx;
     height:60rpx;
     line-height:60rpx;
@@ -136,29 +135,28 @@
     color:#fff;
     border-radius:5px;
 }
+.condition .edit,.condition .close{
+  letter-spacing: 10rpx;
+  text-indent: 10rpx;
+}
 .condition .edit:after{
-  border: 2rpx solid #10AEFF
+  border-color:#10AEFF
 }
 .condition .close:after{
-  border: 2rpx solid #F76260
-}
-.condition .share{
-  letter-spacing: 0rpx;
+  border-color:#F76260
 }
 .condition .share,.condition .republish{
     background:#09BB07;
     border-color:#09BB07;
 }
 .condition .edit{
-    margin: 0 20rpx;
+    margin: 0 10rpx;
     background: #fff;
     color:#10AEFF;
-    border-color:#10AEFF;
 }
 .condition .close,.condition .remove{
     background: #fff;
     color:#F76260;
-    border-color:#F76260;
 }
 .loading-more{
     padding-bottom: 50rpx;

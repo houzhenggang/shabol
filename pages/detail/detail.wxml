@@ -7,7 +7,7 @@
         <view class="distance">
             <view class="start">
                 <text class="city">{{FromCityName}}</text>
-                <text class="district">{{FromAeraName}}</text>
+                <text class="district">{{FromAeraName == '0' ? '' : FromAeraName}}</text>
                 <text class="province">{{FromProName}}</text>
             </view>
             <view class="mileage">
@@ -16,7 +16,7 @@
             </view>
             <view class="end">
                 <text class="city">{{ToCityName}}</text>
-                <text class="district">{{ToAeraName}}</text>
+                <text class="district">{{ToAeraName == '0' ? '' : ToAeraName}}</text>
                 <text class="province">{{ToProName}}</text>
             </view>
         </view>

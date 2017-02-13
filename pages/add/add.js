@@ -95,8 +95,8 @@ Page({
 						let selectedId = that.data['products'].indexOf(data.ProductId);
 						let currentIndex = that.data['truckLength'].indexOf(data.truckLength);
 						that.setData({
-							start:data.FromProName + ',' + data.FromCityName + ',' + data.FromAeraName,
-							end:data.ToProName + ',' + data.ToCityName + ',' + data.ToAeraName,
+							start:data.FromProName + ',' + data.FromCityName + ',' + (data.FromAeraName == '0' ? '' : data.FromAeraName),
+							end:data.ToProName + ',' + data.ToCityName + ',' + (data.ToAeraName == '0' ? '' : data.ToAeraName),
 							ProductId:selectedId,
 							selecedIndex:selectedId,
 							currentIndex:currentIndex,

@@ -13,6 +13,15 @@ Page({
 		editInfo:'',
 		editPhoneNum:''
 	},
+	replaceWithType:function(list){
+			list.forEach(function(item){
+				if(item.truckLength.indexOf('不限') >= 0 && item.ProductId.indexOf('不限') >= 0){
+						item.truckLength = '';
+						item.ProductId = '不限';
+				}
+			});
+			return list;
+	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
 			uid = options[0];
@@ -30,7 +39,7 @@ Page({
 				res = res.data['data'];
 				if(res.status){
 					me.setData({
-						list:res.list
+						list:me.replaceWithType(res.list)
 					});
 					if(res.list.length < 10){			// 如当前数据<10条，不再进行加载
 						me.setData({

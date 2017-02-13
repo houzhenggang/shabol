@@ -20,6 +20,7 @@
 	</block>
 </scroll-view>
 <scroll-view scroll-y="true" class="district list" style="transform:translate({{districtX}},0)">
+	<view data-id="" data-name="" bindtap="goBack">全部</view>
 	<block wx:for="{{district}}">
 		<view id="{{item.id}}" data-name="{{item.name}}" bindtap="goBack">{{item.name}}</view>
 	</block>
