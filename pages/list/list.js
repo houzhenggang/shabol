@@ -11,7 +11,8 @@ Page({
 		loadingText:"加载中...",
 		editName:'',
 		editInfo:'',
-		editPhoneNum:''
+		editPhoneNum:'',
+		uid:''
 	},
 	replaceWithType:function(list){
 			list.forEach(function(item){
@@ -25,6 +26,9 @@ Page({
 	listRender:function(...options){		// 列表渲染
 		let me = this,
 			uid = options[0];
+		this.setData({
+			uid:uid
+		})
 		wx.request({
 			url:app.ajaxurl,
 			data:{
@@ -37,7 +41,7 @@ Page({
 			},
 			success:function(res){
 				res = res.data['data'];
-				if(res.status){
+				if(res.status == 1){
 					me.setData({
 						list:me.replaceWithType(res.list)
 					});
@@ -51,6 +55,7 @@ Page({
 	          let nickname = userInfo.nickName;
 	          me.setData({
 							nickname:nickname,
+							avatar:userInfo.avatarUrl,
 					  	sharesContent:{
 								title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息',
 								desc:me.data.editInfo !== '' ? me.data.editInfo : '十万信息部都在用，发货更方便，找车更简单！',
@@ -58,6 +63,10 @@ Page({
 							}
 	          })
 	        })
+				}else{  //最后一个的时候status为0，把数组为空
+					me.setData({
+						list:[]
+					})
 				}
 				me.setData({
             loading:true
@@ -105,7 +114,7 @@ Page({
 				}
 				that.setData({
 					list:newListData
-				});
+				})
 				util.analytics({
 					t:'event',
 					ec:'点击关闭按钮',
@@ -114,12 +123,12 @@ Page({
 					dp:'/list/list'
 				})
 			}
-		});
+		})
 		wx.showToast({
 			title:'已关闭',
 			icon:'success',
 			duration:1e3
-		});
+		})
 		setTimeout(function(){
 			wx.hideToast();
 		},1e3)

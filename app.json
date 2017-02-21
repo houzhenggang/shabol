@@ -9,7 +9,8 @@
 		"pages/share/share",
 		"pages/editInfo/index",
 		"pages/editMine/index",
-		"pages/suggest/suggest"
+		"pages/usePage/usePage",
+		"pages/qrCode/qrCode"
 	 ],
 	"window": {
 	    "navigationBarTitleText": "小宝物流",

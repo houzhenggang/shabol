@@ -1,0 +1,12 @@
+<view class="usePage">
+  <text class="use-text">掌握极速配发货使用技巧，快速发货转发微信群，立马找到车，恭喜发财！</text>
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-first.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-second.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-third.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-forth.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-fifth.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-sixth.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-seventh.png" mode="widthFix" />
+  <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-eight.png" mode="widthFix" />
+  <view class="use-text use-textSecond">我还是不会发货，联系客服：<text class="phone" bindtap="telToUs">18911900055</text></view>
+</view>

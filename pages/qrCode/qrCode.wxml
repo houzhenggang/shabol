@@ -1,0 +1,6 @@
+<view class="qrCode">
+  <text class="codeText">方法1、点击下方图片》》长按保存二维码图片 》》打开微信扫一扫 》》点击右上角相册 》》选择二维码识别加入群聊</text>
+  <text class="codeText">方法2、使用其他手机扫描二维码加入群聊</text>
+  <image class="codeImage" src="https://s.kcimg.cn/m/images/usePage/code1.png" bindtap="previewImage" mode="widthFix" />
+  <image class="codeImage" src="https://s.kcimg.cn/m/images/usePage/code2.png" bindtap="previewImage" mode="widthFix" />
+</view>

@@ -3,7 +3,7 @@ let app = getApp(),
 
 Page({
 	data: {
-	  	list:[],
+	  list:[],
 		loading:false,
 		page:1,
 		loadingText:"加载中..."

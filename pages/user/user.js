@@ -89,5 +89,10 @@ Page({
   			el:'',
   			dp:'/user/user'
   		});
+    },
+    telToUs:function(){
+      wx.makePhoneCall({
+          phoneNumber:'18911900055'
+      })
     }
 })

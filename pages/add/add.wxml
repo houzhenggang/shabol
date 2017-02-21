@@ -1,48 +1,78 @@
 <import src="../../components/loading/loading.wxml"/>
 <template is="loading" data="{{loading}}"/>
-<form bindsubmit="formSubmit" bindreset="formReset">
-	<view class="section">
-		<view class="item">
-			<view class="caption">出发地</view>
-			<view class="select"><view class="startText" data-option="{{startOptions}}" data-name="fromid" bindtap="selectRegion">{{start}}</view></view>
+<view class="wrapper">
+	<form bindsubmit="formSubmit" bindreset="formReset">
+		<view class="section">
+			<view class="item">
+				<view class="caption">联系人</view>
+				<input type="text" bindblur="setStorageName" name="username" placeholder="请输入联系人" value="{{Uname}}" maxlength="8" />
+			</view>
+			<view class="item">
+				<view class="caption">联系电话</view>
+				<input type="digit" bindblur="setStorageTel" name="tel" placeholder="请输入联系电话" value="{{Tel}}" maxlength="11" />
+			</view>
 		</view>
-		<view class="item">
-			<view class="caption">目的地</view>
-			<view class="select"><view class="endText" data-option="{{endOptions}}" data-name="toid" bindtap="selectRegion">{{end}}</view></view>
-		</view>
-		<view class="item">
-			<view class="caption">车辆类型</view>
-			<picker bindchange="productChangeHandle" name="productid" value="{{ProductId}}" class="select" range="{{products}}">
-				<view class="picker">
-					{{products[selecedIndex]}}
+		<view class="section section-second">
+			<view class="item">
+				<view class="caption">出发地</view>
+				<view class="select"><view class="startText" data-option="{{startOptions}}" data-name="fromid" bindtap="selectRegion">{{start}}</view></view>
+			</view>
+			<view class="item">
+				<view class="caption">目的地</view>
+				<view class="select"><view class="endText" data-option="{{endOptions}}" data-name="toid" bindtap="selectRegion">{{end}}</view></view>
+			</view>
+			<!-- 选择地区 -->
+			<view class="backSelectCity" bindtap="backToAdd" wx:if="{{isShow}}"></view>
+			<view class="selectTheCity" wx:if="{{isShow}}">
+				<view class="selectNow">当前地区:<text class="theSelectedText"> {{theSelect}}</text></view>
+				<view wx:if="{{showData == 1}}">
+					<view class="content">
+						<view class="selectCity" wx:for="{{proData}}" id="{{item.provinceid}}" data-index="{{index}}" bindtap="getCity">{{item.province}}</view>
+					</view>
 				</view>
-			</picker>
-		</view>
-		<view class="item">
-			<view class="caption">选择车长</view>
-			<picker bindchange="truckLengChangeHandle" name="truckLength" value="{{currentIndex}}" class="select" range="{{truckLength}}">
-				<view class="picker">
-					{{truckLength[currentIndex]}}
+				<view wx:elif="{{showData == 2}}">
+					<view class="backFront" bindtap="backToFront">返回上一级</view>
+					<view class="content">
+						<view class="selectCity" wx:for="{{cityData}}"  data-index="{{index}}" id="{{item.id}}" bindtap="getDistrict" >{{item.name}}</view>
+					</view>
 				</view>
-			</picker>
+				<view wx:else>
+					<view class="backFront" bindtap="backToSecond">返回上一级</view>
+					<view class="content">
+						<view class="selectCity all" bindtap="chooseAll" id="">全部</view>
+						<view class="selectCity" wx:for="{{distData}}" id="{{item.id}}" data-index="{{index}}" bindtap="selectAll">{{item.name}}</view>
+					</view>
+				</view>
+			</view>
+			<view class="item">
+				<view class="caption">车辆信息</view>
+				<view class="select">
+					<view class="selectCars" bindtap="selectCar">{{carType}}</view>
+				</view>
+			</view>
+			<!-- 选择车辆类型 -->
+			<view class="backSelectCity" bindtap="backToSelectCar" wx:if="{{isShowSelectCar}}"></view>
+			<view class="selectTheCar" wx:if="{{isShowSelectCar}}">
+				<view class="backFront backCarSelect" bindtap="trueSelectCarType">确定</view>
+				<view class="content">
+					<view class="content-car">
+						<view class="content-selectedCars">
+							<view class="selectNow">当前选择车长:<text class="theSelectedText"> {{theSelectTruckLength}}</text></view>
+							<view class="selectCar {{index == activeCarIndex ? 'selectedCar' : ''}}" wx:for="{{truckLength}}"  data-index="{{index}}" bindtap="selectTruckLength">{{item}}</view>
+						</view>
+					</view>
+					<view class="content-car">
+						<view class="content-selectedCars">
+							<view class="selectNow">当前选择车型:<text class="theSelectedText"> {{theSelectProducts}}</text></view>
+							<view class="selectCar {{index == activeCarTypeIndex ? 'selectedCar' : ''}}" wx:for="{{products}}"  data-index="{{index}}" bindtap="selectProducts">{{item}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
-	</view>
-	<view class="section">
-		<view class="item">
-			<view class="caption">联系人</view>
-			<input type="text" bindblur="setStorageName" name="username" placeholder="请输入联系人" value="{{Uname}}" maxlength="8" />
+		<view class="section" wx:if="{{isShowTextArea}}">
+			<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦！" value="{{addMsg}}{{msg}}" auto-height />
 		</view>
-		<view class="item">
-			<view class="caption">联系电话</view>
-			<input type="digit" bindblur="setStorageTel" name="tel" placeholder="请输入联系电话" value="{{Tel}}" maxlength="11" />
-		</view>
-		<view class="item">
-			<view class="caption">备用电话</view>
-			<input type="digit" bindblur="setStorageBtel" name="btel" placeholder="请输入备用电话" value="{{Btel == 0 ? '' : Btel}}" maxlength="11" />
-		</view>
-	</view>
-	<view class="section">
-		<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦！" value="{{addMsg}}{{msg}}" auto-height />
-	</view>
-	<button type="primary" size="default" class="submit" form-type="submit">{{formit == 0 ? '发布' : '再次发布'}}</button>
-</form>
+		<button type="primary" size="default" class="submit" form-type="submit">{{formit == 0 ? '发布' : '再次发布'}}</button>
+	</form>
+</view>

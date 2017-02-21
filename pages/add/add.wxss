@@ -1,8 +1,14 @@
 @import "../../components/loading/loading.wxss";
+.wrapper{
+  overflow: hidden;
+}
 .section{
     margin-top:20rpx;
     padding-left:30rpx;
     background:#fff;
+}
+.section-second{
+  margin-top:40rpx;
 }
 .section .item{
     position:relative;
@@ -60,3 +66,76 @@ input{
     font-size:32rpx;
     letter-spacing: 10rpx;
 }
+
+
+/*选择地区*/
+.selectTheCity,.selectTheCar{
+  position: fixed;
+  top: 200rpx;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 300
+}
+.backSelectCity{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 250
+}
+.selectNow{
+  font-size: 26rpx;
+  padding-top: 20rpx;
+  padding-left: 10rpx;
+  padding-bottom: 20rpx;
+}
+.backFront{
+  position: fixed;
+  color: #508BFF;
+  font-size:36rpx;
+  right: 0;
+  top: 200rpx;
+  margin-top: 20rpx;
+  margin-right: 30rpx;
+}
+.backCarSelect{
+  margin-top: 40rpx;
+}
+.content{
+  height: 100%;
+  padding: 20rpx;
+}
+.theSelectedText{
+  color: #0066c0;
+  font-size: 36rpx;
+}
+.content-car{
+  display: flex;
+}
+.content-selectedCars{
+  flex: row
+}
+.selectCity,.selectCar{
+  float:left;
+  width:171rpx;
+  border:1rpx solid #eee;
+  height:80rpx;
+  text-align:center;
+  line-height:80rpx;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+}
+.selectedCar{
+  background:#0066c0;
+  color: #fff;
+}
+.all{
+  background: #eee
+}
+
+/*车辆信息*/

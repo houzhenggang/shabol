@@ -177,6 +177,12 @@
 .favorite,.delete{
     margin-top: 30rpx;
 }
+.moreList{
+  margin-top: 30rpx;
+}
+.footer .moreList{
+  background-color: #10AEFF
+}
 .toAddList{
   position: fixed;
   bottom: 60rpx;
@@ -185,9 +191,9 @@
   margin-left: -200rpx;
   text-align: center;
   font-size: 32rpx;
-  height: 100rpx;
-  line-height: 120rpx;
+  line-height: 64rpx;
   color: #999;
+  border: 2rpx dashed #999
 }
 .toAddIcon{
   position: absolute;
@@ -204,4 +210,14 @@
 .footer-btn button{
   background-color: #10AEFF;
   color: #fff;
+}
+.tels{
+  color: #0066c0
+}
+.share-listTip{
+  text-align: center;
+  font-size: 42rpx;
+  margin-top: 80rpx;
+  line-height: 42rpx;
+  color: #000;
 }

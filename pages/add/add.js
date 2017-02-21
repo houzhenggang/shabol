@@ -1,16 +1,19 @@
 let app = getApp(),
-	util = require('../../util/util.js');
+	util = require('../../util/util.js'),
+	UT = require('../../util/request.js')
 Page({
 	data:{
 		loading:false,
 		products:["平板车","栏板车","高栏车","厢式车","冷藏车","槽罐车","骨架车","大件运输","自卸车","不限车型"],
-		selecedIndex:2,
+		// products:["高栏车","厢式车","冷藏车","保温车","平板车","危险品","自卸车","大件运输"]
+		// selecedIndex:2,
+		// truckLength:["18米以上","17.5米","17米","16.5米","16米","15米","14.6米","13.5米","13米","12.5米","9.6米","8.6米","7.6米","7.2米","6.8米","6.2米","5.2米","4.2米","3.8米"],
 		truckLength:["不限车长","4.2米","6.8米","9.6米","13米","15米","17.5米"],
-		currentIndex:4,
+		// currentIndex:4,
 		start:"请选择出发地",
 		end:"请选择目的地",
 		msinfo:'',
-		ProductId:2,
+		// ProductId:2,
 		addMsg:'',
 		msg:'',
 		Uname:'',
@@ -18,6 +21,12 @@ Page({
 		Btel:'',
 		id:'',
 		formit:0,
+		carType:'选择车辆信息',
+		theSelectTruckLength:'',  //选择车长
+		theSelectProducts:'',     //选择车型
+		isShowTextArea:true,     //是否显示textarea
+		activeCarIndex:'-1',     //点击选择车长的状态
+		activeCarTypeIndex:'-1'   //车型状态
 	},
 	init:function(){
 		if(!app.regionStatus){
@@ -78,7 +87,7 @@ Page({
 			}
 		})
 	},
-	reEdit:function(){
+	reEdit:function(){    //点击修改
 		let that = this;
 		wx.request({
 				url:app.ajaxurl,
@@ -92,14 +101,16 @@ Page({
 					let o = res.data;
 					if(o.info == 'ok'){
 						let data = o.data;
-						let selectedId = that.data['products'].indexOf(data.ProductId);
-						let currentIndex = that.data['truckLength'].indexOf(data.truckLength);
+						let activeCarTypeIndex = that.data['products'].indexOf(data.ProductId);//车型
+						let activeCarIndex = that.data['truckLength'].indexOf(data.truckLength);//车长
 						that.setData({
 							start:data.FromProName + ',' + data.FromCityName + ',' + (data.FromAeraName == '0' ? '' : data.FromAeraName),
 							end:data.ToProName + ',' + data.ToCityName + ',' + (data.ToAeraName == '0' ? '' : data.ToAeraName),
-							ProductId:selectedId,
-							selecedIndex:selectedId,
-							currentIndex:currentIndex,
+							carType:data.truckLength + ',' + data.ProductId,
+							theSelectTruckLength:data.truckLength,
+							theSelectProducts:data.ProductId,
+							activeCarTypeIndex:activeCarTypeIndex,
+							activeCarIndex:activeCarIndex,
 							msg:data.msInfo,
 							Uname:data.Uname,
 							Tel:data.Tel,
@@ -122,10 +133,10 @@ Page({
 			key:key,
 			success:function(res){
 				let data = res.data;
-				that.setData({
-					[name]:data.province['name'] + ',' + data.city['name'] + ',' + data.district['name'],
-					[options]:data.province['id'] + ',' + data.city['id'] + ',' + data.district['id']
-				});
+					that.setData({
+						[name]:data.province['name'] + ',' + data.city['name'] + ',' + (data.district['name'] == '全部' ? '' : data.district['name']),
+						[options]:data.province['id'] + ',' + data.city['id'] + ',' + (data.district['id'] == '' ? '' : data.district['id'])
+					})
 			}
 		})
 	},
@@ -161,6 +172,11 @@ Page({
 		if(this.loaded) return;
 		this.init();
 		this.getEditInfo()
+		// wx.getLocation({
+		// 	success:function(res){
+		// 		console.log(res)
+		// 	}
+		// })
 	},
 	onShow:function(){
 		if(this.loaded){
@@ -169,22 +185,270 @@ Page({
 			this.loaded = true;
 		}
 	},
-	productChangeHandle:function(o){
-		this.setData({
-			selecedIndex:o['detail'].value
-		});
+	getRequest:function(o,suc,err){ //进行请求上传
+    wx.request({
+      url:app.ajaxurl,
+      data:o,
+      success:function(res){
+        UT.isFunction(suc) && suc( res.data )
+      },
+      fail:function(res){
+        UT.isFunction(err) && err(res.data)
+      }
+    })
+  },
+	getProvince:function(){//进行省份请求
+		var that = this
+		var proData = {
+			c:'cargood',
+			m:'procity',
+			ts:+new Date()
+		}
+		that.getRequest(proData,(res)=>{
+			var p = [];
+			for(var i = 0;i<res.data.length;i++){
+				p.push(res.data[i])
+			}
+			that.setData({
+				proData:p,
+				theSelect:'全国'
+			})
+		})
 	},
-	truckLengChangeHandle:function(o){
-		this.setData({
-			currentIndex:o['detail'].value
-		});
+	getCity:function(e){//获取城市
+		var index = e.target.dataset.index;
+		var that = this;
+		var cityData = {
+			c:'cargood',
+			m:'ajaxGetNewCity',
+			proid:e.target.id,
+			ts:+new Date()
+		}
+		var selectPro = that.data.proData[index].province;
+		that.getRequest(cityData,(res)=>{
+			var c = [];
+			for(var i = 0;i<res.data.length;i++){
+				c.push(res.data[i])
+			}
+			that.setData({
+				cityData:c,
+				showData:2,
+				selectedProvince:{
+					id:e.target.id,
+					name:selectPro
+				},
+				selectPro:selectPro,
+				theSelect:selectPro
+			})
+		})
 	},
-	selectRegion:function(e){
+	getDistrict:function(e){//获取区县
+		var index = e.target.dataset.index;
+		var that = this;
+		var disData = {
+			c:'cargood',
+			m:'ajaxGetNewCity',
+			cityid:e.target.id,
+			ts:+new Date()
+		}
+		var selectCity = that.data.cityData[index].name;
+		that.getRequest(disData,(res)=>{
+			var d = [];
+			for(var i = 0;i<res.data.length;i++){
+				d.push(res.data[i])
+			}
+			that.setData({
+				distData:d,
+				showData:3,
+				selectCities:{
+					id:e.target.id,
+					name:selectCity
+				},
+				selectCity:selectCity,
+				theSelect:selectCity
+			})
+		})
+	},
+	backToAdd:function(){//返回到add界面
+		this.setData({
+			isShow:false,
+			isShowTextArea:true
+		})
+	},
+	backToFront:function(){//返回到省级
+		this.setData({
+			showData:1,
+			theSelect:'全国'
+		})
+	},
+	backToSecond:function(){//返回到市级
+		this.setData({
+			showData:2,
+			theSelect:this.data.selectPro
+		})
+	},
+	selectAll:function(e){//选择其他的区县
+		var index = e.target.dataset.index;
+		var that = this;
+		var selectDist = that.data.distData[index].name;
+		if(app.selectPro){
+			that.setData({
+				isShow:false,
+				isShowTextArea:true,
+				selectedCity:{
+						id:e.target.id,
+						name:selectDist
+				},
+				start:that.data.selectPro + ',' + that.data.selectCity + ',' + selectDist
+			})
+			wx.setStorage({
+					key:'fromid',
+					data:{
+							province:this.data['selectedProvince'],
+							city:this.data['selectCities'],
+							district:this.data['selectedCity']
+					}
+			});
+		}else{
+			that.setData({
+				isShow:false,
+				isShowTextArea:true,
+				selectedCity:{
+						id:e.target.id,
+						name:selectDist
+				},
+				end:that.data.selectPro + ',' + that.data.selectCity + ',' + selectDist
+			})
+			wx.setStorage({
+					key:'toid',
+					data:{
+							province:this.data['selectedProvince'],
+							city:this.data['selectCities'],
+							district:this.data['selectedCity']
+					}
+			});
+		}
+	},
+	chooseAll:function(e){//选择全部的时候
+		var that = this;
+		var selectDist = '全部'
+		if(app.selectPro){
+			that.setData({
+				isShow:false,
+				isShowTextArea:true,
+				selectedCity:{
+						id:e.target.id,
+						name:selectDist
+				},
+				start:that.data.selectPro + ',' + that.data.selectCity + ',' + (selectDist == '全部' ? '' : selectDist)
+			})
+			wx.setStorage({
+					key:'fromid',
+					data:{
+							province:this.data['selectedProvince'],
+							city:this.data['selectCities'],
+							district:this.data['selectedCity']
+					}
+			})
+		}else{
+			that.setData({
+				isShow:false,
+				isShowTextArea:true,
+				selectedCity:{
+						id:e.target.id,
+						name:selectDist
+				},
+				end:that.data.selectPro + ',' + that.data.selectCity + ',' + (selectDist == '全部' ? '' : selectDist)
+			})
+			wx.setStorage({
+					key:'toid',
+					data:{
+							province:this.data['selectedProvince'],
+							city:this.data['selectCities'],
+							district:this.data['selectedCity']
+					}
+			})
+		}
+	},
+	selectCar:function(){//选择车辆信息
+		this.setData({
+			isShowSelectCar:true,
+			isShowTextArea:false
+		})
+	},
+	backToSelectCar:function(){ //返回add
+		this.setData({
+			isShowSelectCar:false,
+			isShowTextArea:true
+		})
+	},
+	selectTruckLength:function(e){//选择车长
+		var index = e.target.dataset.index;
+		var that = this;
+		var selectTruckLength = that.data.truckLength[index]
+		that.setData({
+			activeCarIndex:index,
+			selectTruckLengthId:index,
+			theSelectTruckLength:selectTruckLength
+		})
+	},
+	selectProducts:function(e){//选择车型
+		var index = e.target.dataset.index;
+		var that = this;
+		var selectProducts = that.data.products[index]
+		that.setData({
+			activeCarTypeIndex:index,
+			selectProductsId:index,
+			theSelectProducts:selectProducts
+		})
+
+	},
+	trueSelectCarType:function(){//确认选择
+		var data = this.data;
+		if(data.theSelectTruckLength == ''){
+			wx.showModal({
+				title:'错误信息',
+				content:'请选择车长',
+				showCancel:false
+			})
+		}else if(data.theSelectProducts == ''){
+			wx.showModal({
+				title:'错误信息',
+				content:'请选择车型',
+				showCancel:false
+			})
+		}else{
+			this.setData({
+				isShowSelectCar:false,
+				isShowTextArea:true,
+				carType:data.theSelectTruckLength + ',' + data.theSelectProducts
+			})
+		}
+	},
+	// productChangeHandle:function(o){
+	// 	this.setData({
+	// 		selecedIndex:o['detail'].value
+	// 	});
+	// },
+	// truckLengChangeHandle:function(o){
+	// 	this.setData({
+	// 		currentIndex:o['detail'].value
+	// 	});
+	// },
+	selectRegion:function(e){//点击选择城市
 		let name = e.target.dataset['name'];
 		app.regionStatus = true;
-		wx.navigateTo({
-			url:'option?name=' + name
-		});
+		this.getProvince()
+		this.setData({
+			isShow:true,
+			isShowTextArea:false,
+			showData:1
+		})
+		if(name == 'fromid'){
+			app.selectPro = true
+		}else{
+			app.selectPro = false
+		}
 	},
 	bindTextAreaBlur:function(e){
 		this.setData({
@@ -228,7 +492,7 @@ Page({
 						ec:'发布货源成功',
 						ea:that.data['id'] ? that.data['id'] : res.data['id'],
 						el:o['fromplace'] + '|' + o['toplace']
-					});
+					})
 				}
 			}
 		})
@@ -247,6 +511,8 @@ Page({
 			this.errorInfo('请输入正确的联系电话')
 		}else if(formData['btel'] && formData['btel'] == formData['tel']){
 			this.errorInfo('备用电话不能与联系电话相同')
+		}else if(pageData.carType == '选择车辆信息'){
+			this.errorInfo('请选择车辆信息')
 		}else{
 			let submitData = {
 				c:'cargood',
@@ -257,11 +523,13 @@ Page({
 				btel:formData['btel'],
 				fromid:pageData['startOptions'],
 				toid:pageData['endOptions'],
-				productid:parseInt(formData['productid']) + 1,
+				// productid:parseInt(formData['productid']) + 1,
+				productid:pageData.selectProductsId + 1,
 				msinfo:pageData['msinfo'],
 				fromplace:pageData['start'],
 				toplace:pageData['end'],
-				truckLength:formData['truckLength'],
+				// truckLength:formData['truckLength'],
+				truckLength:pageData.selectTruckLengthId,
 				ts:+new Date()
 			};
 			if(!pageData['id']){		// 发布

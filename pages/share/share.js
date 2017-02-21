@@ -43,7 +43,7 @@ Page({
             list:listData,
             tel:listData[0].Tel,
   					sharesContent:{
-              title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息',
+              title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息  ' + '电话:' +((me.data.editPhoneNum !== '' && me.data.editPhoneNum !== '0') ? me.data.editPhoneNum : me.data.tel),
 							desc:me.data.editInfo !== '' ? me.data.editInfo : '十万信息部都在用，发货更方便，找车更简单！',
   						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar=' + avatar
   					}
@@ -190,7 +190,7 @@ Page({
 			ec:'分享成功',
 			ea:'分享货源列表转发页',
 			el:app.uid,
-			dp:'/share/share'
+			dp:'/share/share?uid=' + app.uid
 		});
 	},
 	onReachBottom:function(){
@@ -204,9 +204,19 @@ Page({
     util.analytics({
 			t:'event',
 			ec:'我也要使用小程序发货',
-			ea:'分享出去页面',
+			ea:'分享出去页面跳转add页面',
 			el:'',
 			dp:'/share/share'
 		});
+  },
+  toQRCode:function(){
+    wx.navigateTo({
+      url:'../qrCode/qrCode'
+    })
+  },
+  telToUs:function(){
+    wx.makePhoneCall({
+        phoneNumber:'18911900055'
+    })
   }
 })
