@@ -192,8 +192,8 @@
   text-align: center;
   font-size: 32rpx;
   line-height: 64rpx;
-  color: #999;
-  border: 2rpx dashed #999
+  color: #09bb07;
+  border: 2rpx dashed #09bb07
 }
 .toAddIcon{
   position: absolute;

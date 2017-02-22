@@ -99,7 +99,7 @@ Page({
   					wx.hideToast();
             wx.navigateBack({
               delta: 1
-            });
+            })
   				},1e3)
         }else{
           wx.showModal({
@@ -160,7 +160,6 @@ Page({
           nickname    = options['nickname'],
           close       = options['close'],
           avatar      = options['avatar'];//需要通过点击跳转的时候传递参数
-      console.log(uid)
       wx.request({
           url:app.ajaxurl,
           data:{
@@ -179,7 +178,8 @@ Page({
               ToProName = res.data.ToProName,
               ToAeraName = res.data.ToAeraName;
               that.setData({
-                  loading:true
+                  loading:true,
+                  list:res.data
               });
               that.setData(that.replaceType(res.data));
               util.analytics({
@@ -216,20 +216,13 @@ Page({
     },
     onShareAppMessage:function(){
       if(!this.data['close']){
-          // util.analytics({
-      		// 	t:'event',
-      		// 	ec:'分享成功',
-      		// 	ea:'分享货源详情页',
-      		// 	el:this.data['id'],
-      		// 	dp:'/detail/detail?id=' + this.data['id'] + '&uid=' + (uid ? uid : app.uid)
-      		// })
         util.analytics({
-          t:'event',
-          ec:'分享成功',
-          ea:'分享货源详情页',
-          el:this.data['id'],
-          dp:'/detail/detail'
-        })
+    			t:'event',
+    			ec:'分享成功',
+    			ea:'分享货源详情页',
+    			el:this.data['id'],
+    			dp:'/detail/detail?id=' + this.data['id'] + '&uid=' + (this.data.uid ? this.data.uid : app.uid)
+    		})
         return this.data['sharesContent']
       }
 	},

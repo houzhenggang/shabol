@@ -27,7 +27,7 @@ Page({
   			cd1:app.uid,
   			dt:'个人信息',
   			dp:'/editMine/index'
-  		});
+  		})
       wx.request({  //请求服务器上得info
         url:app.ajaxurl,
         data:{

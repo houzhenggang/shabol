@@ -17,7 +17,7 @@ Page({
 			cd1:app.uid,
 			dt:'关闭页面',
 			dp:'/close/close'
-		});
+		})
 		if(!app.uid){
 			util.getUserInfo(this.listRender,this);
 		}else{

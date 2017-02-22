@@ -241,7 +241,7 @@ Page({
 			cd1:app.uid,
 			dt:'货源列表',
 			dp:'/list/list'
-		});
+		})
 		if(!app.uid){
 			util.getUserInfo(this.listRender,this)
 		}else{
@@ -262,7 +262,7 @@ Page({
 			cd1:app.uid,
 			dt:'货源列表',
 			dp:'/list/list'
-		});
+		})
 		if(app.submited || app.republished){
 			this.setData({
 				loading:false

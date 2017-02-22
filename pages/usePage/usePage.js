@@ -2,7 +2,14 @@
 Page({
   data:{},
   onLoad:function(options){
-    // 页面初始化 options为页面跳转所带来的参数
+    app.uid = wx.getStorageSync('userid');
+		util.analytics({
+			t:'pageview',
+			dh:'wuliu.360che.com',
+			cd1:app.uid,
+			dt:'使用教程',
+			dp:'/usePage/usePage'
+		})
   },
   telToUs:function(){
     wx.makePhoneCall({

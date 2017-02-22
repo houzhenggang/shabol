@@ -48,5 +48,8 @@
             <button class="delete" type="warn" bindtap="close" bindtap="delete">删除</button>
         </block>
     </view>
-    <view class="toAddList" bindtap="toAdd" wx:if="{{uid}}">我也要使用微信小程序发货</view>
+  <!-- <view wx:elif="{{!uid && !list}}">
+		<view class="share-listTip">来晚咯，货已被订走了！</view>
+	</view> -->
+  <view class="toAddList" bindtap="toAdd" wx:if="{{uid}}">我也要使用微信小程序发货</view>
 </page>
