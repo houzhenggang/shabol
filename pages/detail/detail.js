@@ -207,7 +207,7 @@ Page({
       }else{
         this.setData({
           sharesContent:{
-            title:(this.data.editName !== '' ? this.data.editName : nickname) + '的货源详情  ' + '电话:' + this.data.editPhoneNum,
+            title:(this.data.editName !== '' ? this.data.editName : nickname) + '的货源详情  ' + '电话:' + ((this.data.editPhoneNum !== '' && this.data.editPhoneNum !== '0') ? this.data.editPhoneNum : this.data.Tel),
             desc:this.data.editInfo !== '' ? this.data.editInfo : '十万信息部都在用，发货更方便，找车更简单！',
             path:'/pages/detail/detail?id=' + id + '&uid=' + (uid ? uid : app.uid) + '&nickname='+ nickname + '&avatar=' + avatar
           }

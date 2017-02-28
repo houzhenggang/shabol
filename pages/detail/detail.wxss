@@ -184,8 +184,7 @@
   background-color: #10AEFF
 }
 .toAddList{
-  position: fixed;
-  bottom: 60rpx;
+  position: absolute;
   left: 50%;
   width: 400rpx;
   margin-left: -200rpx;
@@ -193,7 +192,8 @@
   font-size: 32rpx;
   line-height: 64rpx;
   color: #09bb07;
-  border: 2rpx dashed #09bb07
+  border: 2rpx dashed #09bb07;
+  margin-bottom: 60rpx;
 }
 .toAddIcon{
   position: absolute;

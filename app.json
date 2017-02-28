@@ -2,7 +2,6 @@
 	"pages": [
 		"pages/list/list",
 		"pages/add/add",
-		"pages/add/option",
 		"pages/user/user",
 		"pages/close/close",
 		"pages/detail/detail",
