@@ -4,15 +4,12 @@ let app = getApp(),
 Page({
 	data:{
 		loading:false,
-		products:["平板车","栏板车","高栏车","厢式车","冷藏车","槽罐车","骨架车","大件运输","自卸车","不限车型"],
-		// products:["高栏车","厢式车","冷藏车","保温车","平板车","危险品","自卸车","大件运输"]
-		// selecedIndex:2,
-		// truckLength:["18米以上","17.5米","17米","16.5米","16米","15米","14.6米","13.5米","13米","12.5米","9.6米","8.6米","7.6米","7.2米","6.8米","6.2米","5.2米","4.2米","3.8米"],
-		truckLength:["不限车长","4.2米","6.8米","9.6米","13米","15米","17.5米"],
-		// currentIndex:4,
+		products:[],//车型
+		truckLength:[],//车长
+		infomations:['普货','重货','泡货','设备','配件','百货','建材','饮料','化工','水果','蔬菜','木材','煤炭','石材','其他'],
+		pays:['货到现金结算','货到打卡结算','货到凭回单结算','发车预付其余回单'],
 		start:"请选择出发地",
 		end:"请选择目的地",
-		// ProductId:2,
 		msg:'',
 		Uname:'',
 		Tel:'',
@@ -25,6 +22,9 @@ Page({
 		isShowTextArea:false,     //是否显示textarea
 		activeCarIndex:'-1',     //点击选择车长的状态
 		activeCarTypeIndex:'-1',   //车型状态
+		activeInfomationIndex:'-1',  //选择货物类型
+		activePayIndex:'-1',     //选择付款方式
+		selfContent:[],       //添加自定义
 	},
 	init:function(){
 		if(!app.regionStatus){
@@ -44,9 +44,9 @@ Page({
 				this.getContact();
 				this.setData({
 					loading:true,
-					// selecedIndex:2,
-					// ProductId:2,
 					msg:'',
+					theSelectInfomation:'',
+					theSelectPay:'',
 					start:"请选择出发地",
 					end:"请选择目的地",
 					formit:0,
@@ -65,6 +65,13 @@ Page({
 		this.regionSelectCallback('fromid','start','startOptions');
 		this.regionSelectCallback('toid','end','endOptions');
 		var that = this;
+		//获取车型车长缓存
+		var value = wx.getStorageSync('chooseCars');
+		var valueLength = wx.getStorageSync('chooseCarsLength');
+		that.setData({
+			products:value,
+			truckLength:valueLength,
+		})
 		wx.getStorage({
 			key:'carType',
 			success:function(res){
@@ -111,7 +118,8 @@ Page({
 					c:'cargood',
 					m:'GetDetailsInfo',
 					id:app._itemId,
-					ts:+new Date()
+					ts:+new Date(),
+					version:1
 				},
 				success:function(res){
 					that.setData({
@@ -130,6 +138,8 @@ Page({
 							theSelectProducts:data.ProductId,
 							activeCarTypeIndex:activeCarTypeIndex,
 							activeCarIndex:activeCarIndex,
+							theSelectPay:'',
+							theSelectInfomation:'',
 							msg:data.msInfo,
 							Uname:data.Uname,
 							Tel:data.Tel,
@@ -190,6 +200,7 @@ Page({
 		if(this.loaded) return;
 		this.init();
 		this.getEditInfo()
+		this.getProvince()
 	},
 	onShow:function(){
 		if(this.loaded){
@@ -211,109 +222,49 @@ Page({
     })
   },
 	getProvince:function(){//进行省份请求
-		// http://jbj.56api.360che.com/?c=cargood&m=proallcity
 		var that = this
-		var proData = {
-			c:'cargood',
-			m:'procity',
-			ts:+new Date()
-		}
-		var p = {
-			c:'cargood',
-			m:'proallcity',
-			ts:+new Date()
-		}
-		that.getRequest(proData,(res)=>{
-			var p = [];
-			for(var i = 0;i<res.data.length;i++){
-				p.push(res.data[i])
-			}
-			that.setData({
-				proData:p,
-				theSelect:'全国'
-			})
+		var value = wx.getStorageSync('chooseCity')
+		that.setData({
+			proData:value.data,
+			theSelect:'全国'
 		})
 	},
 	getCity:function(e){//获取城市
-		var index = e.target.dataset.index;
 		var that = this;
-		var cityData = {
-			c:'cargood',
-			m:'ajaxGetNewCity',
-			proid:e.target.id,
-			ts:+new Date()
-		}
-		var selectPro = that.data.proData[index].province;
-		var selectProId = that.data.proData[index].provinceid;
-		that.getRequest(cityData,(res)=>{
-			var c = [];
-			for(var i = 0;i<res.data.length;i++){
-				c.push(res.data[i])
-			}
-			that.setData({
-				cityData:c,
-				showData:2,
-				selectedProvince:{
-					id:e.target.id,
-					name:selectPro
-				},
-				selectPro:selectPro,
-				theSelect:selectPro,
-				selectProId:selectProId
-			})
+		var index = e.target.dataset.index;
+		var p = this.data.proData,
+				c = [];
+		c.push(p[index].cityList)
+		var selectPro = p[index].province_name;
+		var selectProId = p[index].province_id;
+		that.setData({
+			showData:2,
+			cityData:c[0],
+			selectedProvince:{
+				id:selectProId,
+				name:selectPro
+			},
+			selectPro:selectPro,
+			theSelect:selectPro,
+			selectProId:selectProId
 		})
-		// var that = this;
-		// var index = e.target.dataset.index;
-		// var p = this.data.proData,
-		// 		c = [];
-		// c.push(p[index].cityList)
-		// that.setData({
-		// 	showData:2,
-		// 	cityData:c[0]
-		// })
 	},
 	getDistrict:function(e){//获取区县
 		var index = e.target.dataset.index;
 		var that = this;
-		var disData = {
-			c:'cargood',
-			m:'ajaxGetNewCity',
-			cityid:e.target.id,
-			ts:+new Date()
-		}
 		var selectCity = that.data.cityData[index].name;
-		var selectCityId = that.data.cityData[index].id;
-		that.getRequest(disData,(res)=>{
-			if(!res || res.data == null){//不存在第三级
-				that.setData({
-					distData:[],
-					showData:3,
-					selectCities:{
-						id:e.target.id,
-						name:selectCity
-					},
-					selectCity:selectCity,
-					theSelect:selectCity,
-					selectCityId:selectCityId
-				})
-			}else{
-				var d = [];
-				for(var i = 0;i<res.data.length;i++){
-					d.push(res.data[i])
-				}
-				that.setData({
-					distData:d,
-					showData:3,
-					selectCities:{
-						id:e.target.id,
-						name:selectCity
-					},
-					selectCity:selectCity,
-					theSelect:selectCity,
-					selectCityId:selectCityId
-				})
-			}
-
+		var selectCityId = index;
+		var distData = that.data.cityData[index].list;
+		that.setData({
+			distData:distData,
+			showData:3,
+			selectCities:{
+				id:index,
+				name:selectCity
+			},
+			selectCity:selectCity,
+			theSelect:selectCity,
+			selectCityId:selectCityId
 		})
 	},
 	backToAdd:function(){//返回到add界面
@@ -337,14 +288,14 @@ Page({
 	selectAll:function(e){//选择其他的区县
 		var index = e.target.dataset.index;
 		var that = this;
-		var selectDist = that.data.distData[index].name;
-		var selectDistId = that.data.distData[index].id;
+		var selectDist = that.data.distData[index];
+		var selectDistId = index;
 		if(app.selectPro){
 			that.setData({
 				isShow:false,
 				isShowTextArea:false,
 				selectedCity:{
-						id:e.target.id,
+						id:index,
 						name:selectDist
 				},
 				start:that.data.selectPro + ',' + that.data.selectCity + ',' + selectDist,
@@ -357,13 +308,13 @@ Page({
 							city:this.data['selectCities'],
 							district:this.data['selectedCity']
 					}
-			});
+			})
 		}else{
 			that.setData({
 				isShow:false,
 				isShowTextArea:false,
 				selectedCity:{
-						id:e.target.id,
+						id:index,
 						name:selectDist
 				},
 				end:that.data.selectPro + ',' + that.data.selectCity + ',' + selectDist,
@@ -381,6 +332,7 @@ Page({
 	},
 	chooseAll:function(e){//选择全部的时候
 		var that = this;
+		var index = e.target.id;
 		var selectDist = '全部'
 		if(app.selectPro){
 			that.setData({
@@ -453,22 +405,13 @@ Page({
 			selectProductsId:index,
 			theSelectProducts:selectProducts
 		})
-
 	},
 	trueSelectCarType:function(){//确认选择
 		var data = this.data;
 		if(data.theSelectTruckLength == ''){
-			wx.showModal({
-				title:'错误信息',
-				content:'请选择车长',
-				showCancel:false
-			})
+			this.errorInfo('请选择车长')
 		}else if(data.theSelectProducts == ''){
-			wx.showModal({
-				title:'错误信息',
-				content:'请选择车型',
-				showCancel:false
-			})
+			this.errorInfo('请选择车型')
 		}else{
 			this.setData({
 				isShowSelectCar:false,
@@ -500,8 +443,9 @@ Page({
 		}
 	},
 	inputValue:function(e){
+		var msgInput = e.detail.value;
 		this.setData({
-			msg:e.detail.value
+			msgInput:msgInput
 		})
 	},
 	errorInfo:function(v){
@@ -509,6 +453,118 @@ Page({
 			title: '错误提示',
 			content:v,
 			showCancel: false
+		})
+	},
+	backToSelectInfo:function(){//返回选择常用信息
+		this.setData({
+			isShowSelectInfo:false,
+			theSelectInfomation:'',
+			theSelectPay:'',
+		})
+	},
+	selectInfo:function(){//选择常用信息
+		var value = wx.getStorageSync('infomations')
+		if (value) {
+			this.setData({
+				infomations:value,
+			})
+		}
+		this.setData({
+			isShowSelectInfo:true,
+			theSelectInfomation:'',
+			theSelectPay:'',
+			activeInfomationIndex:'-1',
+			activePayIndex:'-1'
+		})
+	},
+	selectInfomations:function(e){  //选择货物信息
+		var index = e.target.dataset.index;
+		var that = this;
+		var theSelectInfomation = that.data.infomations[index];
+		this.setData({
+			theSelectInfomation:theSelectInfomation,
+			activeInfomationIndex:index,
+		})
+	},
+	selectPay:function(e){  //选择付款方式
+		var index = e.target.dataset.index;
+		var that = this;
+		var theSelectPay = that.data.pays[index];
+		this.setData({
+			theSelectPay:theSelectPay,
+			activePayIndex:index,
+		})
+	},
+	selectInfoAndPay:function(){ //确定选择
+		var data = this.data;
+		this.setData({
+			theSelectInfomation:data.theSelectInfomation != '' ? data.theSelectInfomation : '',
+			theSelectPay:data.theSelectPay != '' ? data.theSelectPay : '',
+			msgInput:'',
+			isShowSelectInfo:false
+		})
+
+	},
+	byMyself:function(){//自定义文字
+		var value = wx.getStorageSync('selfContent')
+		if (value) {
+			this.setData({
+				selfContent:value
+			})
+		}
+		this.setData({
+			isShowSelectInfo:false,
+			isShowSelf:true,
+		})
+	},
+	selfClose:function(){//关闭弹层，返回
+		var data = this.data;
+		var d = ['普货','重货','泡货','设备','配件','百货','建材','饮料','化工','水果','蔬菜','木材','煤炭','石材','其他'];
+		var e = [];
+		e = data.selfContent;
+		d = e.concat(d)
+		this.setData({
+			isShowSelf:false,
+			isShowSelectInfo:true,
+			infomations:d,
+			activePayIndex:'-1',
+			activeInfomationIndex:'-1',
+			theSelectInfomation:'',
+		})
+		wx.setStorage({
+			key:'infomations',
+			data:data.infomations
+		})
+		wx.setStorage({
+			key:'selfContent',
+			data:e
+		})
+	},
+	selfInput:function(e){//input输入自定义
+		var selfInput = e.detail.value;
+		this.setData({
+			selfInput:selfInput,
+		})
+	},
+	selfAdd:function(){//添加自定义文字
+		var c = [];
+		var data = this.data;
+		c = c.concat(data.selfInput)
+		if(data.selfContent.length < 5){
+			this.setData({
+				selfContent:data.selfContent.concat(c),
+				selfInput:'',
+			})
+		}else{
+			this.errorInfo('自定义数量不能超过5个')
+		}
+	},
+	removeItems:function(e){
+		var index = e.target.dataset.index;
+		var c = this.data.selfContent;
+		c.splice(index,1)
+		this.setData({
+			selfContent:c
 		})
 	},
 	_submit:function(o,title){
@@ -572,12 +628,10 @@ Page({
 				btel:formData['btel'],
 				fromid:pageData['startOptions'],
 				toid:pageData['endOptions'],
-				// productid:parseInt(formData['productid']) + 1,
 				productid:pageData.activeCarTypeIndex + 1,
-				msinfo:pageData['msg'],
+				msinfo:pageData['msgInput'] == '' ? (pageData['theSelectInfomation'] + ',' + pageData['theSelectPay']) : pageData['msgInput'],
 				fromplace:pageData['start'],
 				toplace:pageData['end'],
-				// truckLength:formData['truckLength'],
 				truckLength:pageData.activeCarIndex,
 				ts:+new Date()
 			};

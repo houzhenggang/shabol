@@ -166,7 +166,8 @@ Page({
               c:'cargood',
               m:'GetDetailsInfo',
               id:id,
-              ts:+new Date()
+              ts:+new Date(),
+              version:1
           },
           success:function(res){
               res = res.data;

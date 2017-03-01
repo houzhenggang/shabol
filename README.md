@@ -13,6 +13,9 @@
 * [获取区/县](#getDistrict)
 * [添加关注](#follow)
 * [获取关注状态](#followStatus)
+* [获取车型接口](#products)
+* [获取车长接口](#truckLength)
+* [获取全部城市接口](#allCity)
 
 ## <a name="overview"> &sect; 概述</a>
 接口主要是针对wx.request发起的 HTTPS 请求，请求的content-type 默认为 'application/json';微信客户端的TLS版本为1.2，我们之前也遇到过一部分锤子等Android 机型还未支持 TLS 1.2，所以数据接口的开发人员要确保服务器的TLS版本能够向下兼容，请求的默认最大时长为60s，最大并发数为5个。
@@ -453,5 +456,135 @@ c=cargood&m=followStatus&fuid=o9WMY0XmtYJ7ssOQ71i5eh4xfCtw&tuid=o9WMY0XmtYJ7ssOQ
         data:{
             status:1          //  关注状态，0:未关注 1:已关注
         }
+    }
+```
+## <a name="products"> &sect; 获取车型接口</a>
+
+请求说明
+
+```
+GET /products HTTP/2.0
+Host:https://56-api.kcimg.cn
+
+*获取车型接口*
+
+```
+
+参数说明
+
+参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
+---|---|---|---|---
+c | string | 1 | cargood | 默认参数
+m | string | 1 | getproduct | 默认参数
+ts | string | 1 | ts | 默认参数
+version | string | 1 | version | 默认参数
+
+请求实例
+
+```
+c=cargood&m=getproduct&ts=1231231231&version=1
+
+
+```
+
+返回结果
+
+```
+    {
+        info:"ok",              // 接口状态，非异常为ok，异常为error
+        data:[
+          {
+            id:"1"
+            model_name:"高栏车"
+          }
+        ]
+    }
+```
+## <a name="truckLength"> &sect; 获取车长接口</a>
+
+请求说明
+
+```
+GET /products HTTP/2.0
+Host:https://56-api.kcimg.cn
+
+*获取车长接口*
+
+```
+
+参数说明
+
+参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
+---|---|---|---|---
+c | string | 1 | cargood | 默认参数
+m | string | 1 | getcarlength | 默认参数
+ts | string | 1 | ts | 默认参数
+version | string | 1 | version | 默认参数
+
+请求实例
+
+```
+c=cargood&m=getcarlength&ts=1231231231&version=1
+
+
+```
+
+返回结果
+
+```
+    {
+        info:"ok",              // 接口状态，非异常为ok，异常为error
+        data:[
+          "18","17.5"
+        ]
+    }
+```
+## <a name="allCity"> &sect; 获取全部城市接口</a>
+
+请求说明
+
+```
+GET /products HTTP/2.0
+Host:https://56-api.kcimg.cn
+
+*获取全部城市接口*
+
+```
+
+参数说明
+
+参数名称 | 参数类型 | 是否必选 | 取值范围 | 备注
+---|---|---|---|---
+c | string | 1 | cargood | 默认参数
+m | string | 1 | proallcity | 默认参数
+ts | string | 1 | ts | 默认参数
+version | string | 1 | version | 默认参数
+
+请求实例
+
+```
+c=cargood&m=proallcity&ts=1231231231&version=1
+
+
+```
+
+返回结果
+
+```
+    {
+        info:"ok",              // 接口状态，非异常为ok，异常为error
+        data:[
+          {
+            cityList:{
+              110100:{
+                list:{110101: "东城区", 110102: "延庆县", 110103: "通州区", 110104: "顺义区", 110105: "昌平区", 110106: "怀柔区",…}
+                name:"北京市"
+              }
+            }
+            province_id:"110000"
+            province_name:"北京"
+            province_simple:"京"
+          }
+        ]
     }
 ```

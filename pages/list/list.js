@@ -37,7 +37,8 @@ Page({
 				category:0,
 				userid:uid,
 				page:1,
-				ts:+new Date()
+				ts:+new Date(),
+				version:1
 			},
 			success:function(res){
 				res = res.data['data'];
@@ -104,7 +105,8 @@ Page({
 				category:1,
 				id:id,
 				userid:app.uid,
-				ts:+new Date()
+				ts:+new Date(),
+				version:1
 			},
 			success:function(res){
 				var newListData = that.data['list'];
@@ -163,7 +165,8 @@ Page({
 				category:0,
 				userid:app.uid,
 				page:this.data['page'],
-				ts:+new Date()
+				ts:+new Date(),
+				version:1
 			},
 			success:function(res){
 				res = res.data['data'];
@@ -206,7 +209,8 @@ Page({
 								c:'cargood',
 				        m:'updateusernickname',
 								uid:app.uid,
-								nickName:nickname
+								nickName:nickname,
+								version:1
 							}
 						})
 					}else{
