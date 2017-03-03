@@ -1,4 +1,5 @@
-// pages/usePage/usePage.js
+let app = getApp(),
+	 util = require('../../util/util.js');
 Page({
   data:{},
   onLoad:function(options){
@@ -13,7 +14,7 @@ Page({
   },
   telToUs:function(){
     wx.makePhoneCall({
-        phoneNumber:'18911900055'
+        phoneNumber:'15169139007'
     })
   }
 })

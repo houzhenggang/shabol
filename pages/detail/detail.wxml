@@ -22,10 +22,10 @@
         </view>
     </view>
     <!-- 其他说明 -->
-    <view class="module other" wx:if="{{msInfo}}">
+    <view class="module other" wx:if="{{(msInfo == 'undefined' || msInfo == ',') ? false : msInfo}}">
         <caption>货源详情</caption>
         <view class="content">
-            <text>{{msInfo}}</text>
+            <text>{{(msInfo == 'undefined' || msInfo == ',') ? '' : msInfo}}</text>
         </view>
     </view>
     <!-- 联系人 -->

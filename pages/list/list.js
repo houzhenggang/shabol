@@ -1,9 +1,11 @@
 let app = getApp(),
-	util = require('../../util/util.js');
+		util = require('../../util/util.js'),
+		UT = require('../../util/request.js');
 Page({
 	data: {
 		id:'',
-	  list:[],
+	  list:[],      //发布列表
+		closeList:[],   //关闭列表
 		page:1,
 		loading:false,
 		shareHidden:true,
@@ -12,9 +14,10 @@ Page({
 		editName:'',
 		editInfo:'',
 		editPhoneNum:'',
-		uid:''
+		uid:'',
+		active:0
 	},
-	replaceWithType:function(list){
+	replaceWithType:function(list){  //转换类型
 			list.forEach(function(item){
 				if(item.truckLength.indexOf('不限') >= 0 && item.ProductId.indexOf('不限') >= 0){
 						item.truckLength = '';
@@ -23,15 +26,44 @@ Page({
 			});
 			return list;
 	},
-	listRender:function(...options){		// 列表渲染
-		let me = this,
-			uid = options[0];
-		this.setData({
-			uid:uid
-		})
+	getRequest:function(o,suc,err){   //进行请求
 		wx.request({
 			url:app.ajaxurl,
-			data:{
+			data:o,
+			success:function(res){
+				UT.isFunction(suc) && suc(res.data)
+			},
+			fail:function(res){
+				UT.isFunction(err) && err(res.data)
+			}
+		})
+	},
+	allReadyAddItem:function(){  //已发布
+		this.setData({
+			active:0,
+			isEnd:false,
+			page:1,
+			loadingText:"加载中...",
+		})
+		this.listRender(app.uid,this)
+	},
+	allReadyCloseItem:function(){   //已关闭
+		this.setData({
+			active:1,
+			isEnd:false,
+			page:1,
+			loadingText:"加载中...",
+		})
+		this.listRender(app.uid,this)
+	},
+	listRender:function(...options){		// 列表渲染
+		if(this.data.active == 0){
+			let me = this,
+				uid = options[0];
+			this.setData({
+				uid:uid
+			})
+			var listData = {
 				c:'cargood',
 				m:'getlist',
 				category:0,
@@ -39,9 +71,9 @@ Page({
 				page:1,
 				ts:+new Date(),
 				version:1
-			},
-			success:function(res){
-				res = res.data['data'];
+			}
+			this.getRequest(listData,(res)=>{
+				res = res['data'];
 				if(res.status == 1){
 					me.setData({
 						list:me.replaceWithType(res.list)
@@ -52,28 +84,56 @@ Page({
 							loadingText:"没有更多了.."
 						})
 					}
-	        app.getUserInfo(function(userInfo){
-	          let nickname = userInfo.nickName;
-	          me.setData({
+					app.getUserInfo(function(userInfo){
+						let nickname = userInfo.nickName;
+						me.setData({
 							nickname:nickname,
 							avatar:userInfo.avatarUrl,
-					  	sharesContent:{
+							sharesContent:{
 								title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息',
 								desc:me.data.editInfo !== '' ? me.data.editInfo : '十万信息部都在用，发货更方便，找车更简单！',
 								path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar='+ userInfo.avatarUrl
 							}
-	          })
-	        })
+						})
+					})
 				}else{  //最后一个的时候status为0，把数组为空
 					me.setData({
 						list:[]
 					})
 				}
 				me.setData({
-            loading:true
-        });
+						loading:true
+				})
+			})
+		}else{
+			var closeListData = {
+				c:'cargood',
+				m:'getlist',
+				category:1,
+				userid:options[0],
+				page:1,
+				ts:+new Date(),
+				version:1
 			}
-		})
+			this.getRequest(closeListData,(res)=>{
+				let that = options[1];
+				res = res['data'];
+				if(res.status){
+					that.setData({
+						closeList:res.list
+					})
+					if(res.list.length < 10){			// 如当前数据<10条，不再进行加载
+						that.setData({
+							isEnd:true,
+							loadingText:"没有更多了.."
+						})
+					}
+				}
+				that.setData({
+					loading:true
+				})
+			})
+		}
 	},
 	jumpToAdd:function(){				// 去发布
 		wx.switchTab({
@@ -151,15 +211,96 @@ Page({
 			dp:'/list/list'
 		})
 	},
+	remove:function(e){
+		let index = e.target.dataset['index'],
+			that = this,
+			id = e.target.id;
+		util.analytics({
+			t:'event',
+			ec:'点击删除按钮',
+			ea:id,
+			el:'',
+			dp:'/list/list'
+		})
+		var removeData = {
+			c:'cargood',
+			m:'UpdateStatus',
+			category:2,
+			id:e.target.id,
+			userid:app.uid,
+			ts:+new Date(),
+			version:1
+		}
+		this.getRequest(removeData,(res)=>{
+			var newListData = that.data['closeList'];
+			newListData.splice(index,1)
+			if(newListData.length < 6){
+				that.listRender(app.uid,that)
+			}
+			that.setData({
+				closeList:newListData
+			});
+			wx.showToast({
+				title:'已删除',
+				icon:'success',
+				duration:1e3
+			})
+			setTimeout(function(){
+				wx.hideToast();
+			},1e3);
+		})
+	},
+	republish:function(e){
+		let index = e.target.dataset['index'],
+			that = this,
+			id = e.target.id;
+		util.analytics({
+			t:'event',
+			ec:'点击再次发布按钮',
+			ea:id,
+			el:'',
+			dp:'/list/list'
+		})
+		var publishData = {
+			c:'cargood',
+			m:'UpdateStatus',
+			category:0,
+			id:e.target.id,
+			userid:app.uid,
+			ts:+new Date(),
+			version:1
+		}
+		this.getRequest(publishData,(res)=>{
+			var newListData = that.data['closeList'];
+			newListData.splice(index,1)
+			if(newListData.length < 5){
+				that.listRender(app.uid,that)
+			}
+			wx.showToast({
+				title:'已发布',
+				icon:'success',
+				duration:1e3
+			})
+			setTimeout(function(){
+				wx.hideToast();
+				that.setData({
+					closeList:newListData,
+					active:0
+				})
+				that.listRender(app.uid,that)
+			},1e3)
+			if(!app.republished)
+			app.republished = true;
+		})
+	},
 	loadMore:function(){
-		let that = this,
-			oldList = this.data['list'];
-		this.setData({
-			page:this.data['page'] + 1
-		});
-		wx.request({
-			url:app.ajaxurl,
-			data:{
+		if(this.data.active == 0){
+			let that = this,
+					oldList = this.data['list'];
+			this.setData({
+				page:this.data['page'] + 1
+			})
+			var listData = {
 				c:'cargood',
 				m:'getlist',
 				category:0,
@@ -167,12 +308,46 @@ Page({
 				page:this.data['page'],
 				ts:+new Date(),
 				version:1
-			},
-			success:function(res){
-				res = res.data['data'];
+			}
+			this.getRequest(listData,(res)=>{
+				res = res['data'];
 				if(res.status){
 					that.setData({
 						list:oldList.concat(res.list)
+					})
+					if(res.list.length < 10){
+						that.setData({
+							isEnd:true,
+							loadingText:"没有更多了.."
+						})
+					}
+				}else{
+					that.setData({
+						isEnd:true,
+						loadingText:"没有更多了.."
+					})
+				}
+			})
+		}else{
+			let that = this,
+				oldList = this.data['closeList'];
+				this.setData({
+					page:this.data['page'] + 1
+				})
+			var closeListData = {
+				c:'cargood',
+				m:'getlist',
+				category:1,
+				userid:app.uid,
+				page:this.data['page'],
+				ts:+new Date(),
+				version:1
+			}
+			this.getRequest(closeListData,(res)=>{
+				res = res['data'];
+				if(res.status){
+					that.setData({
+						closeList:oldList.concat(res.list)
 					});
 					if(res.list.length < 10){
 						that.setData({
@@ -186,8 +361,8 @@ Page({
 						loadingText:"没有更多了.."
 					})
 				}
-			}
-		})
+			})
+		}
 	},
 	getEditInfo:function(){
     var that = this;
@@ -237,43 +412,64 @@ Page({
   },
 	onLoad:function(options){
 		var that = this;
-		app.listFinished = true;
 		app.uid = wx.getStorageSync('userid');
-		util.analytics({
-			t:'pageview',
-			dh:'wuliu.360che.com',
-			cd1:app.uid,
-			dt:'货源列表',
-			dp:'/list/list'
-		})
+		if(this.data.active == 0){
+			app.listFinished = true;
+			util.analytics({
+				t:'pageview',
+				dh:'wuliu.360che.com',
+				cd1:app.uid,
+				dt:'货源列表',
+				dp:'/list/list'
+			})
+			setTimeout(function(){
+				app.listFinished = false;
+				that.getEditInfo()
+			},1e3);
+		}else{
+			util.analytics({
+				t:'pageview',
+				dh:'wuliu.360che.com',
+				cd1:app.uid,
+				dt:'关闭页面',
+				dp:'/close/close'
+			})
+			// if(!app.uid){
+			// 	util.getUserInfo(this.listRender,this);
+			// }else{
+			// 	this.listRender(app.uid,this);
+			// }
+		}
 		if(!app.uid){
 			util.getUserInfo(this.listRender,this)
 		}else{
 			this.listRender(app.uid,this);
 			util.analyticsDefaultData['cid'] = app.uid;
 		}
-		setTimeout(function(){
-			app.listFinished = false;
-			that.getEditInfo()
-		},1e3);
-
 	},
 	onShow:function(){
-		if(app.listFinished) return;
-		util.analytics({
-			t:'pageview',
-			dh:'wuliu.360che.com',
-			cd1:app.uid,
-			dt:'货源列表',
-			dp:'/list/list'
+		this.setData({
+			active:0
 		})
-		if(app.submited || app.republished){
-			this.setData({
-				loading:false
-			});
+		if(this.data.active == 0){
+			if(app.listFinished) return;
+			util.analytics({
+				t:'pageview',
+				dh:'wuliu.360che.com',
+				cd1:app.uid,
+				dt:'货源列表',
+				dp:'/list/list'
+			})
+			if(app.submited || app.republished){
+				this.setData({
+					loading:false
+				})
+				this.listRender(app.uid,this)
+				app.submited = false;
+				app.republished = false;
+			}
+		}else{
 			this.listRender(app.uid,this);
-			app.submited = false;
-			app.republished = false;
 		}
 		this.onPullDownRefresh()
 		var value = wx.getStorageSync('editInfomation')//获取缓存
@@ -307,6 +503,6 @@ Page({
 	},
 	onReachBottom:function(){
 		if(this.data['isEnd']) return;
-		this.loadMore();
+		this.loadMore()
 	}
 })

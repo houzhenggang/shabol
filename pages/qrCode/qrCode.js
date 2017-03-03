@@ -1,4 +1,5 @@
-// pages/qrCode/qrCode.js
+let app = getApp(),
+	util = require('../../util/util.js');
 Page({
   data:{},
   onLoad:function(options){

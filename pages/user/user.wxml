@@ -1,9 +1,9 @@
 <page>
     <import src="../../components/userinfo/userinfo.wxml" />
     <template is="userinfo" data="{{EditName,EditInfo,userInfo,total}}" />
-    <navigator class="publish" url="../close/close" open-type="navigate">
+    <!-- <navigator class="publish" url="../close/close" open-type="navigate">
         <text>已关闭的货源</text>
-    </navigator>
+    </navigator> -->
     <view class="contactToUs" bindtap="telToUs"><text class="contactToUsText">联系客服</text></view>
     <!-- <navigator class="usePage" url="../usePage/usePage" open-type="navigate">
       <text>使用教程</text>

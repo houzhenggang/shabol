@@ -34,7 +34,8 @@ Page({
           c:'cargood',
           m:'getuserdetailsinfo',
           uid:app.uid,
-          nickName:this.data.userInfo.nickName
+          nickName:this.data.userInfo.nickName,
+    			version:1
         },
         success:function(res){
           that.setData({

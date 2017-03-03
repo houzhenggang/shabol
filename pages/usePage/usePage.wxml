@@ -8,5 +8,5 @@
   <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-sixth.png" mode="widthFix" />
   <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-seventh.png" mode="widthFix" />
   <image class="use-image" src="https://s.kcimg.cn/m/images/usePage/usePage-eight.png" mode="widthFix" />
-  <view class="use-text use-textSecond">我还是不会发货，联系客服：<text class="phone" bindtap="telToUs">18911900055</text></view>
+  <view class="use-text use-textSecond">我还是不会发货，联系客服：<text class="phone" bindtap="telToUs">15169139007</text></view>
 </view>

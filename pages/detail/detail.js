@@ -46,7 +46,8 @@ Page({
 				category:1,
 				id:this.data['id'],
 				userid:app.uid,
-				ts:+new Date()
+				ts:+new Date(),
+        version:1
 			},
 			success:function(res){
 				if(res.data.info == 'ok'){
@@ -86,7 +87,8 @@ Page({
 				category:2,
 				id:this.data['id'],
 				userid:app.uid,
-				ts:+new Date()
+				ts:+new Date(),
+        version:1
 			},
 		  success: function(res) {
         if(res.data['info'] == 'ok'){
@@ -121,7 +123,8 @@ Page({
 				category:0,
 				id:this.data['id'],
 				userid:app.uid,
-				ts:+new Date()
+				ts:+new Date(),
+        version:1
 			},
 			success:function(res){
 				wx.showToast({
@@ -167,6 +170,7 @@ Page({
               m:'GetDetailsInfo',
               id:id,
               ts:+new Date(),
+              userid:app.uid,
               version:1
           },
           success:function(res){

@@ -123,7 +123,8 @@ Page({
       m:'updateuserphonenum',
       uid:app.uid,
       status:1,
-      num:this.data.tel
+      num:this.data.tel,
+			version:1
     }
     if((/^1[3|4|5|7|8]\d{9}$/.test(this.data.tel))){
       console.log(that.data.oldTel)
@@ -179,19 +180,22 @@ Page({
       Name:that.data.content,
       Info:that.data.info,
       Tel:that.data.tel,
-      Btel:that.data.btel
+      Btel:that.data.btel,
+			version:1
     }
     var NameData = {
       c:'cargood',
       m:'updateusernickname',
       uid:app.uid,
-      nickName:this.data.content
+      nickName:this.data.content,
+			version:1
     }
     var InfoData = {
       c:'cargood',
       m:'updateuserinfo',
       uid:app.uid,
-      info:this.data.info
+      info:this.data.info,
+			version:1
     }
     var getCode = {  //验证手机号
         c:'cargood',
@@ -199,14 +203,16 @@ Page({
         uid:app.uid,
         status:1,
         num:this.data.tel,
-        code:this.data.codeNum
+        code:this.data.codeNum,
+  			version:1
     }
     var getBtel = {
       c:'cargood',
       m:'updateuserphonenum',
       uid:app.uid,
       status:2,
-      num:this.data.btel
+      num:this.data.btel,
+			version:1
     }
     if(that.data.index == 0){  //姓名
       that.getRequest(NameData,(res)=>{

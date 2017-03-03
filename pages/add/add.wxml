@@ -73,16 +73,7 @@
 		<!-- <view class="section" hidden="{{isShowTextArea}}">
 			<textarea name="msinfo" bindinput="inputValue" bindblur="bindTextAreaBlur" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦！" value="{{msg}}" auto-height />
 		</view> -->
-		<view class="section" wx:if="{{theSelectInfomation && theSelectPay == ''}}">
-			<input name="msinfo" bindinput="inputValue" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦!(非必填)" value="{{theSelectInfomation}},{{msg}}" />
-		</view>
-		<view class="section" wx:elif="{{theSelectPay && theSelectInfomation == ''}}">
-			<input name="msinfo" bindinput="inputValue" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦!(非必填)" value="{{theSelectPay}},{{msg}}" />
-		</view>
-		<view class="section" wx:elif="{{theSelectInfomation && theSelectPay}}">
-			<input name="msinfo" bindinput="inputValue" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦!(非必填)" value="{{theSelectInfomation}},{{theSelectPay}},{{msg}}" />
-		</view>
-		<view class="section" wx:else>
+		<view class="section">
 			<input name="msinfo" bindinput="inputValue" placeholder-style="word-break:break-all" placeholder="在这里描述货运详情哦!(非必填)" value="{{msg}}" />
 		</view>
 		<!-- 获取常用信息 -->
@@ -115,13 +106,13 @@
 				<button type="primary" size="default" class="selfAdd" bindtap="selfAdd">添加</button>
 			</view>
 			<view class="selfContent" wx:if="{{selfContent != ''}}">
-				<text class="removeItem">点击删除添加</text>
+				<text class="removeItem">点击删除</text>
 				<view class="selfItem" wx:for="{{selfContent}}">
-					<text class="selfItems" bindtap="removeItems" data-index="{{index}}">{{item}}</text>
+					<view class="selfItems" bindtap="removeItems" data-index="{{index}}"><text class="icon"></text>{{item}}</view>
 				</view>
 			</view>
 			<view class="selfContent" wx:else>
-				<text class="removeItem">点击删除添加</text>
+				<text class="removeItem">点击删除</text>
 				<view class="selfNone">您还没有添加任何文字信息</view>
 			</view>
 			<button type="primary" size="default" class="selfClose" bindtap="selfClose">关闭</button>

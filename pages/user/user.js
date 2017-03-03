@@ -32,7 +32,8 @@ Page({
             c:'cargood',
             m:'getuserdetailsinfo',
             uid:app.uid,
-            nickName:this.data.userInfo.nickName
+            nickName:this.data.userInfo.nickName,
+      			version:1
           },
           success:function(res){
             if(res.data.data.nickName === 'undefined'){//如果是返回undefined，那就更改名字为微信名字
@@ -92,7 +93,7 @@ Page({
     },
     telToUs:function(){
       wx.makePhoneCall({
-          phoneNumber:'18911900055'
+          phoneNumber:'15169139007'
       })
     }
 })

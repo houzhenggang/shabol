@@ -33,14 +33,18 @@ Page({
 				category:0,
 				userid:uid,
 				page:1,
-				ts:+new Date()
+				ts:+new Date(),
+        version:1,
+        viewUid:app.uid
 			},
 			success:function(res){
         res = res.data['data'];
 				if(res.status){
-          let listData = res.list
+          let listData = res.list,
+              total = res.num*3;
 					me.setData({
             list:listData,
+            total:total,
             tel:listData[0].Tel,
   					sharesContent:{
               title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息  ' + '电话:' +((me.data.editPhoneNum !== '' && me.data.editPhoneNum !== '0') ? me.data.editPhoneNum : me.data.tel),
@@ -75,7 +79,8 @@ Page({
 				category:0,
 				userid:this.uid,
 				page:this.data['page'],
-				ts:+new Date()
+				ts:+new Date(),
+  			version:1
 			},
 			success:function(res){
 				res = res.data['data'];
@@ -216,7 +221,7 @@ Page({
   },
   telToUs:function(){
     wx.makePhoneCall({
-        phoneNumber:'18911900055'
+        phoneNumber:'15169139007'
     })
   }
 })

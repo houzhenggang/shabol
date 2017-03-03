@@ -3,7 +3,6 @@
 		"pages/list/list",
 		"pages/add/add",
 		"pages/user/user",
-		"pages/close/close",
 		"pages/detail/detail",
 		"pages/share/share",
 		"pages/editInfo/index",
@@ -28,7 +27,7 @@
 		"list": [
 	        {
 	          "pagePath": "pages/list/list",
-	          "text": "货源",
+	          "text": "我的货源",
 	          "iconPath":"images/list.png",
 	          "selectedIconPath":"images/list-selected.png"
 	        },

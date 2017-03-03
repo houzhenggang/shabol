@@ -28,7 +28,7 @@ Page({
 			that.setData({
 				nickname:nickname,
 			})
-		});
+		})
 	},
 	listRender:function(...options){
 		wx.request({
@@ -39,7 +39,8 @@ Page({
 				category:1,
 				userid:options[0],
 				page:1,
-				ts:+new Date()
+				ts:+new Date(),
+				version:1
 			},
 			success:function(res){
 				let that = options[1];

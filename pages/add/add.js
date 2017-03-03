@@ -130,6 +130,7 @@ Page({
 						let data = o.data;
 						let activeCarTypeIndex = that.data['products'].indexOf(data.ProductId);//车型
 						let activeCarIndex = that.data['truckLength'].indexOf(data.truckLength);//车长
+
 						that.setData({
 							start:data.FromProName + ',' + data.FromCityName + ',' + (data.FromAeraName == '0' ? '' : data.FromAeraName),
 							end:data.ToProName + ',' + data.ToCityName + ',' + (data.ToAeraName == '0' ? '' : data.ToAeraName),
@@ -140,7 +141,7 @@ Page({
 							activeCarIndex:activeCarIndex,
 							theSelectPay:'',
 							theSelectInfomation:'',
-							msg:data.msInfo,
+							msg:(data.msInfo == 'undefined' || data.msInfo == ',') ? '' : data.msInfo,
 							Uname:data.Uname,
 							Tel:data.Tel,
 							Btel:data.Btel
@@ -178,7 +179,8 @@ Page({
 	        c:'cargood',
 	        m:'getuserdetailsinfo',
 	        uid:app.uid,
-	        nickName:nickname
+	        nickName:nickname,
+					version:1
 	      },
 	      success:function(res){
 					if(res.data.data.nickName === 'undefined'){//如果是返回undefined，那就更改名字为微信名字
@@ -500,10 +502,10 @@ Page({
 		this.setData({
 			theSelectInfomation:data.theSelectInfomation != '' ? data.theSelectInfomation : '',
 			theSelectPay:data.theSelectPay != '' ? data.theSelectPay : '',
-			msgInput:'',
-			isShowSelectInfo:false
+			isShowSelectInfo:false,
+			msg:(data.theSelectInfomation != '' ? data.theSelectInfomation : '') + (data.theSelectPay != '' ? data.theSelectPay : ''),
+			msgInput:''
 		})
-
 	},
 	byMyself:function(){//自定义文字
 		var value = wx.getStorageSync('selfContent')
@@ -550,14 +552,19 @@ Page({
 		var c = [];
 		var data = this.data;
 		c = c.concat(data.selfInput)
-		if(data.selfContent.length < 5){
-			this.setData({
-				selfContent:data.selfContent.concat(c),
-				selfInput:'',
-			})
+		if(data.selfInput){
+			if(data.selfContent.length < 5){
+				this.setData({
+					selfContent:data.selfContent.concat(c),
+					selfInput:'',
+				})
+			}else{
+				this.errorInfo('自定义数量不能超过5个')
+			}
 		}else{
-			this.errorInfo('自定义数量不能超过5个')
+			this.errorInfo('输入不能为空')
 		}
+
 	},
 	removeItems:function(e){
 		var index = e.target.dataset.index;
@@ -629,15 +636,16 @@ Page({
 				fromid:pageData['startOptions'],
 				toid:pageData['endOptions'],
 				productid:pageData.activeCarTypeIndex + 1,
-				msinfo:pageData['msgInput'] == '' ? (pageData['theSelectInfomation'] + ',' + pageData['theSelectPay']) : pageData['msgInput'],
+				msinfo:!pageData['msgInput'] ? pageData['msg'] : pageData['msgInput'],
 				fromplace:pageData['start'],
 				toplace:pageData['end'],
 				truckLength:pageData.activeCarIndex,
-				ts:+new Date()
+				ts:+new Date(),
+				version:1
 			};
 			if(!pageData['id']){		// 发布
 				this._submit(submitData,'提交成功')
-			}else{									// 修改
+			}else{
 				submitData['id'] = pageData['id'];
 				this._submit(submitData,'修改成功')
 				util.analytics({
