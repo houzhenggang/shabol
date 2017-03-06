@@ -33,3 +33,68 @@
 .favorite:before{
     background-image: url("https://s.kcimg.cn/app/images/matching/collected.png")
 }
+.contactToUs{
+  position:absolute;
+  bottom:0;
+  left: 50%;
+  margin-left: -160rpx;
+  border: 2rpx solid #09bb07;
+  border-radius: 20rpx;
+  line-height: 88rpx;
+  width: 320rpx;
+  height: 88rpx;
+  margin-bottom:40rpx;
+}
+.contactToUsText{
+  font-size:36rpx;
+  color:#09bb07;
+  line-height: 36rpx;
+  margin-left: 108rpx;
+}
+.contactToUs:before{
+  position: absolute;
+  content:"";
+  left: 0;
+  top: 0;
+  margin-left: 68rpx;
+  margin-top: 28rpx;
+  width:32rpx;
+  height:32rpx;
+  color: #09bb07;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.856 13.285c.073.15 1.644 2.815 2.606 3.905 1.636 1.854 4.92 3.635 4.92 3.635l1.905-1.908a1.841 1.841 0 0 1 1.725-.491l7.376 1.738c.416.114.907.352 1.386.79.784.718 1.244 1.751 1.225 3.013 0 0-.314 3.118-1.656 4.773-.943 1.162-4.1 2.9-4.168 2.92C15.895 34.654-2.015 17.215.185 5.849c.022-.113.91-2.018 1.734-3.007C3.556.878 5.709-.254 8.33.05c0 0 1.073-.028 1.831.53.616.453 1.065 1.131 1.342 1.999l2.1 6.58a1.84 1.84 0 0 1-.451 1.86s-2.408 2.038-2.296 2.267z' fill='#09bb07' /%3E%3C/svg%3E");
+}
+.usePage{
+  position: absolute;
+  left: 90rpx;
+  bottom: 0;
+  margin-bottom: 65rpx;
+  color: #09bb07;
+  width: 80rpx;
+  height:80rpx;
+  line-height: 30rpx;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+.usePage text{
+  position:absolute;
+  color:#fff;
+  font-size:28rpx;
+  text-align:center;
+  top:0;
+  margin-top:10rpx;
+  width:80rpx;
+  left:50%;
+  left:0;
+}
+.usePage-text{
+  position:absolute;
+  bottom:0;
+  left: 0;
+  margin-left: 30rpx;
+  font-size:26rpx;
+  color:#09bb07;
+  margin-bottom:40rpx;
+  width: 200rpx;
+  line-height: 26rpx;
+  text-align: center;
+}

@@ -1,0 +1,17 @@
+.qrCode{
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  min-height: 100%;
+  background: #fffdf7;
+}
+.codeText{
+  display: block;
+  color: #F76260;
+  font-size: 36rpx;
+  padding-top: 40rpx;
+  line-height: 52rpx;
+}
+.codeImage{
+  width: 100%;
+  margin-top: 40rpx
+}

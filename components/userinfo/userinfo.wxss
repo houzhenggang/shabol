@@ -1,6 +1,6 @@
 .user-info{
     position: relative;
-    padding:20rpx 40rpx 30rpx 180rpx;
+    padding:20rpx 60rpx 30rpx 180rpx;
     min-height:120rpx;
     box-sizing: border-box;
     background: #fff;
@@ -25,10 +25,13 @@
     border-radius: 50%
 }
 .nickname{
-    font-size: 36rpx;
-    line-height: 56rpx;
-    height:56rpx;
-    display:block;
+  font-size: 36rpx;
+  line-height: 56rpx;
+  height:56rpx;
+  display:block;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 .total{
     font-size: 30rpx;

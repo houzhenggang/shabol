@@ -7,6 +7,7 @@
         <view class="distance">
             <view class="start">
                 <text class="city">{{FromCityName}}</text>
+                <text class="district">{{FromAeraName == '0' ? '' : FromAeraName}}</text>
                 <text class="province">{{FromProName}}</text>
             </view>
             <view class="mileage">
@@ -15,38 +16,40 @@
             </view>
             <view class="end">
                 <text class="city">{{ToCityName}}</text>
+                <text class="district">{{ToAeraName == '0' ? '' : ToAeraName}}</text>
                 <text class="province">{{ToProName}}</text>
             </view>
         </view>
-        <!--<text class="receipt">{{ProductId}}</text>-->
     </view>
     <!-- 其他说明 -->
-    <view class="module other" wx:if="{{msInfo}}">
+    <view class="module other" wx:if="{{(msInfo == 'undefined' || msInfo == ',') ? false : msInfo}}">
         <caption>货源详情</caption>
         <view class="content">
-            <text>{{msInfo}}</text>
+            <text>{{(msInfo == 'undefined' || msInfo == ',') ? '' : msInfo}}</text>
         </view>
     </view>
     <!-- 联系人 -->
     <view class="module other">
         <caption>联系人</caption>
         <view class="content">
-            <text>{{Uname}}：{{Tel}}</text>
+            <text>{{Uname}}：</text>
+            <text class="tels" bindtap="makePhoneCall">{{Tel}}</text>
         </view>
         <view bindtap="makePhoneCall" class="phone"></view>
     </view>
     <view class="footer">
         <block wx:if="{{!close}}">
-            <button class="tel" type="primary" class="tel" bindtap="share">转发</button>
-            <button class="favorite" type="warn" bindtap="close" wx:if="{{!uid}}">关闭</button>
+            <button class="tel" type="primary" class="tel" bindtap="share">分享给微信好友或群</button>
+            <button class="favorite" type="warn" bindtap="close" wx:if="{{!uid}}">关闭此条货源</button>
+            <button class="moreList" type="warn" bindtap="findMore" wx:if="{{uid}}">查看货主更多货源</button>
         </block>
         <block wx:else>
             <button class="republish" type="primary" class="tel" bindtap="republish">再次发布</button>
             <button class="delete" type="warn" bindtap="close" bindtap="delete">删除</button>
         </block>
     </view>
-    <view class="toAddList" bindtap="toAdd" wx:if="{{uid}}"><image class="toAddIcon" src="../../images/add.png" />我也要使用微信小程序发货</view>
-    <!-- <view class="footer-btn">
-  		<button size="default" bindtap="toAdd" wx:if="{{uid}}">我也要使用微信小程序发货</button>
-  	</view> -->
+  <!-- <view wx:elif="{{!uid && !list}}">
+		<view class="share-listTip">来晚咯，货已被订走了！</view>
+	</view> -->
+  <view class="toAddList" bindtap="toAdd" wx:if="{{uid}}">我也要使用微信小程序发货</view>
 </page>

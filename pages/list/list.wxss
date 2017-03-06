@@ -1,8 +1,38 @@
  @import "../../components/loading/loading.wxss";
 @import "../../components/share/share.wxss";
+.topBar{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  background: #fff;
+  line-height: 88rpx;
+  z-index: 100
+}
+.topBar .active{
+  position: relative;
+  color: #09BB07;
+}
+.topBar .active:after{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2rpx;
+  border-bottom: 2rpx solid #09BB07
+}
+.topBar .topText{
+  flex: 1;
+  text-align: center;
+}
 .empty-list{
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background: #fff;
 }
 .empty-text{
@@ -25,7 +55,7 @@
     text-align: center;
 }
 .goods{
-    padding:20rpx 20rpx 0 20rpx;
+    padding:108rpx 20rpx 0 20rpx;
     min-height: 100%;
     box-sizing: border-box;
     background:#EFEFF4;
@@ -77,6 +107,9 @@
 .place .province{
     font-size: 28rpx;
     color: #666;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
 }
 .place .distance{
     display:block;
@@ -124,7 +157,6 @@
 }
 .condition button{
     padding:0 14px;
-    letter-spacing: 10rpx;
     font-size:26rpx;
     height:60rpx;
     line-height:60rpx;
@@ -133,21 +165,35 @@
     color:#fff;
     border-radius:5px;
 }
-.condition .share{
-  letter-spacing: 0rpx;
+.condition .edit,.condition .close{
+  letter-spacing: 10rpx;
+  text-indent: 10rpx;
+}
+.condition .edit:after{
+  border-color:#10AEFF
+}
+.condition .close:after{
+  border-color:#F76260
 }
 .condition .share,.condition .republish{
     background:#09BB07;
     border-color:#09BB07;
 }
 .condition .edit{
-    margin: 0 20rpx;
-    background:#10AEFF;
-    border-color:#10AEFF;
+    margin: 0 10rpx;
+    background: #fff;
+    color:#10AEFF;
 }
 .condition .close,.condition .remove{
-    background:#F76260;
-    border-color:#F76260;
+    background: #fff;
+    color:#F76260;
+}
+.condition .republish{
+    margin-left:30rpx;
+}
+.condition .remove-C{
+  background: #F76260;
+  color: #fff
 }
 .loading-more{
     padding-bottom: 50rpx;
@@ -155,11 +201,6 @@
     line-height: 60rpx;
     text-align: center;
     color:#999
-}
-@font-face {
-  font-family: 'iconfont';
-  src:url('//at.alicdn.com/t/font_coozwrvpkcnpcik9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_coozwrvpkcnpcik9.ttf') format('truetype');
 }
 .suggest::before{
   content: '';
@@ -195,4 +236,21 @@
   font-size: 24rpx;
   line-height: 28rpx;
   color: #fff
+}
+.usePage{
+  position: fixed;
+  bottom: 52rpx;
+  right: 0;
+  background: #FFC20D;
+  width: 180rpx;
+  height:88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 88rpx 0 0 88rpx;
+}
+.usePage text{
+  font-size: 36rpx;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 36rpx;
 }

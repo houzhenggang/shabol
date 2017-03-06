@@ -2,14 +2,13 @@
 	"pages": [
 		"pages/list/list",
 		"pages/add/add",
-		"pages/add/option",
 		"pages/user/user",
-		"pages/close/close",
 		"pages/detail/detail",
 		"pages/share/share",
 		"pages/editInfo/index",
 		"pages/editMine/index",
-		"pages/suggest/suggest"
+		"pages/usePage/usePage",
+		"pages/qrCode/qrCode"
 	 ],
 	"window": {
 	    "navigationBarTitleText": "小宝物流",
@@ -28,7 +27,7 @@
 		"list": [
 	        {
 	          "pagePath": "pages/list/list",
-	          "text": "货源",
+	          "text": "我的货源",
 	          "iconPath":"images/list.png",
 	          "selectedIconPath":"images/list-selected.png"
 	        },

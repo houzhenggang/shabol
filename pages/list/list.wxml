@@ -2,34 +2,70 @@
 <import src="../../components/share/share.wxml"/>
 <template is="loading" data="{{loading}}"/>
 <template is="share" data="{{shareHidden}}"/>
-<view class="goods" wx:if="{{list.length}}">
-	<view class="item" wx:for="{{list}}">
-		<navigator class="link" url="../detail/detail?id={{item.id}}&nickname={{nickname}}"  open-type="navigate">
-			<view class="place">
-				<view class="start">
-					<text class="city">{{item.FromCityName}}</text>
-					<text class="province">{{item.FromProName}}</text>
+<view class="topBar">
+	<text class="topText {{active == 0 ? 'active' : ''}}" bindtap="allReadyAddItem">已发布</text>
+	<text class="topText {{active == 1 ? 'active' : ''}}" bindtap="allReadyCloseItem">已关闭</text>
+</view>
+<view wx:if="{{active == 0 ? true : false}}">
+	<view class="goods" wx:if="{{list.length}}">
+		<view class="item" wx:for="{{list}}">
+			<navigator class="link" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}&avatar={{avatar}}" open-type="navigate">
+				<view class="place">
+					<view class="start">
+						<text class="city">{{item.FromCityName}}</text>
+						<text class="province">{{item.FromAeraName == 0 || item.FromAeraName == '全部' ? item.FromProName : item.FromAeraName}}</text>
+					</view>
+					<view class="distance">
+						<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
+						<text>{{item.truckLength}} {{item.ProductId}}</text>
+					</view>
+					<view class="end">
+						<text class="city">{{item.ToCityName}}</text>
+		                <text class="province">{{item.ToAeraName == 0 || item.ToAeraName == '全部' ? item.ToProName : item.ToAeraName}}</text>
+					</view>
 				</view>
-				<view class="distance">
-					<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
-					<text>{{item.truckLength}} {{item.ProductId}}</text>
-				</view>
-				<view class="end">
-					<text class="city">{{item.ToCityName}}</text>
-	                <text class="province">{{item.ToProName}}</text>
-				</view>
+			</navigator>
+			<view class="condition">
+				<button type="default" class="close" bindtap="close" data-index="{{index}}" id="{{item.id}}">关闭</button>
+				<button class="edit" data-id="{{item.id}}" bindtap="edit">修改</button>
+				<button class="share" data-id="{{item.id}}" bindtap="share">转发微信群</button>
 			</view>
-		</navigator>
-		<view class="condition">
-			<button type="default" class="close" bindtap="close" data-index="{{index}}" id="{{item.id}}">关闭</button>
-			<button class="edit" data-id="{{item.id}}" bindtap="edit">修改</button>
-			<button class="share" data-id="{{item.id}}" bindtap="share">转发微信群</button>
 		</view>
 	</view>
+	<view class="empty-list" wx:else>
+		<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
+		<button class="empty-btn" bindtap="jumpToAdd">发布货源</button>
+	</view>
+	<view class="loading-more" wx:if="{{list.length && list.length > 4}}">{{loadingText}}</view>
 </view>
-<view class="empty-list" wx:else>
-	<text class="empty-text">您还没有发布任何货源，快去发布吧！</text>
-	<button class="empty-btn" bindtap="jumpToAdd">发布货源</button>
+<view wx:else>
+	<view class="goods" wx:if="{{closeList.length}}">
+		<view class="item" wx:for="{{closeList}}">
+			<navigator class="link" url="../detail/detail?id={{item.id}}&nickname={{nickname}}&close=1"  open-type="navigate">
+				<view class="place">
+					<view class="start">
+						<text class="city">{{item.FromCityName}}</text>
+						<text class="province">{{item.FromAeraName == 0 || item.FromAeraName == '全部' ? item.FromProName : item.FromAeraName}}</text>
+					</view>
+					<view class="distance">
+						<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
+						<text>{{item.truckLength}} {{item.ProductId}}</text>
+					</view>
+					<view class="end">
+						<text class="city">{{item.ToCityName}}</text>
+            <text class="province">{{item.ToAeraName == 0 || item.ToAeraName == '全部' ? item.ToProName : item.ToAeraName}}</text>
+					</view>
+				</view>
+			</navigator>
+			<view class="condition">
+				<button type="default" class="remove remove-C" data-index="{{index}}" id="{{item.id}}" bindtap="remove">删除</button>
+				<button type="default" class="republish" data-index="{{index}}" id="{{item.id}}" bindtap="republish">再次发布</button>
+			</view>
+		</view>
+	</view>
+	<view class="empty-list" wx:else>
+		<text class="empty-text">您还没有关闭发布的任何货源！</text>
+	</view>
+	<view class="loading-more" wx:if="{{closeList.length && closeList.length > 4}}">{{loadingText}}</view>
 </view>
-<!-- <navigator class="suggest" url="../suggest/suggest" open-type="navigate"><text class="suggest-text">意见反馈</text></navigator> -->
-<view class="loading-more" wx:if="{{list.length && list.length > 4}}">{{loadingText}}</view>
+<navigator class="usePage" url="../usePage/usePage" open-type="navigate"><text>使用教程</text></navigator>

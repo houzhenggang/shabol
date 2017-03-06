@@ -1,8 +1,14 @@
 @import "../../components/loading/loading.wxss";
+.wrapper{
+  overflow: hidden;
+}
 .section{
     margin-top:20rpx;
     padding-left:30rpx;
     background:#fff;
+}
+.section-second{
+  margin-top:40rpx;
 }
 .section .item{
     position:relative;
@@ -43,14 +49,230 @@
     border-right: 1rpx solid #999;
     transform:translate(0,-50%) rotate(45deg);
 }
+.startText,.endText{
+  width: 90%;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
 input{
     height:88rpx;
     line-height:88rpx;
     min-height:0;
     font-size:34rpx;
 }
+.wrapper .allInfo{
+  width: 220rpx;
+  font-size: 28rpx;
+  margin-top:40rpx;
+  margin-right:20rpx;
+  background: #eee;
+  color: #000
+}
 .submit{
     margin:20rpx 30rpx 30rpx;
     font-size:32rpx;
     letter-spacing: 10rpx;
+    margin-top: 100rpx;
+}
+/*选择地区*/
+.selectTheCity,.selectTheCar,.selectTheInfo{
+  position: fixed;
+  top: 200rpx;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 300;
+  min-height: 100%;
+}
+.backSelectCity{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 250
+}
+.selectNow{
+  font-size: 26rpx;
+  padding-top: 20rpx;
+  padding-left: 10rpx;
+  padding-bottom: 20rpx;
+}
+.backFront{
+  position: fixed;
+  color: #508BFF;
+  font-size:36rpx;
+  right: 0;
+  top: 200rpx;
+  margin-top: 20rpx;
+  margin-right: 30rpx;
+}
+.selectTheCar .backCarSelect{
+  width: 80%;
+  margin:0 auto;
+  background: #0066c0;
+  color: #fff;
+}
+.content{
+  min-height: 100%;
+  padding: 20rpx;
+}
+.theSelectedText{
+  color: #0066c0;
+  font-size: 36rpx;
+}
+.content-car,.content-Info{
+  display: flex;
+}
+.content-selectedCars,.content-selectInfomation{
+  flex: row
+}
+.selectCity,.selectCar,.selectInfomation{
+  float:left;
+  width:171rpx;
+  border:2rpx solid #eee;
+  height:70rpx;
+  text-align:center;
+  line-height:70rpx;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+}
+.infoBorder{
+  border:2rpx solid #0066c0;
+}
+.selectPay{
+  float:left;
+  width: 340rpx;
+  border:2rpx solid #eee;
+  height:80rpx;
+  text-align:center;
+  line-height:80rpx;
+}
+.selectedCar{
+  background:#0066c0;
+  color: #fff;
+}
+.content .selectInfoAndPay{
+  background:#0066c0;
+  margin: 0 40rpx;
+  margin-top: 30rpx;
+}
+.all{
+  background: #eee
+}
+/*自定义*/
+.mySelf{
+  position: fixed;
+  width: 600rpx;
+  min-height: 400rpx;
+  top: 200rpx;
+  left: 50%;
+  transform: translate(-50%);
+  background: #fff;
+  z-index: 400;
+}
+.selfAddText{
+  text-align: left;
+  margin-left: 10rpx;
+  font-size: 30rpx;
+  color: #000;
+  padding: 10rpx;
+}
+.selfAddText .selfTextLength{
+  margin-left: 20rpx;
+  font-size: 24rpx;
+  color: #666
+}
+.addSelfInfo{
+  display: flex;
+  position: relative;
+  vertical-align: middle;
+}
+.addSelfInfo:before{
+  position: absolute;
+  width: 100%;
+  height: 1rpx;
+  content: "";
+  top: 0;
+  left: 0;
+  border-top: 1rpx solid #eee;
+}
+.addSelfInfo input{
+  width: 400rpx;
+  padding-left: 16rpx;
+  margin-top: 10rpx;
+}
+.mySelf .addSelfInfo button{
+  margin: 10rpx;
+  width: 200rpx;
+  background: #0066c0
+}
+.selfContent{
+  position: relative;
+  padding: 10rpx;
+  background: #fff;
+  min-height: 200rpx;
+}
+.selfContent:before{
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1rpx;
+  left: 0;
+  top: 0;
+  border-top: 1rpx solid #eee;
+}
+.selfItem{
+  float: left;
+}
+.selfItems .icon {
+  color: #000;
+  position: absolute;
+  top: 20rpx;
+  right: 30rpx;
+}
+.selfItems .icon:before {
+  content: '';
+  position: absolute;
+  width: 30rpx;
+  height: 2rpx;
+  background-color: currentColor;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.selfItems .icon:after {
+  content: '';
+  position: absolute;
+  width: 30rpx;
+  height: 2rpx;
+  background-color: currentColor;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.selfItems{
+  position: relative;
+  width: 170rpx;
+  border:2rpx solid #eee;
+  height:80rpx;
+  text-align:center;
+  line-height:80rpx;
+}
+.removeItem{
+  display: block;
+  font-size: 30rpx;
+  color: #000;
+  padding-left: 10rpx;
+}
+.selfNone{
+  padding-left: 10rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+.mySelf .selfClose{
+  margin: 20rpx;
+  background: #eee;
+  color: #000;
 }

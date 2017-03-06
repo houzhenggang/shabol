@@ -1,5 +1,6 @@
 var app = getApp()
 var UT = require('../../util/request.js')
+var util = require('../../util/util.js');
 Page({
   data:{
     index:'',
@@ -64,6 +65,13 @@ Page({
       })
     })
     app.uid = wx.getStorageSync('userid');
+    util.analytics({
+			t:'pageview',
+			dh:'wuliu.360che.com',
+			cd1:app.uid,
+			dt:'修改信息',
+			dp:'/editInfo/index'
+		});
     wx.getStorage({//获取本地缓存
 			key:'editInfomation',
 			success:function(res){
@@ -115,13 +123,21 @@ Page({
       m:'updateuserphonenum',
       uid:app.uid,
       status:1,
-      num:this.data.tel
+      num:this.data.tel,
+			version:1
     }
     if((/^1[3|4|5|7|8]\d{9}$/.test(this.data.tel))){
       console.log(that.data.oldTel)
       if(this.data.tel !== this.data.oldTel && this.data.oldTel !== ''){
         that.getRequest(CodeData,(res)=>{
           that.setTime()  //倒计时
+          util.analytics({
+            t:'event',
+            ec:'获取验证码',
+            ea:'',
+            el:'',
+            dp:'/editInfo/editInfo'
+          });
         },(res)=>{
           that.showTip(true,'获取验证码失败')
           })
@@ -164,19 +180,22 @@ Page({
       Name:that.data.content,
       Info:that.data.info,
       Tel:that.data.tel,
-      Btel:that.data.btel
+      Btel:that.data.btel,
+			version:1
     }
     var NameData = {
       c:'cargood',
       m:'updateusernickname',
       uid:app.uid,
-      nickName:this.data.content
+      nickName:this.data.content,
+			version:1
     }
     var InfoData = {
       c:'cargood',
       m:'updateuserinfo',
       uid:app.uid,
-      info:this.data.info
+      info:this.data.info,
+			version:1
     }
     var getCode = {  //验证手机号
         c:'cargood',
@@ -184,28 +203,45 @@ Page({
         uid:app.uid,
         status:1,
         num:this.data.tel,
-        code:this.data.codeNum
+        code:this.data.codeNum,
+  			version:1
     }
     var getBtel = {
       c:'cargood',
       m:'updateuserphonenum',
       uid:app.uid,
       status:2,
-      num:this.data.btel
+      num:this.data.btel,
+			version:1
     }
     if(that.data.index == 0){  //姓名
       that.getRequest(NameData,(res)=>{
         data['Name']=this.data.content
         that.setStorage(data)
         wx.navigateBack()
+        util.analytics({
+          t:'event',
+          ec:'修改姓名成功',
+          ea:'',
+          el:'',
+          dp:'/editInfo/editInfo'
+        });
       },(res)=>{
         that.showTip(true,'修改失败')
       })
+
     }else if(that.data.index == 1){  // 介绍
       that.getRequest(InfoData,(res)=>{
         data['Info']=this.data.info
         that.setStorage(data)
         wx.navigateBack()
+        util.analytics({
+          t:'event',
+          ec:'修改介绍成功',
+          ea:'',
+          el:'',
+          dp:'/editInfo/editInfo'
+        });
       },(res)=>{
         that.showTip(true,'修改失败')
       })
@@ -220,6 +256,13 @@ Page({
             console.log(that.data.oldTel)
             that.setStorage(data)
             wx.navigateBack()
+            util.analytics({
+              t:'event',
+              ec:'修改电话成功',
+              ea:'',
+              el:'',
+              dp:'/editInfo/editInfo'
+            });
           }else{
             that.showTip(true,'输入验证码有误')
           }
@@ -232,6 +275,13 @@ Page({
         data['Btel']=that.data.btel
         that.setStorage(data)
         wx.navigateBack()
+        util.analytics({
+          t:'event',
+          ec:'修改备用电话成功',
+          ea:'',
+          el:'',
+          dp:'/editInfo/editInfo'
+        });
       })
     }
     setTimeout(() => {

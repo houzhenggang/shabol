@@ -3,7 +3,7 @@ let app = getApp(),
 
 Page({
 	data: {
-	  	list:[],
+	  list:[],
 		loading:false,
 		page:1,
 		loadingText:"加载中..."
@@ -11,6 +11,13 @@ Page({
 	onLoad:function(){
 		let that = this;
 		app.uid = wx.getStorageSync('userid');
+		util.analytics({
+			t:'pageview',
+			dh:'wuliu.360che.com',
+			cd1:app.uid,
+			dt:'关闭页面',
+			dp:'/close/close'
+		})
 		if(!app.uid){
 			util.getUserInfo(this.listRender,this);
 		}else{
@@ -21,7 +28,7 @@ Page({
 			that.setData({
 				nickname:nickname,
 			})
-		});
+		})
 	},
 	listRender:function(...options){
 		wx.request({
@@ -32,7 +39,8 @@ Page({
 				category:1,
 				userid:options[0],
 				page:1,
-				ts:+new Date()
+				ts:+new Date(),
+				version:1
 			},
 			success:function(res){
 				let that = options[1];
