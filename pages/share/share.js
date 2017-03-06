@@ -33,17 +33,21 @@ Page({
 				category:0,
 				userid:uid,
 				page:1,
-				ts:+new Date()
+				ts:+new Date(),
+        version:1,
+        viewUid:app.uid
 			},
 			success:function(res){
         res = res.data['data'];
 				if(res.status){
-          let listData = res.list
+          let listData = res.list,
+              total = res.num*3;
 					me.setData({
             list:listData,
+            total:total,
             tel:listData[0].Tel,
   					sharesContent:{
-              title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息',
+              title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息  ' + '电话:' +((me.data.editPhoneNum !== '' && me.data.editPhoneNum !== '0') ? me.data.editPhoneNum : me.data.tel),
 							desc:me.data.editInfo !== '' ? me.data.editInfo : '十万信息部都在用，发货更方便，找车更简单！',
   						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar=' + avatar
   					}
@@ -75,7 +79,8 @@ Page({
 				category:0,
 				userid:this.uid,
 				page:this.data['page'],
-				ts:+new Date()
+				ts:+new Date(),
+  			version:1
 			},
 			success:function(res){
 				res = res.data['data'];
@@ -99,7 +104,7 @@ Page({
 		})
 	},
   makePhoneCall:function(){
-    if(this.data.editPhoneNum !== ''){
+    if(this.data.editPhoneNum !== '' && this.data.editPhoneNum !== '0'){
       wx.makePhoneCall({
           phoneNumber:this.data.editPhoneNum
       })
@@ -125,6 +130,7 @@ Page({
           editName:res.data.data.nickName,
           editPhoneNum:res.data.data.tel
         })
+        that.onPullDownRefresh()
       }
     })
   },
@@ -150,6 +156,13 @@ Page({
     this.uid = options['uid'];
     util.analyticsDefaultData['cid'] = app.uid;
     app.uid = wx.getStorageSync('userid');
+    util.analytics({
+      t:'pageview',
+      dh:'wuliu.360che.com',
+      cd1:app.uid,
+      dt:'分享页面',
+      dp:'/share/share'
+    });
     if(!app.uid){
 	    util.getUserInfo();
 		}else{
@@ -177,6 +190,13 @@ Page({
 	},
 	onShareAppMessage:function(){
 		return this.data['sharesContent']
+    util.analytics({
+			t:'event',
+			ec:'分享成功',
+			ea:'分享货源列表转发页',
+			el:app.uid,
+			dp:'/share/share?uid=' + app.uid
+		});
 	},
 	onReachBottom:function(){
 		if(this.data['isEnd']) return;
@@ -189,9 +209,19 @@ Page({
     util.analytics({
 			t:'event',
 			ec:'我也要使用小程序发货',
-			ea:'分享出去页面',
+			ea:'分享出去页面跳转add页面',
 			el:'',
 			dp:'/share/share'
 		});
+  },
+  toQRCode:function(){
+    wx.navigateTo({
+      url:'../qrCode/qrCode'
+    })
+  },
+  telToUs:function(){
+    wx.makePhoneCall({
+        phoneNumber:'15169139007'
+    })
   }
 })

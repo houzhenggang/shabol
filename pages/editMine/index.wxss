@@ -26,8 +26,8 @@
 }
 .us{
     position: relative;
-    height: 80rpx;
-    line-height: 80rpx;
+    height: 88rpx;
+    line-height: 88rpx;
 }
 .us:before{
     content: "";

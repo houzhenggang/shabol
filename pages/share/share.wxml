@@ -4,34 +4,48 @@
 <template is="share" data="{{shareHidden}}" wx:if="{{uid === mineUID}}"/>
 <view class="wrapper">
 	<view class="share-list" wx:if="{{list.length}}">
-		<navigator wx:for="{{list}}" class="item" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}"  open-type="navigate">
-			<view class="region start">
+		<navigator wx:for="{{list}}" class="item" url="../detail/detail?id={{item.id}}&uid={{uid}}&nickname={{nickname}}&avatar={{avatar}}"  open-type="navigate">
+			<view class="region" wx:if="{{item.FromCityName.length < 4}}">
 				<text class="city">{{item.FromCityName}}</text>
-				<text class="province">{{item.FromProName}}</text>
+	      <text class="province">{{item.FromAeraName == '0' ? '' : item.FromAeraName}}</text>
 			</view>
-			<view class="category">{{item.truckLength === '不限车长' ? '不限' : item.truckLength}} {{item.ProductId === '不限车型' ? '不限' : item.ProductId}}</view>
-			<view class="region end">
+			<view class="region start" wx:else>
+				{{item.FromCityName}}{{item.FromAeraName == '0' ? '' : item.FromAeraName}}
+			</view>
+			<view class="category" wx:if="{{item.truckLength == '不限车长' && item.ProductId == '不限车型'}}">不限</view>
+			<view class="category" wx:else>{{item.truckLength}}{{item.ProductId}}</view>
+
+			<view class="region" wx:if="{{item.ToCityName.length < 4}}">
 				<text class="city">{{item.ToCityName}}</text>
-	            <text class="province">{{item.ToProName}}</text>
+	      <text class="province">{{item.ToAeraName == '0' ? '' : item.ToAeraName}}</text>
+			</view>
+			<view class="region end" wx:else>
+				{{item.ToCityName}}{{item.ToAeraName == '0' ? '' : item.ToAeraName}}
 			</view>
 		</navigator>
 	</view>
+	<view wx:elif="{{uid !== mineUID && list.length == 0}}">
+		<view class="share-listTip">来晚咯，货已被订走了！</view>
+	</view>
 	<view class="loading-more" wx:if="{{list.length && list.length > 19}}">{{loadingText}}</view>
-	<!-- <view class="footer">
-		<button size="default" bindtap="toAdd">我也要使用微信小程序发货</button>
-	</view> -->
-	<view class="toAddList" bindtap="toAdd" wx:if="{{uid !== mineUID}}"><image class="toAddIcon" src="../../images/add-selected.png" />我也要使用微信小程序发货</view>
+	<view wx:if="{{uid !== mineUID && list.length > 5}}">
+		<view class="toAddList" bindtap="toAdd"><image src="../../images/add-selected.png" class="toAddIcon" /><text class="toAddListText">我也要发布货源信息</text></view>
+	</view>
+	<view wx:if="{{list.length > 5}}">
+		<view class="joinTheGroup" bindtap="toQRCode">加入更多微信群发货找车</view>
+	</view>
+	<view wx:if="{{list.length <=5}}">
+		<view class="joinTheGroupT" bindtap="toQRCode">加入更多微信群发货找车</view>
+	</view>
+	<view wx:if="{{uid !== mineUID && list.length <= 5}}">
+		<view class="toAddListLast" bindtap="toAdd"><image src="../../images/add-selected.png" class="toAddIcon" /><text class="toAddListText">我也要发布货源信息</text></view>
+	</view>
 </view>
-
-
-
-
-<!-- <navigator class="to-add" url="../add/add" open-type="switchTab"><text class="to-add-text">我也要发货</text></navigator> -->
 
 <view class="tab-bar">
 	<image class="avatar" src="{{avatar}}" />
-	<view class="nickname">{{editName !== '' ? editName : nickname}}</view>
-	<!-- <view class="total">已有{{total}}人关注</view> -->
+	<view class="nickname barText">{{editName !== '' ? editName : nickname}}</view>
+	<view class="barText">已有<text class="total">{{total}}</text>人查看</view>
 	<!-- <view class="{{followStatus}}" bindtap="follow">{{followText}}</view> -->
-	<view class="call" bindtap="makePhoneCall">拨打电话</view>
+	<view class="call" bindtap="makePhoneCall">联系货主</view>
 </view>

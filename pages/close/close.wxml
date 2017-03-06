@@ -7,7 +7,7 @@
 				<view class="place">
 					<view class="start">
 						<text class="city">{{item.FromCityName}}</text>
-						<text class="province">{{item.FromProName}}</text>
+						<text class="province">{{item.FromAeraName == 0 || item.FromAeraName == '全部' ? item.FromProName : item.FromAeraName}}</text>
 					</view>
 					<view class="distance">
 						<view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
@@ -15,12 +15,12 @@
 					</view>
 					<view class="end">
 						<text class="city">{{item.ToCityName}}</text>
-		                <text class="province">{{item.ToProName}}</text>
+		                <text class="province">{{item.ToAeraName == 0 || item.ToAeraName == '全部' ? item.ToProName : item.ToAeraName}}</text>
 					</view>
 				</view>
 			</navigator>
 			<view class="condition">
-				<button type="default" class="remove" data-index="{{index}}" id="{{item.id}}" bindtap="remove">删除</button>
+				<button type="default" class="remove remove-C" data-index="{{index}}" id="{{item.id}}" bindtap="remove">删除</button>
 				<button type="default" class="republish" data-index="{{index}}" id="{{item.id}}" bindtap="republish">再次发布</button>
 			</view>
 		</view>
