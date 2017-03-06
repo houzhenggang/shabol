@@ -3,12 +3,15 @@ let app = getApp(),
 Page({
 	data: {
 		id:'',
-	  	list:[],
+	  list:[],
 		page:1,
 		loading:false,
 		shareHidden:true,
 		sharesContent:{},
-		loadingText:"加载中..."
+		loadingText:"加载中...",
+		editName:'',
+		editInfo:'',
+		editPhoneNum:''
 	},
 	listRender:function(...options){		// 列表渲染
 		let me = this,
@@ -35,21 +38,21 @@ Page({
 							loadingText:"没有更多了.."
 						})
 					}
-			        app.getUserInfo(function(userInfo){
-			          let nickname = userInfo.nickName;
-			          me.setData({
-						nickname:nickname,
+	        app.getUserInfo(function(userInfo){
+	          let nickname = userInfo.nickName;
+	          me.setData({
+							nickname:nickname,
 					  	sharesContent:{
-	  						title:nickname + '的货源信息',
-	  						desc:'十万信息部都在用，发货更方便，找车更简单！',
-	  						path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar='+ userInfo.avatarUrl
-	  					}
-			          })
-			        })
+								title:(me.data.editName !== '' ? me.data.editName : nickname) + '的货源信息',
+								desc:me.data.editInfo !== '' ? me.data.editInfo : '十万信息部都在用，发货更方便，找车更简单！',
+								path:'/pages/share/share?uid=' + uid + '&nickname=' + nickname + '&avatar='+ userInfo.avatarUrl
+							}
+	          })
+	        })
 				}
 				me.setData({
-                    loading:true
-                });
+            loading:true
+        });
 			}
 		})
 	},
@@ -88,6 +91,9 @@ Page({
 			success:function(res){
 				var newListData = that.data['list'];
 				newListData.splice(index,1)
+				if(newListData.length < 5){
+					that.listRender(app.uid,that)
+				}
 				that.setData({
 					list:newListData
 				});
@@ -110,15 +116,13 @@ Page({
 		},1e3)
 	},
 	share:function(e){
-		let that = this;
-		this.setData({
-			shareHidden:this.data['shareHidden'] ? false : true
-		});
-		setTimeout(function(){
-			that.setData({
-				shareHidden:true
-			});
-		},1e3);
+		app.getUserInfo(function(userInfo){//跳转到分享页面需要的参数
+			let nickname = userInfo.nickName;
+			wx.navigateTo({
+				url:'../share/share?uid=' + app.uid + '&nickname=' + nickname + '&avatar='+ userInfo.avatarUrl
+			})
+		})
+
 		util.analytics({
 			t:'event',
 			ec:'点击转发按钮',
@@ -164,6 +168,49 @@ Page({
 			}
 		})
 	},
+	getEditInfo:function(){
+    var that = this;
+		app.getUserInfo(function(userInfo){//跳转到分享页面需要的参数
+			let nickname = userInfo.nickName;
+			wx.request({
+	      url:app.ajaxurl,
+	      data:{
+	        c:'cargood',
+	        m:'getuserdetailsinfo',
+	        uid:app.uid,
+	        nickName:nickname
+	      },
+	      success:function(res){
+					if(res.data.data.nickName === 'undefined'){//如果是返回undefined，那就更改名字为微信名字
+						wx.request({
+							url:app.ajaxurl,
+							data:{
+								c:'cargood',
+				        m:'updateusernickname',
+								uid:app.uid,
+								nickName:nickname
+							}
+						})
+					}else{
+						that.setData({
+		          editName:res.data.data.nickName,
+		          editInfo:res.data.data.info,
+		          editPhoneNum:res.data.data.tel
+		        })
+						wx.setStorage({   //从服务器缓存
+							key:'editInfomation',
+							data:{
+								Name:res.data.data.nickName,
+								Info:res.data.data.info,
+								Tel:res.data.data.tel == 0 ? '' :res.data.data.tel,
+								Btel:res.data.data.viceTel == 0 ? '' : res.data.data.viceTel
+							}
+						})
+					}
+	      }
+	    })
+		})
+  },
 	onLoad:function(options){
 		app.listFinished = true;
 		app.uid = wx.getStorageSync('userid');
@@ -176,6 +223,7 @@ Page({
 		setTimeout(function(){
 			app.listFinished = false;
 		},1e3);
+		this.getEditInfo()
 	},
 	onShow:function(){
 		if(app.listFinished) return;
@@ -187,13 +235,25 @@ Page({
 			app.submited = false;
 			app.republished = false;
 		}
+		this.onPullDownRefresh()
+		var value = wx.getStorageSync('editInfomation')//获取缓存
+		this.setData({
+			editName:value.Name,
+			editInfo:value.Info,
+			editPhoneNum:value.Tel
+		})
 	},
 	onPullDownRefresh:function(){
 		let that = this;
 		that.listRender(app.uid,that);
-        setTimeout(function(){
-            wx.stopPullDownRefresh();
-        },1e3);
+		that.setData({///刷新需要重置page为1
+			page:1,
+			isEnd:false,
+			loadingText:'加载中...'
+		})
+		setTimeout(function(){
+			wx.stopPullDownRefresh();
+		},1e3);
 	},
 	onShareAppMessage:function(){
 		util.analytics({

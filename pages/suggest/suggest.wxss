@@ -1,0 +1,13 @@
+.suggestView{
+  width: 750rpx;
+  background: #fff;
+}
+.suggest{
+  width: 680rpx;
+  margin: 0 auto;
+  padding-top: 30rpx;
+}
+.footer{
+  margin-top: 60rpx;
+  padding: 30rpx;
+}

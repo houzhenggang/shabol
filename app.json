@@ -6,7 +6,10 @@
 		"pages/user/user",
 		"pages/close/close",
 		"pages/detail/detail",
-		"pages/share/share"
+		"pages/share/share",
+		"pages/editInfo/index",
+		"pages/editMine/index",
+		"pages/suggest/suggest"
 	 ],
 	"window": {
 	    "navigationBarTitleText": "小宝物流",
@@ -31,7 +34,7 @@
 	        },
 			{
 	          "pagePath": "pages/add/add",
-	          "text": "发布",
+	          "text": "发布货源",
 	          "iconPath":"images/add.png",
 	          "selectedIconPath":"images/add-selected.png"
 	        },

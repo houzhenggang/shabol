@@ -1,10 +1,10 @@
 <template name="userinfo">
-    <view class="user-info">
+    <view class="user-info" bindtap="edit">
         <image src="{{userInfo.avatarUrl}}" class="avatar" />
-        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="nickname">{{EditName !== '' ? EditName : userInfo.nickName}}</text>
         <view class="total">
-            十万信息部都在用，发货更方便
-            <view>找车更简单！</view>
+            {{EditInfo !== '' ? EditInfo : '点击设置个人名片'}}
+            <!--<view>找车更简单！</view>-->
             <!-- <text>{{total.view}}</text>个车主查看 -->
             <!-- <text>{{total.favorite}}</text>个车主收藏 -->
         </view>

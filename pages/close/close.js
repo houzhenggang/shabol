@@ -57,9 +57,14 @@ Page({
 	onPullDownRefresh:function(){
 		let that = this;
 		that.listRender(app.uid,that);
-        setTimeout(function(){
-            wx.stopPullDownRefresh();
-        },1e3);
+		that.setData({
+			page:1,
+			isEnd:false,
+			loadingText:'加载中...'
+		})
+    setTimeout(function(){
+        wx.stopPullDownRefresh();
+    },1e3);
 	},
 	remove:function(e){
 		let index = e.target.dataset['index'],
@@ -85,6 +90,9 @@ Page({
 		  success: function(res) {
 				var newListData = that.data['list'];
 				newListData.splice(index,1)
+				if(newListData.length < 6){
+					that.listRender(app.uid,that)
+				}
 				that.setData({
 					list:newListData
 				});
@@ -123,6 +131,9 @@ Page({
 			success:function(res){
 				var newListData = that.data['list'];
 				newListData.splice(index,1)
+				if(newListData.length < 5){
+					that.listRender(app.uid,that)
+				}
 				that.setData({
 					list:newListData
 				});

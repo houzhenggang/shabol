@@ -38,7 +38,7 @@
 		</view>
 		<view class="item">
 			<view class="caption">备用电话</view>
-			<input type="digit" bindblur="setStorageBtel" name="btel" placeholder="请输入备用电话" value="{{Btel}}" maxlength="11" />
+			<input type="digit" bindblur="setStorageBtel" name="btel" placeholder="请输入备用电话" value="{{Btel == 0 ? '' : Btel}}" maxlength="11" />
 		</view>
 	</view>
 	<view class="section">

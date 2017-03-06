@@ -1,0 +1,90 @@
+<import src="../../components/showTips/index.wxml"/>
+<template is="showTips" data="{{showTopTips,showTopTxt}}"></template>
+<view class="edit" wx:if="{{index == 0}}">
+    <input class="content" type="text" value="{{content === '' ? nickName : content}}" maxlength="10" focus="true" bindinput="textInput" />
+    <text class="placeholder">好的名字可以让你的朋友更容易记住你。</text>
+    <view class="weui-btn-area">
+        <button class="weui-btn weui-btn_primary" disabled="{{disab}}" id="showTooltips" bindtap="editInformations">确定</button>
+    </view>
+</view>
+
+<view class="edit" wx:elif="{{index == 1}}">
+    <textarea class="content" value="{{info === '' ? '十万信息部都在用，发货更方便，找车更简单！' : info}}" maxlength="30" focus="true" bindinput="infoInput" />
+    <text class="placeholder">请填写一下相关介绍</text>
+    <view class="weui-btn-area">
+        <button class="weui-btn weui-btn_primary" disabled="{{disab}}" id="showTooltips" bindtap="editInformations">确定</button>
+    </view>
+</view>
+
+<view  class="main" wx:elif="{{index == 2}}">
+    <view wx:if="{{tel === ''}}">
+      <view class="weui-cells">
+          <view class="weui-cell weui-cell_vcode">
+              <view class="weui-cell__hd">
+                  <label class="weui-label">手机号</label>
+              </view>
+              <view class="weui-cell__bd">
+                  <input class="weui-input" type="number" placeholder="请输入手机号" bindinput="telInput" maxlength="11" value="{{tel}}" />
+              </view>
+              <view class="weui-cell__ft">
+                  <button class="weui-vcode-btn" bindtap="getCode" disabled="{{Coding}}">{{btnTxt}}</button>
+              </view>
+          </view>
+          <view class="weui-cell weui-cell_vcode">
+              <view class="weui-cell__hd"><label class="weui-label">验证码</label></view>
+              <view class="weui-cell__bd">
+                  <input class="weui-input" type="number" placeholder="请输入验证码" value="{{codeNum}}" bindinput="codeInput" />
+              </view>
+          </view>
+      </view>
+      <view class="weui-btn-area">
+          <button class="weui-btn weui-btn_primary" disabled="{{disab}}" id="showTooltips" bindtap="editInformations">确定</button>
+      </view>
+    </view>
+    <view wx:else>
+      <view class="weui-cells">
+          <view class="weui-cell">
+            <view class="weui-cell__hd"><label class="weui-label">手机号</label></view>
+            <view class="weui-cell__bd">
+                <text class="weui-input">{{tel}}</text>
+            </view>
+          </view>
+          <view class="weui-cell weui-cell_vcode">
+              <view class="weui-cell__hd">
+                  <label class="weui-label">新手机号</label>
+              </view>
+              <view class="weui-cell__bd">
+                  <input class="weui-input" type="number" placeholder="请输入新手机号" bindinput="telInput" maxlength="11" value="" />
+              </view>
+              <view class="weui-cell__ft">
+                  <button class="weui-vcode-btn" bindtap="getCode" disabled="{{Coding}}">{{btnTxt}}</button>
+              </view>
+          </view>
+          <view class="weui-cell weui-cell_vcode">
+              <view class="weui-cell__hd"><label class="weui-label">验证码</label></view>
+              <view class="weui-cell__bd">
+                  <input class="weui-input" type="number" placeholder="请输入验证码" value="{{codeNum}}" bindinput="codeInput" />
+              </view>
+          </view>
+      </view>
+      <view class="weui-btn-area">
+          <button class="weui-btn weui-btn_primary" disabled="{{disab}}" id="showTooltips" bindtap="editInformations">确定</button>
+      </view>
+    </view>
+</view>
+
+<view class="main" wx:else>
+  <view class="weui-cells">
+      <view class="weui-cell weui-cell_vcode">
+          <view class="weui-cell__hd">
+              <label class="weui-label">手机号</label>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" type="tel" placeholder="请输入备用手机号" maxlength="11" bindinput="btelInput" value="{{btel}}" />
+          </view>
+      </view>
+  </view>
+  <view class="weui-btn-area">
+      <button class="weui-btn weui-btn_primary" disabled="{{disab}}" id="showTooltips" bindtap="editInformations">确定</button>
+  </view>
+</view>
